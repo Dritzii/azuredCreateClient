@@ -10,7 +10,7 @@ namespace azuredCreateClient
     public class MicrosoftIdentityClient
     {
         private static readonly HttpClient httpClient = new HttpClient();
-        private static readonly string hostUrl = "https://azuredstatic.z8.web.core.windows.net/";
+        private static readonly string hostUrl = Environment.GetEnvironmentVariable("redirecturi", EnvironmentVariableTarget.Process);
 
         private readonly string tenantId;
         private readonly string clientId;
@@ -25,8 +25,8 @@ namespace azuredCreateClient
 
         public async Task<string> GetAccessTokenFromAuthorizationCode(string authCode)
         {
-            string redirectUrl = "https://www.azured.com.au/";
-            string scopes = "openid offline_access https://graph.microsoft.com/user.read";
+            string redirectUrl = Environment.GetEnvironmentVariable("redirecturi", EnvironmentVariableTarget.Process);
+            string scopes = Environment.GetEnvironmentVariable("scopes", EnvironmentVariableTarget.Process);
 
             Uri requestUri = new Uri($"{hostUrl}/{this.tenantId}/oauth2/v2.0/token");
 
