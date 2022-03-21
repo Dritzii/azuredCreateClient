@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "azuredCreateClient": {
+      "commandName": "Project"
+    },
+    "main": {
+      "commandName": "Executable"
+    }
+  }
+}

@@ -14,7 +14,7 @@ namespace azuredCreateClient
     {
         [FunctionName("loginTrigger")]
         public static async Task<IActionResult> Run(
-    [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+    [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
     ILogger log)
         {
 
@@ -22,6 +22,7 @@ namespace azuredCreateClient
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             string authCode = data.code;
+            Console.WriteLine(authCode);
 
             // Get the Application details from the settings
             //string tenantId = Environment.GetEnvironmentVariable("TenantId", EnvironmentVariableTarget.Process);
@@ -32,6 +33,7 @@ namespace azuredCreateClient
             // Get the access token from MS Identity
             MicrosoftIdentityClient idClient = new MicrosoftIdentityClient(clientId, clientSecret, tenantId);
             string accessToken = await idClient.GetAccessTokenFromAuthorizationCode(authCode);
+            Console.WriteLine(accessToken);
 
             return new OkObjectResult(accessToken);
         }

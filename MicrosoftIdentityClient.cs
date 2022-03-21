@@ -10,7 +10,7 @@ namespace azuredCreateClient
     public class MicrosoftIdentityClient
     {
         private static readonly HttpClient httpClient = new HttpClient();
-        private static readonly string hostUrl = Environment.GetEnvironmentVariable("redirecturi", EnvironmentVariableTarget.Process);
+        private static readonly string hostUrl = "https://login.microsoftonline.com";
 
         private readonly string tenantId;
         private readonly string clientId;
