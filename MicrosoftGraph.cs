@@ -10,7 +10,7 @@ namespace azuredCreateClient
     class MicrosoftGraph
     {
         private static readonly HttpClient httpClient = new HttpClient();
-        string Token;
+        readonly string Token;
 
         public MicrosoftGraph(string Token)
         {

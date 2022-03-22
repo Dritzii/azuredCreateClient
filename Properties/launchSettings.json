@@ -4,7 +4,12 @@
       "commandName": "Project"
     },
     "main": {
-      "commandName": "Executable"
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\phamm\\AppData\\Local\\AzureFunctionsTools\\Releases\\3.34.0\\cli_x64\\func.exe"
+    },
+    "newProfile1": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\phamm\\AppData\\Local\\AzureFunctionsTools\\Releases\\3.34.0\\cli_x64\\func.exe"
     }
   }
 }

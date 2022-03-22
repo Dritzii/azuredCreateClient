@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace azuredCreateClient
 {
-    public static class loginTrigger
+    public static class LoginTrigger
     {
         [FunctionName("loginTrigger")]
         public static async Task<IActionResult> Run(

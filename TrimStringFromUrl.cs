@@ -7,14 +7,14 @@ namespace azuredCreateClient
 {
     class TrimStringFromUrl
     {
-        string urlString;
+        readonly string urlString;
 
         public TrimStringFromUrl(string urlString)
         {
             this.urlString = urlString;
         }
 
-        public string returnCode()
+        public string ReturnCode()
         {
             // Create a pattern for a word that starts with letter "M"  
             string pattern = @"code=(.*?)&state=";

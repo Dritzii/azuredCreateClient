@@ -22,7 +22,7 @@ namespace azuredCreateClient
             string authCode = data.code;
             Console.WriteLine(authCode);
             TrimStringFromUrl urlString = new TrimStringFromUrl(authCode);
-            string responseMessage = urlString.returnCode();
+            string responseMessage = urlString.ReturnCode();
             return new OkObjectResult(responseMessage);
         }
     }
