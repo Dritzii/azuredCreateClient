@@ -10,9 +10,9 @@ using Newtonsoft.Json;
 
 namespace azuredCreateClient
 {
-    public static class trimCode
+    public static class TrimCode
     {
-        [FunctionName("trimCode")]
+        [FunctionName("TrimCode")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
