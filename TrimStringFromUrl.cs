@@ -25,9 +25,9 @@ namespace azuredCreateClient
 
             MatchCollection matchedAuthors = rg.Matches(this.urlString);
             Console.WriteLine(matchedAuthors.Count);
-            string initialCode = matchedAuthors[0].ToString().TrimStart(charsToTrimStart).TrimEnd(charsToTrimEnd);
+            dynamic initialCode = matchedAuthors[0].ToString().TrimStart(charsToTrimStart).TrimEnd(charsToTrimEnd);
 
-            return initialCode;
+            return (string)initialCode;
         }
     }
 }
