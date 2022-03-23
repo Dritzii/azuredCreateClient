@@ -10,6 +10,7 @@ namespace azuredCreateClient
 {
     class GetSubscriptions
     {
+        private readonly HttpClient HttpClient;
         private static readonly string hostUrl = "https://management.azure.com/subscriptions?api-version=2020-01-01";
         string Token;
 
@@ -36,5 +37,6 @@ namespace azuredCreateClient
             return responseObject;
 
         }
+
     }
 }

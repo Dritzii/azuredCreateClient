@@ -27,7 +27,7 @@ namespace azuredCreateClient
             GetSubscriptions subs = new GetSubscriptions(authCode);
             var subscriptionslist = subs.GetAllSubscriptionsAsync();
             Console.WriteLine(subscriptionslist);
-            return new OkObjectResult(responseMessage);
+            return new OkObjectResult(subscriptionslist);
         }
     }
 }
