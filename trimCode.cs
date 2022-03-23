@@ -7,6 +7,8 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System.Net.Http;
+using System.Text;
 
 namespace azuredCreateClient
 {
@@ -23,7 +25,9 @@ namespace azuredCreateClient
             Console.WriteLine(authCode);
             TrimStringFromUrl urlString = new TrimStringFromUrl(authCode);
             string responseMessage = urlString.ReturnCode();
-            return new OkObjectResult(responseMessage);
+            var myObj = new { code = responseMessage };
+            var jsonToReturn = JsonConvert.SerializeObject(myObj);
+            return new JsonResult(jsonToReturn); //new OkObjectResult(responseMessage);
         }
     }
 }
