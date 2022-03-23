@@ -24,7 +24,7 @@ namespace azuredCreateClient
             string responseMessage = urlString.ReturnCode();
             var myObj = new { code = responseMessage };
             var jsonToReturn = JsonConvert.SerializeObject(myObj);
-            return new JsonResult(jsonToReturn); // returning json
+            return new JsonResult(jsonToReturn);
             //new OkObjectResult(responseMessage);
         }
     }
