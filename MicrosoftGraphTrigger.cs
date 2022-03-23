@@ -28,6 +28,7 @@ namespace azuredCreateClient
             var subscriptionslist = subs.GetAllSubscriptionsAsync();
             Console.WriteLine(subscriptionslist);
             return new OkObjectResult(subscriptionslist);
+
         }
     }
 }

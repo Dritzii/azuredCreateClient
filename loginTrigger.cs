@@ -34,8 +34,10 @@ namespace azuredCreateClient
             MicrosoftIdentityClient idClient = new MicrosoftIdentityClient(clientId, clientSecret, tenantId);
             string accessToken = await idClient.GetAccessTokenFromAuthorizationCode(authCode);
             Console.WriteLine(accessToken);
-
-            return new OkObjectResult(accessToken);
+            var myObj = new { code = accessToken };
+            var jsonToReturn = JsonConvert.SerializeObject(myObj);
+            return new JsonResult(jsonToReturn); // returning json
+            //return new OkObjectResult(accessToken);
         }
     }
 }
