@@ -10,9 +10,9 @@ using Newtonsoft.Json;
 
 namespace azuredCreateClient
 {
-    public static class TrimCode
+    public static class TrimCodeLogin
     {
-        [FunctionName("TrimCode")]
+        [FunctionName("TrimCodeLogin")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
@@ -20,12 +20,23 @@ namespace azuredCreateClient
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             string authCode = data.code;
+
             TrimStringFromUrl urlString = new TrimStringFromUrl(authCode);
             string responseMessage = urlString.ReturnCode();
-            var myObj = new { code = responseMessage };
+            string tenantId = "common";
+            string clientId = Environment.GetEnvironmentVariable("ClientId", EnvironmentVariableTarget.Process);
+            string clientSecret = Environment.GetEnvironmentVariable("ClientSecret", EnvironmentVariableTarget.Process);
+
+            // Get the access token from MS Identity
+            MicrosoftIdentityClient idClient = new MicrosoftIdentityClient(clientId, clientSecret, tenantId);
+            string accessToken = await idClient.GetAccessTokenFromAuthorizationCode(responseMessage);
+            Console.WriteLine(accessToken);
+            var myObj = new { code = accessToken };
             var jsonToReturn = JsonConvert.SerializeObject(myObj);
-            return new JsonResult(jsonToReturn); // returning json
-            //new OkObjectResult(responseMessage);
+
+            return new JsonResult(jsonToReturn);
+
+            
         }
     }
 }
