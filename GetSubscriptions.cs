@@ -19,7 +19,7 @@ namespace azuredCreateClient
             this.Token = Token;
         }
 
-        public async Task<string> GetAllSubscriptionsAsync() 
+        public async Task<string> GetAllSubscriptionsAsync()
         {
 
             JsonSerializerSettings jss = new JsonSerializerSettings();
