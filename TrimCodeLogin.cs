@@ -34,13 +34,14 @@ namespace azuredCreateClient
 
             // get Tenant ID
             GetOrganization getOrganization = new GetOrganization(accessToken);
-            var tenantId  = getOrganization.GetTenantID();
+            var tenantId  = await getOrganization.GetTenantID();
             var myObj = new { code = accessToken , tenantid = tenantId};
             var jsonToReturn = JsonConvert.SerializeObject(myObj);
 
             return new JsonResult(jsonToReturn);
+            //return new JsonResult(accessToken);
 
-            
+
         }
     }
 }
