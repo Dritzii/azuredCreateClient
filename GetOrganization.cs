@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace azuredCreateClient
 {
@@ -19,7 +18,7 @@ namespace azuredCreateClient
             this.Token = Token;
         }
 
-        public async Task<string> GetAllSubscriptionsAsync()
+        public async Task<string> GetTenantID()
         {
 
             JsonSerializerSettings jss = new JsonSerializerSettings();
@@ -33,9 +32,10 @@ namespace azuredCreateClient
             HttpResponseMessage response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
             dynamic responseObject = JsonConvert.DeserializeObject(responseContent);
-            Console.WriteLine(responseContent);
-            Console.WriteLine(responseObject);
-            return responseObject;
+            var jo = JObject.Parse(responseObject);
+            var id = jo["value"][0]["id"].ToString();
+            Console.WriteLine(id);
+            return id;
 
         }
 

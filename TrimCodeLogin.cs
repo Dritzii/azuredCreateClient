@@ -23,15 +23,19 @@ namespace azuredCreateClient
 
             TrimStringFromUrl urlString = new TrimStringFromUrl(authCode);
             string responseMessage = urlString.ReturnCode();
-            string tenantId = "common";
+            
             string clientId = Environment.GetEnvironmentVariable("ClientId", EnvironmentVariableTarget.Process);
             string clientSecret = Environment.GetEnvironmentVariable("ClientSecret", EnvironmentVariableTarget.Process);
 
             // Get the access token from MS Identity
-            MicrosoftIdentityClient idClient = new MicrosoftIdentityClient(clientId, clientSecret, tenantId);
+            MicrosoftIdentityClient idClient = new MicrosoftIdentityClient(clientId, clientSecret, "common");
             string accessToken = await idClient.GetAccessTokenFromAuthorizationCode(responseMessage);
             Console.WriteLine(accessToken);
-            var myObj = new { code = accessToken };
+
+            // get Tenant ID
+            GetOrganization getOrganization = new GetOrganization(accessToken);
+            var tenantId  = getOrganization.GetTenantID();
+            var myObj = new { code = accessToken , tenantid = tenantId};
             var jsonToReturn = JsonConvert.SerializeObject(myObj);
 
             return new JsonResult(jsonToReturn);
