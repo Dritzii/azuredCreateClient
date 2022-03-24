@@ -38,6 +38,7 @@ namespace azuredCreateClient
                 new KeyValuePair<string, string>("code", authCode),
                 new KeyValuePair<string, string>("redirect_uri", redirectUrl),
                 new KeyValuePair<string, string>("client_secret", this.clientSecret)
+                //new KeyValuePair<string, string>("resource", "https://management.azure.com")
             };
 
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, requestUri)
@@ -53,7 +54,7 @@ namespace azuredCreateClient
             if (response.IsSuccessStatusCode)
             {
                 // dynamic values need to be assigned before passing back
-                return (string)responseObject;//.access_token;
+                return (string)responseObject.access_token;
             }
             else if (response.StatusCode == HttpStatusCode.BadRequest)
             {
