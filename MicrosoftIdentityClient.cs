@@ -53,7 +53,7 @@ namespace azuredCreateClient
             if (response.IsSuccessStatusCode)
             {
                 // dynamic values need to be assigned before passing back
-                return (string)responseObject.access_token;
+                return (string)responseObject;//.access_token;
             }
             else if (response.StatusCode == HttpStatusCode.BadRequest)
             {
