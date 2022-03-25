@@ -27,6 +27,7 @@ namespace azuredCreateClient
             //GetSubscriptions subs = new GetSubscriptions(authCode);
             //var subscriptionslist = subs.GetAllSubscriptionsAsync();
             //Console.WriteLine(subscriptionslist);
+            // above uses management token not the graph token which is why the above won't work
             return new OkObjectResult(responseMessage);
 
         }
