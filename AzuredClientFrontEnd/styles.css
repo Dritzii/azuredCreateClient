@@ -14,3 +14,9 @@
         background-color: #ddd;
         color: black;
     }
+
+.logoutLblPos {
+    position: fixed;
+    right: 10px;
+    top: 5px;
+}
