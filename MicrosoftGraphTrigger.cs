@@ -24,10 +24,10 @@ namespace azuredCreateClient
             Console.WriteLine(authCode);
             MicrosoftGraph graphCall = new MicrosoftGraph(authCode);
             var responseMessage = graphCall.GetMe();
-            GetSubscriptions subs = new GetSubscriptions(authCode);
-            var subscriptionslist = subs.GetAllSubscriptionsAsync();
-            Console.WriteLine(subscriptionslist);
-            return new OkObjectResult(subscriptionslist);
+            //GetSubscriptions subs = new GetSubscriptions(authCode);
+            //var subscriptionslist = subs.GetAllSubscriptionsAsync();
+            //Console.WriteLine(subscriptionslist);
+            return new OkObjectResult(responseMessage);
 
         }
     }

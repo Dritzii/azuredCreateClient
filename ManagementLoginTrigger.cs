@@ -10,41 +10,35 @@ using Newtonsoft.Json;
 
 namespace azuredCreateClient
 {
-    public static class TrimCodeLogin
+    public static class ManagementLoginTrigger
     {
-        [FunctionName("TrimCodeLogin")]
+        [FunctionName("ManagementLoginTrigger")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
+            
+
+            // Get the authentication code from the request payload
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
-            string authCode = data.code;
-            log.LogInformation(authCode);
+            string tenantId = data.tenantId;
+            Console.WriteLine(tenantId);
+            log.LogInformation(tenantId);
 
-            TrimStringFromUrl urlString = new TrimStringFromUrl(authCode);
-            string responseMessage = urlString.ReturnCode();
-            log.LogInformation(responseMessage);
-
+            // Get the Application details from the settings
             string clientId = Environment.GetEnvironmentVariable("ClientId", EnvironmentVariableTarget.Process);
             string clientSecret = Environment.GetEnvironmentVariable("ClientSecret", EnvironmentVariableTarget.Process);
 
             // Get the access token from MS Identity
-            MicrosoftIdentityClient idClient = new MicrosoftIdentityClient(clientId, clientSecret, "common");
-            string accessToken = await idClient.GetAccessTokenFromAuthorizationCode(responseMessage);
-            Console.WriteLine(accessToken);
+            ManagementLogin managementLogin = new ManagementLogin(tenantId, clientId, clientSecret);
+            string accessToken = await managementLogin.returnManagementTokenAsync();
             log.LogInformation(accessToken);
-
-            // get Tenant ID
-            GetOrganization getOrganization = new GetOrganization(accessToken);
-            var tenantId  = await getOrganization.GetTenantID();
-            var myObj = new { code = accessToken , tenantid = tenantId};
+            var myObj = new { accessToken = accessToken };
             var jsonToReturn = JsonConvert.SerializeObject(myObj);
             log.LogInformation(jsonToReturn);
-            return new JsonResult(jsonToReturn);
-            //return new JsonResult(accessToken);
-
-
+            return new JsonResult(jsonToReturn); // returning json
+            //return new OkObjectResult(accessToken);
         }
     }
 }
