@@ -38,11 +38,14 @@ namespace azuredCreateClient
             // get Tenant ID
             GetOrganization getOrganization = new GetOrganization(accessToken);
             var tenantId  = await getOrganization.GetTenantID();
-            var myObj = new { code = accessToken , tenantid = tenantId};
+
+            // get management api token
+            ManagementLogin loginManager = new ManagementLogin(tenantId, clientId, clientSecret);
+            string accessTokenManager = await loginManager.returnManagementTokenAsync();
+            var myObj = new { graphapiToken = accessToken, tenantid = tenantId, managementToken = accessTokenManager };
             var jsonToReturn = JsonConvert.SerializeObject(myObj);
             log.LogInformation(jsonToReturn);
             return new JsonResult(jsonToReturn);
-            //return new JsonResult(accessToken);
 
 
         }
