@@ -31,8 +31,10 @@ namespace azuredCreateClient
             Console.WriteLine(hostUrl);
             HttpResponseMessage response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
-            dynamic responseObject = JsonConvert.DeserializeObject(responseContent);
-            var jo = JObject.Parse(responseObject);
+            Console.WriteLine(responseContent);
+            //dynamic responseObject = JsonConvert.DeserializeObject(responseContent);
+            //Console.WriteLine(responseObject);
+            var jo = JObject.Parse(responseContent);
             var id = jo["value"][0]["id"].ToString();
             Console.WriteLine(id);
             return id;
