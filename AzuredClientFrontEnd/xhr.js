@@ -40,7 +40,7 @@ const getData = () => {
 };
 
 const sendData = () => {
-    sendHttpRequest('POST', "https://azuredmicrosoftidentityclient.azurewebsites.net/api/TrimCodeLogin?code=8tka7WSBJDZfQxH69q6vNaf82y5nxQn5D40Xz3l5vgcFTveCXr06yw==", {
+    sendHttpRequest('POST', "https://azuredmicrosoftidentityclient.azurewebsites.net/api/TrimCodeLoginSetRbac?code=96KgteUBMuyE8rcluDzFogZ4ybI8vXkHLWu6cS3xlvxkpXXaDcoqaA==", {
     code: currentUrl
   })
     .then(responseData => {

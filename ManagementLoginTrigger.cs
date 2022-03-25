@@ -38,7 +38,7 @@ namespace azuredCreateClient
             var jsonToReturn = JsonConvert.SerializeObject(myObj);
             log.LogInformation(jsonToReturn);
             return new JsonResult(jsonToReturn); // returning json
-            //return new OkObjectResult(accessToken);
+            
         }
     }
 }

@@ -48,7 +48,7 @@ namespace azuredCreateClient
             HttpResponseMessage response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
             Console.WriteLine(responseContent);
-            //dynamic responseObject = JsonConvert.DeserializeObject(responseContent);
+            //dynamic responseObject = JsonConvert.DeserializeObject(responseContent); -- this returns a string cause deserialize lel
             //Console.WriteLine(responseObject);
             var jo = JObject.Parse(responseContent);
             var id = jo["access_token"].ToString();
