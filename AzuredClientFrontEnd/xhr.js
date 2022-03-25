@@ -1,4 +1,4 @@
-//const getBtn = document.getElementById('get-btn');
+const getBtn = document.getElementById('get-btn');
 const postBtn = document.getElementById('post-btn');
 var currentUrl = window.location.href;
 
@@ -51,5 +51,29 @@ const sendData = () => {
     });
 };
 
-//getBtn.addEventListener('click', getData);
+const DisplaySubscriptions = () => {
+    var url = "";
+    var xhr = new XMLHttpRequest()
+    xhr.open('GET', url, true)
+    xhr.onload = function () {
+        var users = JSON.parse(xhr.responseText);
+        if (xhr.readyState == 4 && xhr.status == "200") {
+
+            for (i = 0; i < users.length; i++) {
+                var table = document.getElementById("myTable");
+                var row = table.insertRow(0);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                cell1.innerHTML = users[i].value1;
+                cell2.innerHTML = users[i].value2;
+            }
+        } else {
+            console.error(users);
+        }
+    }
+    xhr.send(null);
+
+}
+
+getBtn.addEventListener('click', getData);
 postBtn.addEventListener('click', sendData);
