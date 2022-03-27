@@ -20,7 +20,7 @@ namespace azuredCreateClient
             this.Token = Token;
         }
 
-        public async void PutRbacSubscriptions(string subscriptionId, string rbacName, string principalId)
+        public async void PutRbacSubscriptions(string subscriptionId, string rbacName, string principalId, string roleDefinitionId = "8e3af657-a8ff-443c-a75c-2fe8c4bcb635")
         {
 
             JsonSerializerSettings jss = new JsonSerializerSettings();
@@ -28,7 +28,7 @@ namespace azuredCreateClient
             using var client = new HttpClient();
             string joinedURL = hostUrl + subscriptionId + endpointUrl + rbacName + apiVersion;
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
-            var bottomObject = new { roleDefinitionId = "/subscriptions/" + subscriptionId + "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635", principalId = principalId }; // change role assignment for different role
+            var bottomObject = new { roleDefinitionId = "/subscriptions/" + subscriptionId + "/providers/Microsoft.Authorization/roleDefinitions/" + roleDefinitionId, principalId = principalId }; // change role assignment for different role
             Console.WriteLine(bottomObject);
             var topObject = new { properties = bottomObject };
             Console.WriteLine(topObject);

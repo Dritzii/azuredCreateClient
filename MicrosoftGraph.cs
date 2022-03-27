@@ -51,6 +51,7 @@ namespace azuredCreateClient
             string responseContent = await response.Content.ReadAsStringAsync();
             var jo = JObject.Parse(responseContent);
             string subid = jo["value"][0]["id"].ToString();
+            string subdisplayName = jo["value"][0]["displayName"].ToString();
             Console.WriteLine(subid);
             return subid;
         }
