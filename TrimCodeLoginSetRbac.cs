@@ -21,10 +21,12 @@ namespace azuredCreateClient
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             string authCode = data.code;
             log.LogInformation(authCode);
+            Console.WriteLine(authCode);
 
             TrimStringFromUrl urlString = new TrimStringFromUrl(authCode);
             string responseMessage = urlString.ReturnCode();
             log.LogInformation(responseMessage);
+            Console.WriteLine(responseMessage);
 
             string clientId = Environment.GetEnvironmentVariable("ClientId", EnvironmentVariableTarget.Process);
             string clientSecret = Environment.GetEnvironmentVariable("ClientSecret", EnvironmentVariableTarget.Process);
@@ -38,20 +40,22 @@ namespace azuredCreateClient
             // get Tenant ID
             GetOrganization getOrganization = new GetOrganization(accessToken);
             var tenantId  = await getOrganization.GetTenantID();
+            Console.WriteLine(tenantId);
 
             // get management api token
             ManagementLogin loginManager = new ManagementLogin(tenantId, clientId, clientSecret);
             string accessTokenManager = await loginManager.returnManagementTokenAsync();
-            
+            Console.WriteLine(accessTokenManager);
 
             // Create GUID
             CreateGuid newGuid = new CreateGuid();
             string newGuidReturned = newGuid.returnGuid().ToString();
-
+            Console.WriteLine(newGuidReturned);
 
             // Get Subscriptions
             GetSubscriptions subs = new GetSubscriptions(accessTokenManager);
             string tenantsubs = subs.ToString();
+            Console.WriteLine(tenantsubs);
 
             // Add Rbac with new Guid
             SetRbacSubscriptions setRbac = new SetRbacSubscriptions(accessTokenManager);
@@ -61,6 +65,7 @@ namespace azuredCreateClient
             var myObj = new { graphapiToken = accessToken, tenantid = tenantId, managementToken = accessTokenManager , guid = newGuidReturned };
             var jsonToReturn = JsonConvert.SerializeObject(myObj);
             log.LogInformation(jsonToReturn);
+            Console.WriteLine(jsonToReturn);
             return new JsonResult(jsonToReturn);
 
         }
