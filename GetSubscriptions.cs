@@ -34,7 +34,7 @@ namespace azuredCreateClient
             //Console.WriteLine("subscription id is :" + responseObject["value"][0]["subscriptionId"]);
             var jo = JObject.Parse(responseContent);
             string subid = jo["value"][0]["subscriptionId"].ToString();
-            Console.WriteLine(subid);
+            Console.WriteLine("subscription id " + subid);
             return subid;
 
 
