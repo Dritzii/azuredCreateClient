@@ -12,7 +12,8 @@ namespace azuredCreateClient
     {
         //private readonly HttpClient HttpClient;
         private static readonly string hostUrl = "https://management.azure.com/subscriptions/";
-        private static readonly string endpointUrl = "/providers/Microsoft.Authorization/roleAssignments/";
+        private static readonly string endpointUrlRoleAssignments = "/providers/Microsoft.Authorization/roleAssignments/";
+        private static readonly string endpointUrlRoleDefinitions = "/providers/Microsoft.Authorization/roleDefinitions/";
         string Token;
         private static readonly string apiVersion = "?api-version=2015-07-01";
         public SetRbacSubscriptions(string Token)
@@ -26,9 +27,9 @@ namespace azuredCreateClient
             JsonSerializerSettings jss = new JsonSerializerSettings();
             jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             using var client = new HttpClient();
-            string joinedURL = hostUrl + subscriptionId + endpointUrl + rbacName + apiVersion;
+            string joinedURL = hostUrl + subscriptionId + endpointUrlRoleAssignments + rbacName + apiVersion;
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
-            var bottomObject = new { roleDefinitionId = "/subscriptions/" + subscriptionId + "/providers/Microsoft.Authorization/roleDefinitions/" + roleDefinitionId, principalId = principalId }; // change role assignment for different role
+            var bottomObject = new { roleDefinitionId = "/subscriptions/" + subscriptionId + endpointUrlRoleDefinitions + roleDefinitionId, principalId = principalId }; // change role assignment for different role
             Console.WriteLine(bottomObject);
             var topObject = new { properties = bottomObject };
             Console.WriteLine(topObject);
@@ -42,6 +43,21 @@ namespace azuredCreateClient
             dynamic responseObject = JsonConvert.DeserializeObject(responseContent);
             Console.WriteLine(responseContent);
             Console.WriteLine(responseObject);
+        }
+
+        public async Task<string> GetRoleDefinitions(string subscriptionId, string roleName)
+        {
+
+            JsonSerializerSettings jss = new JsonSerializerSettings();
+            jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            using var client = new HttpClient();
+            string filterData = "$filter= '" + roleName + "'";
+            string joinedURL = hostUrl + subscriptionId + endpointUrlRoleDefinitions + filterData + apiVersion;
+            //$filter={$filter}&api-version=2015-07-01
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, joinedURL);
+            return "";
+
         }
     }
 }
