@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace azuredCreateClient
 {
@@ -24,7 +25,7 @@ namespace azuredCreateClient
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
             //client.DefaultRequestHeaders.Add("Content-Type", "application/json");
-            string requestUrl = "https://graph.microsoft.com/v1.0/me";
+            string requestUrl = "https://graph.windows.com/v1.0/me";
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
             HttpResponseMessage response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
@@ -35,6 +36,8 @@ namespace azuredCreateClient
 
         public async Task<string> GetObjectId(string tenantId ,string clientId)
         {
+
+            // https://stackoverflow.com/questions/49192583/azure-ad-returns-authentication-expiredtoken-on-valid-access-token
             JsonSerializerSettings jss = new JsonSerializerSettings();
             jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             using var client = new HttpClient();
@@ -45,9 +48,11 @@ namespace azuredCreateClient
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
             HttpResponseMessage response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
-            dynamic responseObject = JsonConvert.DeserializeObject(responseContent);
-            Console.WriteLine(responseObject);
-            return responseObject;
+            //dynamic responseObject = JsonConvert.DeserializeObject(responseContent);
+            var jo = JObject.Parse(responseContent);
+            string subid = jo.ToString();
+            Console.WriteLine(subid);
+            return subid;
         }
     }
 }
