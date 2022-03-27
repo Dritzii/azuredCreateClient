@@ -55,7 +55,7 @@ namespace azuredCreateClient
             // Get Subscriptions
             GetSubscriptions subs = new GetSubscriptions(accessTokenManager);
             string tenantsubs = subs.ToString();
-            Console.WriteLine(tenantsubs);
+            Console.WriteLine("SUBSCRIPTION : " + tenantsubs);
 
             // Add Rbac with new Guid
             SetRbacSubscriptions setRbac = new SetRbacSubscriptions(accessTokenManager);

@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace azuredCreateClient
 {
@@ -19,20 +20,23 @@ namespace azuredCreateClient
 
         public async Task<string> GetAllSubscriptionsAsync()
         {
-
+            Console.WriteLine(hostUrl);
             JsonSerializerSettings jss = new JsonSerializerSettings();
             jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
-            Console.WriteLine(this.Token);
             //client.DefaultRequestHeaders.Add("Content-Type", "application/json");
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, hostUrl);
             Console.WriteLine(hostUrl);
             HttpResponseMessage response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
-            dynamic responseObject = JsonConvert.DeserializeObject(responseContent);
-            Console.WriteLine(responseObject["value"][0]["subscriptionId"]);
-            return responseObject["value"][0]["subscriptionId"].toString();
+            //dynamic responseObject = JsonConvert.DeserializeObject(responseContent);
+            //Console.WriteLine("subscription id is :" + responseObject["value"][0]["subscriptionId"]);
+            var jo = JObject.Parse(responseContent);
+            string subid = jo["value"][0]["subscriptionId"].ToString();
+            Console.WriteLine(subid);
+            return subid;
+
 
         }
 

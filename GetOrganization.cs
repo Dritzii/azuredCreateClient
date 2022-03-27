@@ -25,7 +25,7 @@ namespace azuredCreateClient
             jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
-            Console.WriteLine(this.Token);
+            //Console.WriteLine(this.Token);
             //client.DefaultRequestHeaders.Add("Content-Type", "application/json");
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, hostUrl);
             Console.WriteLine(hostUrl);
