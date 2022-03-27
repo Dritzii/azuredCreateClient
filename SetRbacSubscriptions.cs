@@ -44,7 +44,6 @@ namespace azuredCreateClient
             string responseContent = await response.Content.ReadAsStringAsync();
             dynamic responseObject = JsonConvert.DeserializeObject(responseContent);
             Console.WriteLine(responseContent);
-            Console.WriteLine(responseObject);
         }
 
         public async Task<string> GetRoleDefinitions(string subscriptionId, string roleName)
