@@ -13,9 +13,7 @@ namespace azuredCreateClient
         private static readonly string hostUrl = "https://management.azure.com/subscriptions/";
         private static readonly string endpointUrl = "/providers/Microsoft.Authorization/roleAssignments/";
         string Token;
-        string subscriptionId;
-        string rbacName;
-        string apiVersion = "?api-version=2015-07-01";
+        private static readonly string apiVersion = "?api-version=2015-07-01";
         public SetRbacSubscriptions(string Token)
         {
             this.Token = Token;
@@ -27,7 +25,7 @@ namespace azuredCreateClient
             JsonSerializerSettings jss = new JsonSerializerSettings();
             jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             using var client = new HttpClient();
-            string joinedURL = hostUrl + subscriptionId + endpointUrl + rbacName;
+            string joinedURL = hostUrl + subscriptionId + endpointUrl + rbacName + apiVersion;
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
             var bottomObject = new { roleDefinitionId = "/subscriptions/" + subscriptionId + "providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635", principalId = principalId };
             var topObject = new { properties = bottomObject };
