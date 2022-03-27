@@ -55,7 +55,7 @@ namespace azuredCreateClient
 
             // Add Rbac with new Guid
             SetRbacSubscriptions setRbac = new SetRbacSubscriptions(accessTokenManager);
-            setRbac.PutRbacSubscriptions(tenantsubs, newGuidReturned);
+            setRbac.PutRbacSubscriptions(tenantsubs, newGuidReturned, "00e669b6-1cac-4ec1-b576-e59be8e23e2e");
 
             // Return Object
             var myObj = new { graphapiToken = accessToken, tenantid = tenantId, managementToken = accessTokenManager , guid = newGuidReturned };

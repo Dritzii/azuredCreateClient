@@ -33,7 +33,7 @@ namespace azuredCreateClient
             dynamic responseObject = JsonConvert.DeserializeObject(responseContent);
             Console.WriteLine(responseContent);
             Console.WriteLine(responseObject);
-            return responseObject;
+            return responseObject[0]["subscriptionId"].toString();
 
         }
 

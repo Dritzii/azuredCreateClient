@@ -21,17 +21,20 @@ namespace azuredCreateClient
             this.Token = Token;
         }
 
-        public async void PutRbacSubscriptions(string subscriptionId, string rbacName)
+        public async void PutRbacSubscriptions(string subscriptionId, string rbacName, string principalId)
         {
 
             JsonSerializerSettings jss = new JsonSerializerSettings();
             jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             using var client = new HttpClient();
+            string joinedURL = hostUrl + subscriptionId + endpointUrl + rbacName;
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
-            
+            var bottomObject = new { roleDefinitionId = "/subscriptions/" + subscriptionId + "providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635", principalId = principalId };
+            var topObject = new { properties = bottomObject };
+            var jsonToReturn = JsonConvert.SerializeObject(topObject);
             Console.WriteLine(this.Token);
             //client.DefaultRequestHeaders.Add("Content-Type", "application/json");
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, hostUrl);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, joinedURL);
             HttpResponseMessage response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
             dynamic responseObject = JsonConvert.DeserializeObject(responseContent);
