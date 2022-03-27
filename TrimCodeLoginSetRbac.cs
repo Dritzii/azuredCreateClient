@@ -69,7 +69,7 @@ namespace azuredCreateClient
             setRbac.PutRbacSubscriptions(tenantsubs, newGuidReturned, objectId); //"00e669b6-1cac-4ec1-b576-e59be8e23e2e"
 
             // Return Object
-            var myObj = new { graphapiToken = accessToken, tenantid = tenantId, managementToken = accessTokenManager , guid = newGuidReturned , subscriptionId = tenantsubs };
+            var myObj = new { graphapiToken = accessToken, tenantid = tenantId, managementToken = accessTokenManager , guid = newGuidReturned , subscriptionId = tenantsubs , serviceprincipalId = objectId};
             var jsonToReturn = JsonConvert.SerializeObject(myObj);
             log.LogInformation(jsonToReturn);
             Console.WriteLine(jsonToReturn);
