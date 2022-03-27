@@ -60,7 +60,7 @@ namespace azuredCreateClient
             // Get Objectid of the Client application on Tenancy
             // https://graph.microsoft.com/v1.0/serviceprincipals?$filter=appId eq '{client id of your  application registration}'
             MicrosoftGraph msGraph = new MicrosoftGraph(accessToken);
-            var objectId = await msGraph.GetObjectId(tenantId, clientId);
+            var objectId = await msGraph.GetObjectId(clientId);
             Console.WriteLine(objectId);
 
 
