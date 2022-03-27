@@ -14,6 +14,7 @@ namespace azuredCreateClient
         private static readonly string hostUrl = "https://management.azure.com/subscriptions/";
         private static readonly string endpointUrlRoleAssignments = "/providers/Microsoft.Authorization/roleAssignments/";
         private static readonly string endpointUrlRoleDefinitions = "/providers/Microsoft.Authorization/roleDefinitions/";
+        private static readonly string getDefinitions = "/providers/Microsoft.Authorization/roleDefinitions?";
         string Token;
         private static readonly string apiVersion = "?api-version=2015-07-01";
         public SetRbacSubscriptions(string Token)
@@ -47,16 +48,20 @@ namespace azuredCreateClient
 
         public async Task<string> GetRoleDefinitions(string subscriptionId, string roleName)
         {
-
+            //https://management.azure.com/subscriptions/f11289f1-9fab-48b7-89b7-ca236d9dd931/providers/Microsoft.Authorization/roleDefinitions?api-version=2015-07-01
             JsonSerializerSettings jss = new JsonSerializerSettings();
             jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             using var client = new HttpClient();
-            string filterData = "$filter= '" + roleName + "'";
-            string joinedURL = hostUrl + subscriptionId + endpointUrlRoleDefinitions + filterData + apiVersion;
-            //$filter={$filter}&api-version=2015-07-01
+            string filterData = "$filter=roleName eq '" + roleName + "'";
+            string joinedURL = hostUrl + subscriptionId + getDefinitions + filterData + apiVersion;
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, joinedURL);
-            return "";
+            HttpResponseMessage response = await client.SendAsync(request);
+            string responseContent = await response.Content.ReadAsStringAsync();
+            dynamic responseObject = JsonConvert.DeserializeObject(responseContent);
+            Console.WriteLine(responseContent);
+            Console.WriteLine(responseObject);
+            return responseObject;
 
         }
     }
