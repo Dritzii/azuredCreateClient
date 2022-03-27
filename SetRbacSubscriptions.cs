@@ -21,7 +21,7 @@ namespace azuredCreateClient
             this.Token = Token;
         }
 
-        public async Task<string> GetAllSubscriptionsAsync(string subscriptionId, string rbacName)
+        public async void PutRbacSubscriptions(string subscriptionId, string rbacName)
         {
 
             JsonSerializerSettings jss = new JsonSerializerSettings();
@@ -37,7 +37,7 @@ namespace azuredCreateClient
             dynamic responseObject = JsonConvert.DeserializeObject(responseContent);
             Console.WriteLine(responseContent);
             Console.WriteLine(responseObject);
-            return responseObject;
+            //return responseObject;
 
         }
     }

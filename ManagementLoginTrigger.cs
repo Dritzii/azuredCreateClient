@@ -18,7 +18,6 @@ namespace azuredCreateClient
             ILogger log)
         {
             
-
             // Get the authentication code from the request payload
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);

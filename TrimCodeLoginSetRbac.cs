@@ -42,11 +42,26 @@ namespace azuredCreateClient
             // get management api token
             ManagementLogin loginManager = new ManagementLogin(tenantId, clientId, clientSecret);
             string accessTokenManager = await loginManager.returnManagementTokenAsync();
-            var myObj = new { graphapiToken = accessToken, tenantid = tenantId, managementToken = accessTokenManager };
+            
+
+            // Create GUID
+            CreateGuid newGuid = new CreateGuid();
+            string newGuidReturned = newGuid.returnGuid().ToString();
+
+
+            // Get Subscriptions
+            GetSubscriptions subs = new GetSubscriptions(accessTokenManager);
+            string tenantsubs = subs.ToString();
+
+            // Add Rbac with new Guid
+            SetRbacSubscriptions setRbac = new SetRbacSubscriptions(accessTokenManager);
+            setRbac.PutRbacSubscriptions(tenantsubs, newGuidReturned);
+
+            // Return Object
+            var myObj = new { graphapiToken = accessToken, tenantid = tenantId, managementToken = accessTokenManager , guid = newGuidReturned };
             var jsonToReturn = JsonConvert.SerializeObject(myObj);
             log.LogInformation(jsonToReturn);
             return new JsonResult(jsonToReturn);
-
 
         }
     }
