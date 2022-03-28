@@ -14,9 +14,9 @@ namespace azuredCreateClient
         private static readonly string hostUrl = "https://management.azure.com/subscriptions/";
         private static readonly string endpointUrlRoleAssignments = "/providers/Microsoft.Authorization/roleAssignments/";
         private static readonly string endpointUrlRoleDefinitions = "/providers/Microsoft.Authorization/roleDefinitions/";
-        private static readonly string getDefinitions = "/providers/Microsoft.Authorization/roleDefinitions?";
+        private static readonly string getDefinitions = "/providers/Microsoft.Authorization/roleDefinitions";
         readonly string Token;
-        private static readonly string apiVersion = "?api-version=2015-07-01";
+        string apiVersion = "?api-version=2015-07-01";
         readonly JsonSerializerSettings jss = new JsonSerializerSettings();
 
         public SetRbacSubscriptions(string Token)
@@ -31,6 +31,7 @@ namespace azuredCreateClient
             using var client = new HttpClient();
             string joinedURL = hostUrl + subscriptionId + endpointUrlRoleAssignments + rbacName + apiVersion;
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
+            Console.WriteLine(joinedURL);
             var bottomObject = new { roleDefinitionId = "/subscriptions/" + subscriptionId + endpointUrlRoleDefinitions + roleDefinitionId, principalId = principalId }; // change role assignment for different role
             Console.WriteLine(bottomObject);
             var topObject = new { properties = bottomObject };
@@ -51,6 +52,7 @@ namespace azuredCreateClient
             // DELETE https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}?api-version=2015-07-01
             using var client = new HttpClient();
             string joinedURL = hostUrl + subscriptionId + endpointUrlRoleAssignments + roleDefinitionId + apiVersion;
+            Console.WriteLine(joinedURL);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, joinedURL);
             HttpResponseMessage response = await client.SendAsync(request);
@@ -61,17 +63,18 @@ namespace azuredCreateClient
 
         public async Task<string> GetRoleDefinitions(string subscriptionId, string roleName)
         {
-            //https://management.azure.com/subscriptions/f11289f1-9fab-48b7-89b7-ca236d9dd931/providers/Microsoft.Authorization/roleDefinitions?api-version=2015-07-01
+            //GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleDefinitions?$filter={$filter}&api-version=2015-07-01
             using var client = new HttpClient();
             string filterData = "$filter=roleName eq '" + roleName + "'";
-            string joinedURL = hostUrl + subscriptionId + getDefinitions + filterData + apiVersion;
+            string joinedURL = hostUrl + subscriptionId + getDefinitions + "?&api-version=2015-07-01&" + filterData ;
+            Console.WriteLine(joinedURL);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, joinedURL);
             HttpResponseMessage response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
             Console.WriteLine(responseContent);
             var jo = JObject.Parse(responseContent);
-            var id = jo["value"]["name"].ToString();
+            var id = jo["value"][0]["name"].ToString();
             return id;
         }
     }
