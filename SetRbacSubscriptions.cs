@@ -46,6 +46,19 @@ namespace azuredCreateClient
             Console.WriteLine(responseContent);
         }
 
+        public async void DeleteRbacSubscriptions(string subscriptionId, string roleDefinitionId = "8e3af657-a8ff-443c-a75c-2fe8c4bcb635")
+        {
+            // DELETE https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}?api-version=2015-07-01
+            using var client = new HttpClient();
+            string joinedURL = hostUrl + subscriptionId + endpointUrlRoleAssignments + roleDefinitionId + apiVersion;
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, joinedURL);
+            HttpResponseMessage response = await client.SendAsync(request);
+            string responseContent = await response.Content.ReadAsStringAsync();
+            dynamic responseObject = JsonConvert.DeserializeObject(responseContent);
+            Console.WriteLine(responseContent);
+        }
+
         public async Task<string> GetRoleDefinitions(string subscriptionId, string roleName)
         {
             //https://management.azure.com/subscriptions/f11289f1-9fab-48b7-89b7-ca236d9dd931/providers/Microsoft.Authorization/roleDefinitions?api-version=2015-07-01
