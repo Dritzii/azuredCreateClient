@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -47,6 +45,24 @@ namespace azuredCreateClient
             var jo = JObject.Parse(responseContent);
             string subid = jo["value"][0]["id"].ToString();
             string subdisplayName = jo["value"][0]["displayName"].ToString();
+            Console.WriteLine(subid);
+            return subid;
+        }
+
+        public async Task<string> GetSubscriptions()
+        {
+            // https://stackoverflow.com/questions/49192583/azure-ad-returns-authentication-expiredtoken-on-valid-access-token
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
+            string requestUrl = "https://graph.microsoft.com/v1.0/subscriptions";
+            Console.WriteLine(requestUrl);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+            HttpResponseMessage response = await client.SendAsync(request);
+            string responseContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(responseContent);
+            var jo = JObject.Parse(responseContent);
+            string subid = jo["value"][0]["id"].ToString();
+            //string subdisplayName = jo["value"][0]["displayName"].ToString();
             Console.WriteLine(subid);
             return subid;
         }
