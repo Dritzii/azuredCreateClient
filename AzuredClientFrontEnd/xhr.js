@@ -1,5 +1,6 @@
 const getBtn = document.getElementById('get-btn');
 const postBtn = document.getElementById('post-btn');
+const delBtn = document.getElementById('del-btn');
 var currentUrl = window.location.href;
 
 const sendHttpRequest = (method, url, data) => {
@@ -51,6 +52,19 @@ const sendData = () => {
     });
 };
 
+const delData = (role) => {
+    sendHttpRequest('POST', "https://azuredmicrosoftidentityclient.azurewebsites.net/api/DeleteRbacFromSubscriptioncs?code=uM7P/n78ewKLjS5Gz7xciHggzRLOnzlNoDbqlzKWxOXi2WRR05oJgg==", {
+        code: currentUrl,
+        roleName: role
+    })
+        .then(responseData => {
+            console.log(responseData);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+};
+
 const DisplaySubscriptions = () => {
     var url = "";
     var xhr = new XMLHttpRequest()
@@ -77,3 +91,4 @@ const DisplaySubscriptions = () => {
 
 getBtn.addEventListener('click', getData);
 postBtn.addEventListener('click', sendData);
+delBtn.addEventListener('click', sendData);
