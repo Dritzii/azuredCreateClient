@@ -57,7 +57,7 @@ namespace azuredCreateClient
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, joinedURL);
             HttpResponseMessage response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
-            dynamic responseObject = JsonConvert.DeserializeObject(responseContent);
+            //dynamic responseObject = JsonConvert.DeserializeObject(responseContent);
             Console.WriteLine(responseContent);
         }
 
