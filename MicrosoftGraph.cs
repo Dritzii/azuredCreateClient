@@ -40,6 +40,7 @@ namespace azuredCreateClient
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
             string requestUrl = "https://graph.microsoft.com/v1.0/serviceprincipals?$filter=appId eq '" + clientId + "'";
+            Console.WriteLine(requestUrl);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
             HttpResponseMessage response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
