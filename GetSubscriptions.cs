@@ -31,7 +31,7 @@ namespace azuredCreateClient
             HttpResponseMessage response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
             //dynamic responseObject = JsonConvert.DeserializeObject(responseContent);
-            //Console.WriteLine("subscription id is :" + responseObject["value"][0]["subscriptionId"]);
+            Console.WriteLine(responseContent);
             var jo = JObject.Parse(responseContent);
             string subid = jo["value"][0]["subscriptionId"].ToString();
             Console.WriteLine("subscription id " + subid);
