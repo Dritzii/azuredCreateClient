@@ -24,7 +24,7 @@ namespace azuredCreateClient
             Console.WriteLine(authCode);
             MicrosoftGraph graphCall = new MicrosoftGraph(authCode);
             //var responseMessage = await graphCall.GetMe();
-            var objectIdGrab = await graphCall.GetObjectId("80beb811-b1b9-46b9-8a1f-dd6be129f9fc", "00e669b6-1cac-4ec1-b576-e59be8e23e2e");
+            var objectIdGrab = await graphCall.GetObjectId("80beb811-b1b9-46b9-8a1f-dd6be129f9fc");
             Console.WriteLine(objectIdGrab);
             //GetSubscriptions subs = new GetSubscriptions(authCode);
             //var subscriptionslist = subs.GetAllSubscriptionsAsync();
