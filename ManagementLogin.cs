@@ -40,11 +40,13 @@ namespace azuredCreateClient
                 new KeyValuePair<string, string>("resource", "https://management.azure.com"),
                 new KeyValuePair<string, string>("client_secret", this.clientSecret)
             };
+            Console.WriteLine(tenantUrl);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, tenantUrl)
             {
                 Content = new FormUrlEncodedContent(content),
+                
             };
-
+            Console.WriteLine(content);
             HttpResponseMessage response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
             Console.WriteLine(responseContent);
