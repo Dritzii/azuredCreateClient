@@ -4,7 +4,7 @@ using System.Text;
 
 namespace azuredCreateClient
 {
-    class CreateGuid
+    class GuidController
     {
         public Guid returnGuid()
         {

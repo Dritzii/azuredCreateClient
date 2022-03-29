@@ -7,13 +7,13 @@ using Newtonsoft.Json.Linq;
 
 namespace azuredCreateClient
 {
-    class GetOrganization
+    class OrganizationController
     {
         //private readonly HttpClient HttpClient;
         private static readonly string hostUrl = "https://graph.microsoft.com/v1.0/organization";
         string Token;
 
-        public GetOrganization(string Token)
+        public OrganizationController(string Token)
         {
             this.Token = Token;
         }

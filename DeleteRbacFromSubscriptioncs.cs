@@ -40,7 +40,7 @@ namespace azuredCreateClient
             log.LogInformation(accessToken);
 
             // get Tenant ID
-            GetOrganization getOrganization = new GetOrganization(accessToken);
+            OrganizationController getOrganization = new OrganizationController(accessToken);
             var tenantId = await getOrganization.GetTenantID();
             Console.WriteLine(tenantId);
 
@@ -50,12 +50,12 @@ namespace azuredCreateClient
             Console.WriteLine(accessTokenManager);
 
             // Get Subscriptions
-            GetSubscriptions subs = new GetSubscriptions(accessTokenManager);
+            SubscriptionsController subs = new SubscriptionsController(accessTokenManager);
             var tenantsubs = await subs.GetAllSubscriptionsAsync();
             Console.WriteLine("SUBSCRIPTION : " + tenantsubs);
 
             // Get Rbac ID
-            SetRbacSubscriptions setRbac = new SetRbacSubscriptions(accessTokenManager);
+            RbacControllers setRbac = new RbacControllers(accessTokenManager);
             string rbacname = await setRbac.GetRoleDefinitions(tenantsubs, roleNameDelete);
 
             // Delete Rbac from Subscription

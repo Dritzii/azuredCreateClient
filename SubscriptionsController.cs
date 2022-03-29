@@ -7,13 +7,13 @@ using Newtonsoft.Json.Linq;
 
 namespace azuredCreateClient
 {
-    class GetSubscriptions
+    class SubscriptionsController
     {
         //private readonly HttpClient HttpClient;
         private static readonly string hostUrl = "https://management.azure.com/subscriptions?api-version=2020-01-01";
         string Token;
 
-        public GetSubscriptions(string Token)
+        public SubscriptionsController(string Token)
         {
             this.Token = Token;
         }

@@ -23,14 +23,14 @@ namespace azuredCreateClient
             string authCode = data.code;
             Console.WriteLine(authCode);
             MicrosoftGraph graphCall = new MicrosoftGraph(authCode);
-            //var responseMessage = await graphCall.GetMe();
-            var objectIdGrab = await graphCall.GetSubscriptions();
-            Console.WriteLine(objectIdGrab);
+            var responseMessage = await graphCall.GetMe();
+            //var objectIdGrab = await graphCall.GetSubscriptions();
+            //Console.WriteLine(objectIdGrab);
             //GetSubscriptions subs = new GetSubscriptions(authCode);
             //var subscriptionslist = subs.GetAllSubscriptionsAsync();
             //Console.WriteLine(subscriptionslist);
             // above uses management token not the graph token which is why the above won't work
-            return new OkObjectResult(objectIdGrab);
+            return new OkObjectResult(responseMessage);
 
         }
     }

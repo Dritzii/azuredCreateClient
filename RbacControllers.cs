@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace azuredCreateClient
 {
-    class SetRbacSubscriptions
+    class RbacControllers
     {
         //private readonly HttpClient HttpClient;
         private static readonly string hostUrl = "https://management.azure.com/subscriptions/";
@@ -19,7 +19,7 @@ namespace azuredCreateClient
         string apiVersion = "?api-version=2015-07-01";
         readonly JsonSerializerSettings jss = new JsonSerializerSettings();
 
-        public SetRbacSubscriptions(string Token)
+        public RbacControllers(string Token)
         {
             this.Token = Token;
             jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;

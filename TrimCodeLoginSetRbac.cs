@@ -39,7 +39,7 @@ namespace azuredCreateClient
             log.LogInformation(accessToken);
 
             // get Tenant ID
-            GetOrganization getOrganization = new GetOrganization(accessToken);
+            OrganizationController getOrganization = new OrganizationController(accessToken);
             var tenantId  = await getOrganization.GetTenantID();
             Console.WriteLine(tenantId);
 
@@ -49,12 +49,12 @@ namespace azuredCreateClient
             Console.WriteLine(accessTokenManager);
 
             // Create GUID
-            CreateGuid newGuid = new CreateGuid();
+            GuidController newGuid = new GuidController();
             string newGuidReturned = newGuid.returnGuid().ToString();
             Console.WriteLine(newGuidReturned);
 
             // Get Subscriptions
-            GetSubscriptions subs = new GetSubscriptions(accessTokenManager);
+            SubscriptionsController subs = new SubscriptionsController(accessTokenManager);
             var tenantsubs = await subs.GetAllSubscriptionsAsync();
             Console.WriteLine("SUBSCRIPTION : " + tenantsubs);
 
@@ -66,7 +66,7 @@ namespace azuredCreateClient
 
 
             // Add Rbac with new Guid
-            SetRbacSubscriptions setRbac = new SetRbacSubscriptions(accessTokenManager);
+            RbacControllers setRbac = new RbacControllers(accessTokenManager);
             setRbac.PutRbacSubscriptions(tenantsubs, newGuidReturned, objectId); //"00e669b6-1cac-4ec1-b576-e59be8e23e2e"
 
 
