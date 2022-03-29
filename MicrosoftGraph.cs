@@ -51,7 +51,6 @@ namespace azuredCreateClient
 
         public async Task<string> GetSubscriptions()
         {
-            // https://stackoverflow.com/questions/49192583/azure-ad-returns-authentication-expiredtoken-on-valid-access-token
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
             string requestUrl = "https://graph.microsoft.com/v1.0/subscriptions";
