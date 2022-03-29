@@ -50,7 +50,7 @@ namespace azuredCreateClient
 
             // Create GUID
             GuidController newGuid = new GuidController();
-            string newGuidReturned = newGuid.returnGuid().ToString();
+            string newGuidReturned = newGuid.ReturnGuid().ToString();
             Console.WriteLine(newGuidReturned);
 
             // Get Subscriptions

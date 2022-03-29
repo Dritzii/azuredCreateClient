@@ -6,7 +6,7 @@ namespace azuredCreateClient
 {
     class GuidController
     {
-        public Guid returnGuid()
+        public Guid ReturnGuid()
         {
             Guid id = Guid.NewGuid();
             return id;
