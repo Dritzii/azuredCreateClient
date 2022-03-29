@@ -16,7 +16,7 @@ namespace azuredCreateClient
         private static readonly string endpointUrlRoleDefinitions = "/providers/Microsoft.Authorization/roleDefinitions/";
         private static readonly string getDefinitions = "/providers/Microsoft.Authorization/roleDefinitions";
         readonly string Token;
-        string apiVersion = "?api-version=2015-07-01";
+        private static readonly string apiVersion = "?api-version=2015-07-01";
         readonly JsonSerializerSettings jss = new JsonSerializerSettings();
 
         public RbacControllers(string Token)
@@ -32,7 +32,9 @@ namespace azuredCreateClient
             string joinedURL = hostUrl + subscriptionId + endpointUrlRoleAssignments + rbacName + apiVersion;
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
             Console.WriteLine(joinedURL);
+#pragma warning disable IDE0037 // Use inferred member name
             var bottomObject = new { roleDefinitionId = "/subscriptions/" + subscriptionId + endpointUrlRoleDefinitions + roleDefinitionId, principalId = principalId }; // change role assignment for different role
+#pragma warning restore IDE0037 // Use inferred member name
             Console.WriteLine(bottomObject);
             var topObject = new { properties = bottomObject };
             Console.WriteLine(topObject);

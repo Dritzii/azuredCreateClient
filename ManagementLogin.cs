@@ -12,9 +12,9 @@ namespace azuredCreateClient
     {
         readonly string baseUrl = "https://login.microsoftonline.com/";
         readonly string endPoint = "/oauth2/token";
-        string clientId;
-        string clientSecret;
-        string tenantId;
+        readonly string clientId;
+        readonly string clientSecret;
+        readonly string tenantId;
 
 
         public ManagementLogin(string tenantId, string clientId, string clientSecret)
@@ -25,7 +25,7 @@ namespace azuredCreateClient
 
         }
 
-        public async Task<string> returnManagementTokenAsync()
+        public async Task<string> ReturnManagementTokenAsync()
         {
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("accept", "application/json");

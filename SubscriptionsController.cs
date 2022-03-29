@@ -11,18 +11,18 @@ namespace azuredCreateClient
     {
         //private readonly HttpClient HttpClient;
         private static readonly string hostUrl = "https://management.azure.com/subscriptions?api-version=2020-01-01";
-        string Token;
+        readonly string Token;
+        public JsonSerializerSettings jss = new JsonSerializerSettings();
 
         public SubscriptionsController(string Token)
         {
             this.Token = Token;
+            jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
         }
 
         public async Task<string> GetAllSubscriptionsAsync()
         {
             Console.WriteLine(hostUrl);
-            JsonSerializerSettings jss = new JsonSerializerSettings();
-            jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
             //client.DefaultRequestHeaders.Add("Content-Type", "application/json");
@@ -42,8 +42,6 @@ namespace azuredCreateClient
         public async Task<string> GetAllSubscriptionsGraph()
         {
             Console.WriteLine(hostUrl);
-            JsonSerializerSettings jss = new JsonSerializerSettings();
-            jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
             //client.DefaultRequestHeaders.Add("Content-Type", "application/json");

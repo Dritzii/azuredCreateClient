@@ -11,18 +11,17 @@ namespace azuredCreateClient
     {
         //private readonly HttpClient HttpClient;
         private static readonly string hostUrl = "https://graph.microsoft.com/v1.0/organization";
-        string Token;
+        readonly string Token;
+        readonly JsonSerializerSettings jss = new JsonSerializerSettings();
 
         public OrganizationController(string Token)
         {
             this.Token = Token;
+            jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
         }
 
         public async Task<string> GetTenantID()
         {
-
-            JsonSerializerSettings jss = new JsonSerializerSettings();
-            jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
             //Console.WriteLine(this.Token);

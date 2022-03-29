@@ -10,9 +10,8 @@ namespace azuredCreateClient
     class MicrosoftGraph
     {
         readonly string Token;
-        JsonSerializerSettings jss = new JsonSerializerSettings();
+        readonly JsonSerializerSettings jss = new JsonSerializerSettings();
         
-
         public MicrosoftGraph(string Token)
         {
             this.Token = Token;

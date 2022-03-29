@@ -46,7 +46,7 @@ namespace azuredCreateClient
 
             // get management api token
             ManagementLogin loginManager = new ManagementLogin(tenantId, clientId, clientSecret);
-            string accessTokenManager = await loginManager.returnManagementTokenAsync();
+            string accessTokenManager = await loginManager.ReturnManagementTokenAsync();
             Console.WriteLine(accessTokenManager);
 
             // Get Subscriptions
