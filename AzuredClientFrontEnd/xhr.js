@@ -1,6 +1,7 @@
 const getBtn = document.getElementById('get-btn');
 const postBtn = document.getElementById('post-btn');
-//const delBtn = document.getElementById('del-btn');
+const delBtn = document.getElementById('del-btn');
+const setCookieLogin = document.getElementById('del-btn');
 var currentUrl = window.location.href;
 
 const sendHttpRequest = (method, url, data) => {
@@ -111,4 +112,5 @@ function eraseCookie(name) {
 }
 getBtn.addEventListener('click', getData);
 postBtn.addEventListener('click', sendData);
-//delBtn.addEventListener('click', sendData);
+delBtn.addEventListener('click', sendData);
+setCookieLogin.addEventListener('click', setCookie);
