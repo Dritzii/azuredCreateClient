@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -20,8 +21,9 @@ namespace azuredCreateClient
             jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
         }
 
-        public async Task<string> GetAllSubscriptionsAsync()
+        public async Task<List<string>> GetAllSubscriptionsAsync()
         {
+            var retList = new List<string>();
             Console.WriteLine(hostUrl);
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
@@ -34,8 +36,12 @@ namespace azuredCreateClient
             Console.WriteLine(responseContent);
             var jo = JObject.Parse(responseContent);
             string subid = jo["value"][0]["subscriptionId"].ToString();
+            foreach (var subs in subid)
+            {
+                retList.Add(subs.ToString());
+            }
             Console.WriteLine("subscription id " + subid);
-            return subid;
+            return retList;
 
 
         }
