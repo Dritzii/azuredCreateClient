@@ -11,7 +11,7 @@ namespace azuredCreateClient
     class ManagementLogin
     {
         readonly string baseUrl = "https://login.microsoftonline.com/";
-        readonly string endPoint = "/oauth2/token";
+        readonly string endPoint = "/oauth2/v2.0/token";
         readonly string clientId;
         readonly string clientSecret;
         readonly string tenantId;
@@ -63,7 +63,7 @@ namespace azuredCreateClient
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("accept", "application/json");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Content-Type", "application/x-www-form-urlencoded");
             //string authenticationURL = "client_id=" + this.clientId + "&grant_type=authorization_code&resource=https://management.azure.com&client_secret=" + this.clientSecret;
-            string tenantUrl = baseUrl + "common" + endPoint;
+            string tenantUrl = baseUrl + this.tenantId + endPoint;
 
             List<KeyValuePair<string, string>> content = new List<KeyValuePair<string, string>>()
             {

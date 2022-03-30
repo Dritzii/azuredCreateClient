@@ -1,0 +1,12 @@
+{
+    "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "TenantId": "4068d9b9-a02b-4dd9-a005-bd1d0ca44248",
+    "ClientId": "baf1387d-a1ed-44d2-af1e-738a43985599",
+    "ClientSecret": ")1$Z.D#/}((>&/Jt[*?{_)[L?}.]_^%&{)@;%",
+    "redirecturi": "https://fwaasupdates.azurewebsites.net/login/oauth2",
+    "scopes": "https://graph.microsoft.com/user.read"
+  }
+}

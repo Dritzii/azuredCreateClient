@@ -1,0 +1,62 @@
+https://login.microsoftonline.com/4068d9b9-a02b-4dd9-a005-bd1d0ca44248/oauth2/v2.0/authorize?client_id=f7d95a3a-4428-471b-a4a1-4a488ea6892b&response_type=code&redirect_uri=https://azuredstatic.z8.web.core.windows.net/&response_mode=fragment&scope=openid offline_access https://graph.microsoft.com/user.read&state=12345
+
+
+
+
+https://login.microsoftonline.com/organizations/v2.0/adminconsent?client_id=f7d95a3a-4428-471b-a4a1-4a488ea6892b&state=12345&redirect_uri=https://azuredstatic.z8.web.core.windows.net/&scope=openid offline_access https://graph.microsoft.com/user.read
+
+
+openid offline_access https://graph.microsoft.com/user.read
+
+
+https://login.microsoftonline.com/common/oauth2/authorize?response_mode=form_post&scope=https%3A%2F%2Fgraph.windows.com%3AUser.read&state=944c1ad96d217bd3accc80ba937fce4d&response_type=code&approval_prompt=auto&redirect_uri=https%3A%2F%2Ffwaasupdates.azurewebsites.net%2Flogin%2Foauth2&client_id=baf1387d-a1ed-44d2-af1e-738a43985599
+
+
+
+https://login.microsoftonline.com/common/oauth2/authorize?response_mode=form_post&scope=https%3A%2F%2Fgraph.windows.com%3AUser.read&state=c39dee58c7ef262a1ee8cd56a8ec5a08&response_type=code&approval_prompt=auto&redirect_uri=https%3A%2F%2Ffwaasupdates.azurewebsites.net%2Flogin%2Foauth2&client_id=baf1387d-a1ed-44d2-af1e-738a43985599
+
+
+
+
+
+https://login.microsoftonline.com/common/oauth2/authorize?client_id=f7d95a3a-4428-471b-a4a1-4a488ea6892b
+&scope=user.read%20mail.read
+&code=OAAABAAAAiL9Kn2Z27UubvWFPbm0gLWQJVzCTE9UkP3pSx1aXxUjq3n8b2JRLk4OxVXr...
+&redirect_uri=https://azuredstatic.z8.web.core.windows.net/
+&grant_type=authorization_code
+&client_secret=jXoM3iz...  
+
+SIMON
+
+https://login.microsoftonline.com/common/oauth2/authorize?response_mode=form_post&scope=https%3A%2F%2Fgraph.windows.com%3AUser.read&state=90646a72d25485452fa90b7f4b23c679&response_type=code&approval_prompt=auto&redirect_uri=https%3A%2F%2Ffwaasupdates.azurewebsites.net%2Flogin%2Foauth2&client_id=baf1387d-a1ed-44d2-af1e-738a43985599
+
+mine
+https://login.microsoftonline.com/organizations/v2.0/adminconsent?client_id=527d9552-ccf3-4a7e-a149-4a52363d3f55&state=12345&redirect_uri=https://www.azured.com.au/azure-optimisation-assessment/&scope=openid offline_access https://graph.microsoft.com/user.read
+
+
+
+https://login.microsoftonline.com/common/oauth2/authorize?response_mode=form_post&scope=https%3A%2F%2Fgraph.windows.com%3AUser.read&state=944c1ad96d217bd3accc80ba937fce4d&response_type=code&approval_prompt=auto&redirect_uri=https://www.azured.com.au/azure-optimisation-assessment/&client_id=527d9552-ccf3-4a7e-a149-4a52363d3f55&state=12345
+
+
+
+simons
+https://login.microsoftonline.com/common/oauth2/authorize?response_mode=fragment&scope=https%3A%2F%2Fgraph.windows.com%3AUser.read&response_type=code&approval_prompt=auto&redirect_uri=https://www.azured.com.au/azure-optimisation-assessment/login&client_id=527d9552-ccf3-4a7e-a149-4a52363d3f55&state=12345
+
+
+simons
+https://login.microsoftonline.com/common/oauth2/authorize?response_mode=fragment&scope=https%3A%2F%2Fgraph.windows.com%3AUser.read&response_type=code&approval_prompt=auto&redirect_uri=https://azuredstatic.z8.web.core.windows.net/&client_id=527d9552-ccf3-4a7e-a149-4a52363d3f55&state=12345
+
+
+
+response mode = fragment returns a string code in the url while form_post doesn't
+
+
+simon fwass
+https://login.microsoftonline.com/common/oauth2/authorize?response_mode=form_post&scope=https%3A%2F%2Fgraph.windows.com%3AUser.read&state=c90a3e45acc69a99af5c42b27378fa47&response_type=code&approval_prompt=auto&redirect_uri=https%3A%2F%2Ffwaasupdates.azurewebsites.net%2Flogin%2Foauth2&client_id=baf1387d-a1ed-44d2-af1e-738a43985599
+
+
+
+
+
+
+https://login.microsoftonline.com/common/oauth2/authorize?response_mode=fragment&scope=openid offline_access https://graph.microsoft.com/user.read https://management.azure.com/.default&response_type=code&approval_prompt=login&redirect_uri=https://azuredstatic.z8.web.core.windows.net/login.html&client_id=527d9552-ccf3-4a7e-a149-4a52363d3f55&state=12345

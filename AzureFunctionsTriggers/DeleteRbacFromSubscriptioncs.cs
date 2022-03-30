@@ -56,10 +56,10 @@ namespace azuredCreateClient
 
             // Get Rbac ID
             RbacControllers setRbac = new RbacControllers(accessTokenManager);
-            string rbacname = await setRbac.GetRoleDefinitions(tenantsubs, roleNameDelete);
+            //string rbacname = await setRbac.GetRoleDefinitions(tenantsubs, roleNameDelete);
 
             // Delete Rbac from Subscription
-            setRbac.DeleteRbacSubscriptions(tenantsubs, rbacname);
+            //setRbac.DeleteRbacSubscriptions(tenantsubs, rbacname);
 
             // Return Object
             var myObj = new { graphapiToken = accessToken, tenantid = tenantId, managementToken = accessTokenManager, subscriptionId = tenantsubs};

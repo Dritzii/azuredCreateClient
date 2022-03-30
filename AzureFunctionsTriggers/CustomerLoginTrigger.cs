@@ -1,0 +1,50 @@
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+
+namespace azuredCreateClient
+{
+    public static class CustomerLoginTrigger
+    {
+        [FunctionName("CustomerLoginTrigger")]
+        public static async Task<IActionResult> Run(
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+            ILogger log)
+        {
+            // Get the authentication code from the request payload
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            dynamic data = JsonConvert.DeserializeObject(requestBody);
+            string code = data.code;
+            Console.WriteLine(code);
+            log.LogInformation(code);
+
+            // Trim Code String
+            TrimStringFromUrl urlString = new TrimStringFromUrl(code);
+            string responseMessage = urlString.ReturnCode();
+            log.LogInformation(responseMessage);
+            Console.WriteLine(responseMessage);
+
+            // Get the Application details from the settings
+            string clientId = Environment.GetEnvironmentVariable("ClientId", EnvironmentVariableTarget.Process);
+            string clientSecret = Environment.GetEnvironmentVariable("ClientSecret", EnvironmentVariableTarget.Process);
+            Console.WriteLine(clientId);
+            Console.WriteLine(clientSecret);
+            // Get the access token from MS Identity
+            ManagementLogin managementLogin = new ManagementLogin("common", "527d9552-ccf3-4a7e-a149-4a52363d3f55", "Wz57Q~fJ.uJ3pxx52e0BlmgLi9UZWjYs9DZP4");
+            string accessToken = await managementLogin.CustomerReturnManagementTokenAsync(code);
+            log.LogInformation(accessToken);
+#pragma warning disable IDE0037 // Use inferred member name
+            var myObj = new { accessToken = accessToken };
+#pragma warning restore IDE0037 // Use inferred member name
+            var jsonToReturn = JsonConvert.SerializeObject(myObj);
+            log.LogInformation(jsonToReturn);
+            return new JsonResult(jsonToReturn); // returning json
+        }
+    }
+}
