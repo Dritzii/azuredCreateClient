@@ -30,7 +30,7 @@ namespace azuredCreateClient
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("accept", "application/json");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Content-Type", "application/x-www-form-urlencoded");
-            string authenticationURL = "client_id=" + this.clientId + "&grant_type=client_credentials&resource=https://management.azure.com&client_secret=" + this.clientSecret;
+            //string authenticationURL = "client_id=" + this.clientId + "&grant_type=client_credentials&resource=https://management.azure.com&client_secret=" + this.clientSecret;
             string tenantUrl = baseUrl + this.tenantId + endPoint;
 
             List<KeyValuePair<string, string>> content = new List<KeyValuePair<string, string>>()
@@ -56,6 +56,38 @@ namespace azuredCreateClient
             var id = jo["access_token"].ToString();
             return id;
              
+        }
+        public async Task<string> CustomerReturnManagementTokenAsync(string code)
+        {
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("accept", "application/json");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Content-Type", "application/x-www-form-urlencoded");
+            //string authenticationURL = "client_id=" + this.clientId + "&grant_type=authorization_code&resource=https://management.azure.com&client_secret=" + this.clientSecret;
+            string tenantUrl = baseUrl + "common" + endPoint;
+
+            List<KeyValuePair<string, string>> content = new List<KeyValuePair<string, string>>()
+            {
+                new KeyValuePair<string, string>("client_id", this.clientId),
+                new KeyValuePair<string, string>("grant_type", "authorization_code"),
+                new KeyValuePair<string, string>("client_secret", this.clientSecret),
+                new KeyValuePair<string, string>("redirect_uri", "https://azuredstatic.z8.web.core.windows.net/login.html"),
+                new KeyValuePair<string, string>("code", code),
+                new KeyValuePair<string, string>("scope", "https://management.azure.com/.default")
+            };
+            Console.WriteLine(tenantUrl);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, tenantUrl)
+            {
+                Content = new FormUrlEncodedContent(content),
+
+            };
+            Console.WriteLine(content);
+            HttpResponseMessage response = await client.SendAsync(request);
+            string responseContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(responseContent);
+            var jo = JObject.Parse(responseContent);
+            var id = jo["access_token"].ToString();
+            return id;
+
         }
     }
 }
