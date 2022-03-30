@@ -37,10 +37,17 @@ namespace azuredCreateClient
             Console.WriteLine(clientSecret);
             // Get the access token from MS Identity
             ManagementLogin managementLogin = new ManagementLogin("common", "527d9552-ccf3-4a7e-a149-4a52363d3f55", "Wz57Q~fJ.uJ3pxx52e0BlmgLi9UZWjYs9DZP4");
-            string accessToken = await managementLogin.CustomerReturnManagementTokenAsync(code);
+            string accessToken = await managementLogin.CustomerReturnManagementTokenAsync(responseMessage);
             log.LogInformation(accessToken);
+
+            // test sub iteration
+
+            SubscriptionsController subscriptionsCon = new SubscriptionsController(accessToken);
+            var sublist = await subscriptionsCon.GetAllSubscriptionsAsync();
+
+
 #pragma warning disable IDE0037 // Use inferred member name
-            var myObj = new { accessToken = accessToken };
+            var myObj = new { accessToken = accessToken , subsdata = sublist };
 #pragma warning restore IDE0037 // Use inferred member name
             var jsonToReturn = JsonConvert.SerializeObject(myObj);
             log.LogInformation(jsonToReturn);
