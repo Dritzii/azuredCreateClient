@@ -92,12 +92,9 @@ function getCookie(cname) {
   }
   return "";
 }
-const DisplaySubscriptions = () => {
-    var url = "";
-    var xhr = new XMLHttpRequest()
-    xhr.open('GET', url, true)
-    xhr.onload = function () {
-        var users = JSON.parse(xhr.responseText);
+
+function buildTableSubscriptions() {
+        var users = getData();
         if (xhr.readyState == 4 && xhr.status == "200") {
 
             for (i = 0; i < users.length; i++) {
@@ -112,9 +109,7 @@ const DisplaySubscriptions = () => {
             console.error(users);
         }
     }
-    xhr.send(null);
 
-}
 function loginToken(accesscode) {
   document.cookie = "authToken" + "=" + accesscode;
 }
