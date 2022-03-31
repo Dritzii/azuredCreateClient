@@ -29,7 +29,7 @@ const sendHttpRequest = (method, url, data) => {
 };
 
 const getData = () => {
-  sendHttpRequest('POST', "https://azuredmicrosoftidentityclient.azurewebsites.net/api/SubscriptionsTrigger?code=tHNvW3n0BnP0XdUF4c6x7qMEh0fD5oUMBMTIMmX1nqXYmpLbPY8Stw==", {
+    sendHttpRequest('POST', "https://azuredmicrosoftidentityclient.azurewebsites.net/api/SubscriptionsTrigger?code=tHNvW3n0BnP0XdUF4c6x7qMEh0fD5oUMBMTIMmX1nqXYmpLbPY8Stw==", {
     accessToken: getCookie("authToken")
   })
     .then(responseData => {
