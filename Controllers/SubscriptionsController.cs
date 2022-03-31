@@ -41,9 +41,23 @@ namespace azuredCreateClient
                 });
             }
             return retList;
-
-
         }
+
+        public async Task<string> GetAllSubscriptionsAsyncJO()
+        {
+            var retList = new List<string>();
+            Console.WriteLine(hostUrl);
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, hostUrl);
+            Console.WriteLine(hostUrl);
+            HttpResponseMessage response = await client.SendAsync(request);
+            string responseContent = await response.Content.ReadAsStringAsync();
+            var jo = JObject.Parse(responseContent);
+            return (string)jo;
+        }
+
+
         public async Task<string> GetAllSubscriptionsGraph()
         {
             Console.WriteLine(hostUrl);
