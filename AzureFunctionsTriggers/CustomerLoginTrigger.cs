@@ -42,12 +42,12 @@ namespace azuredCreateClient
 
             // test sub iteration
 
-            SubscriptionsController subscriptionsCon = new SubscriptionsController(accessToken);
-            var sublist = await subscriptionsCon.GetAllSubscriptionsAsync();
+            //SubscriptionsController subscriptionsCon = new SubscriptionsController(accessToken);
+            //var sublist = await subscriptionsCon.GetAllSubscriptionsAsync();
 
 
 #pragma warning disable IDE0037 // Use inferred member name
-            var myObj = new { accessToken = accessToken , subsdata = sublist };
+            var myObj = new { accessToken = accessToken };
 #pragma warning restore IDE0037 // Use inferred member name
             var jsonToReturn = JsonConvert.SerializeObject(myObj);
             log.LogInformation(jsonToReturn);
