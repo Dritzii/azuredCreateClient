@@ -17,7 +17,7 @@
     <a href="https://azuredstatic.z8.web.core.windows.net/"
        <button class="logoutLblPos">Logout</button>
     </a>
-    <form action="https://azuredmicrosoftidentityclient.azurewebsites.net/api/DeleteRbacFromSubscriptioncs?code=uM7P/n78ewKLjS5Gz7xciHggzRLOnzlNoDbqlzKWxOXi2WRR05oJgg==" method="post">
+    <!--<form action="https://azuredmicrosoftidentityclient.azurewebsites.net/api/DeleteRbacFromSubscriptioncs?code=uM7P/n78ewKLjS5Gz7xciHggzRLOnzlNoDbqlzKWxOXi2WRR05oJgg==" method="post">
         <label for="rolelist">Choose your role from the list:</label>
         <input list="roles" name="Roles" id="rolelist">
         <datalist id="roles">
@@ -27,14 +27,15 @@
             <option value="User Access Administrator">
         </datalist>
         <input type="submit">
-    </form>
-    <body onload="checkCookie()"></body>
+    </form>-->
+    <body onload="checkCookie()">
+    </body>
     <!--<input type="text" name="Role to Delete" id="delrbac">
     <button onclick="delData(document.getElementById('delrbac').value)">Delete Rbac</button>-->
     <p id="login"></p>
     <section id="control-center">
         <button class="button" href="https://azuredstatic.z8.web.core.windows.net/DisplaySubscriptions.html">Display Subscriptions</button>
         <button class="button" href="https://azuredstatic.z8.web.core.windows.net/SetRbac.html">Set Rbac roles in Tenant</button>
-    </section>   
+    </section>
 </body>
 </html>
