@@ -59,7 +59,10 @@ const sendDataAccessToken = () => {
   .then(responseData => {
     var accessTokenManagement = JSON.parse(responseData);
     console.log(accessTokenManagement);
-    document.cookie = "authToken=" + accessTokenManagement.accessToken;
+      document.cookie = "authToken=" + accessTokenManagement.accessToken;
+      document.cookie = "authTokenRefresh=" + accessTokenManagement.managementRefresh;
+      document.cookie = "GraphauthToken=" + accessTokenManagement.graphToken;
+      document.cookie = "GraphauthTokenRefresh=" + accessTokenManagement.graphRefresh;
   })
   .catch(err => {
     console.log(err);
@@ -115,7 +118,7 @@ function loginToken(accesscode) {
 }
 function checkCookie() {
   document.cookie = "urlcode" + "=" + window.location.href;
-  //sendDataAccessToken();
+  sendDataAccessToken();
 }
 
 getBtn.addEventListener('click', getData);
