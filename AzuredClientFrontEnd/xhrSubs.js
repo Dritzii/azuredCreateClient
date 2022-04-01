@@ -135,5 +135,4 @@ function checkCookie() {
 }
 
 getBtn.addEventListener('click', getData);
-//postBtn.addEventListener('click', sendData);
 getMe1.addEventListener('click', getMe);

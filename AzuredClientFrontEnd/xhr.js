@@ -1,5 +1,3 @@
-//const getBtn = document.getElementById('get-btn');
-//const postBtn = document.getElementById('post-btn');
 var currentUrl = window.location.href;
 
 const sendHttpRequest = (method, url, data) => {
@@ -120,6 +118,3 @@ function checkCookie() {
   document.cookie = "urlcode" + "=" + window.location.href;
   sendDataAccessToken();
 }
-
-//getBtn.addEventListener('click', getData);
-//postBtn.addEventListener('click', sendData);
