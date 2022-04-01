@@ -1,5 +1,5 @@
 const getBtn = document.getElementById('get-btn');
-const postBtn = document.getElementById('post-btn');
+//const postBtn = document.getElementById('post-btn');
 var currentUrl = window.location.href;
 const getMe1 = document.getElementById('getMe');
 
@@ -135,5 +135,5 @@ function checkCookie() {
 }
 
 getBtn.addEventListener('click', getData);
-postBtn.addEventListener('click', sendData);
+//postBtn.addEventListener('click', sendData);
 getMe1.addEventListener('click', getMe);
