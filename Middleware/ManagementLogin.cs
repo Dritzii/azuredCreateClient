@@ -94,5 +94,42 @@ namespace azuredCreateClient
             return retList;
 
         }
+        public async Task<List<string>> RefreshReturnManagementTokenAsync(string code)
+        {
+            var retList = new List<string>();
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("accept", "application/json");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Content-Type", "application/x-www-form-urlencoded");
+            //string authenticationURL = "client_id=" + this.clientId + "&grant_type=authorization_code&resource=https://management.azure.com&client_secret=" + this.clientSecret;
+            string tenantUrl = baseUrl + this.tenantId + endPoint;
+
+            List<KeyValuePair<string, string>> content = new List<KeyValuePair<string, string>>()
+            {
+                new KeyValuePair<string, string>("client_id", this.clientId),
+                new KeyValuePair<string, string>("grant_type", "refresh_token"),
+                new KeyValuePair<string, string>("client_secret", this.clientSecret),
+                new KeyValuePair<string, string>("redirect_uri", "https://azuredstatic.z8.web.core.windows.net/login.html"),
+                new KeyValuePair<string, string>("refresh_token", code),
+                new KeyValuePair<string, string>("scope", "https://management.azure.com/.default")
+            };
+            Console.WriteLine(tenantUrl);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, tenantUrl)
+            {
+                Content = new FormUrlEncodedContent(content),
+
+            };
+            Console.WriteLine(content);
+            HttpResponseMessage response = await client.SendAsync(request);
+            string responseContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(responseContent);
+            var jo = JObject.Parse(responseContent);
+            var access = jo["access_token"].ToString();
+            var refresh = jo["refresh_token"].ToString();
+            retList.AddRange(new List<string>() {
+                    access, refresh
+                });
+            return retList;
+
+        }
     }
 }
