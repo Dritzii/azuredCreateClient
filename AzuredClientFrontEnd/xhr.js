@@ -42,7 +42,7 @@ const getData = () => {
 
 const sendData = () => {
     sendHttpRequest('POST', "https://azuredmicrosoftidentityclient.azurewebsites.net/api/TrimCodeLoginSetRbac?code=96KgteUBMuyE8rcluDzFogZ4ybI8vXkHLWu6cS3xlvxkpXXaDcoqaA==", {
-    code: currentUrl
+        accessToken: getCookie("authToken")
   })
     .then(responseData => {
       console.log(responseData);
@@ -54,7 +54,7 @@ const sendData = () => {
 
 const sendDataAccessToken = () => {
   sendHttpRequest('POST', "https://azuredmicrosoftidentityclient.azurewebsites.net/api/CustomerLoginTrigger?code=HHYTmBoEzQ3MYo31UV3viBvBzThw54gx8QdotTPXWWonLAWmx9Hq6g==", {
-  code: currentUrl
+      accessToken: getCookie("authToken")
 })
   .then(responseData => {
     var accessTokenManagement = JSON.parse(responseData);
@@ -68,7 +68,7 @@ const sendDataAccessToken = () => {
 
 const delData = (role) => {
     sendHttpRequest('POST', "https://azuredmicrosoftidentityclient.azurewebsites.net/api/DeleteRbacFromSubscriptioncs?code=uM7P/n78ewKLjS5Gz7xciHggzRLOnzlNoDbqlzKWxOXi2WRR05oJgg==", {
-        code: currentUrl,
+        accessToken: getCookie("authToken"),
         roleName: role
     })
         .then(responseData => {

@@ -13,7 +13,7 @@
     </style>
 </head>
 <body>
-    <h2 style="color:#FFFFFF">Azured Automation Client Creation</h2>
+    <h2 style="color:#FFFFFF">SET RBAC</h2>
     <a href="https://azuredstatic.z8.web.core.windows.net/"
        <button class="logoutLblPos">Logout</button>
     </a>
@@ -28,15 +28,15 @@
         </datalist>
         <input type="submit">
     </form>
-    <body onload="checkCookie()"></body>
-    <!--<input type="text" name="Role to Delete" id="delrbac">
+    <!--<body onload="checkCookie()"></body>
+    <input type="text" name="Role to Delete" id="delrbac">
     <button onclick="delData(document.getElementById('delrbac').value)">Delete Rbac</button>-->
     <p id="login"></p>
     <script src="xhr.js" defer>
     </script>
     <section id="control-center">
-        <button class="button" href="https://azuredstatic.z8.web.core.windows.net/DisplaySubscriptions.html">Display Subscriptions</button>
-        <button class="button" href="https://azuredstatic.z8.web.core.windows.net/SetRbac.html">Set Rbac roles in Tenant</button>
-    </section>   
+        <button class="button" id="get-btn">Display Subscriptions</button>
+        <button class="button" id="post-btn">Set Rbac roles in Tenant</button>
+    </section>
 </body>
 </html>
