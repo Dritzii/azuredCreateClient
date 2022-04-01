@@ -33,6 +33,21 @@ namespace azuredCreateClient
             string clientId = Environment.GetEnvironmentVariable("ClientId", EnvironmentVariableTarget.Process);
             string clientSecret = Environment.GetEnvironmentVariable("ClientSecret", EnvironmentVariableTarget.Process);
 
+            ManagementLogin managementLogin = new ManagementLogin("common", "527d9552-ccf3-4a7e-a149-4a52363d3f55", "Wz57Q~fJ.uJ3pxx52e0BlmgLi9UZWjYs9DZP4");
+            var managementtoken = await managementLogin.CustomerReturnManagementTokenAsync(responseMessage);
+            log.LogInformation(managementtoken.ToString());
+
+            // test sub iteration
+
+            //SubscriptionsController subscriptionsCon = new SubscriptionsController(accessToken);
+            //var sublist = await subscriptionsCon.GetAllSubscriptionsAsync();
+
+            var graphtoken = await managementLogin.RefreshReturnManagementTokenAsync(managementtoken[1]);
+            log.LogInformation(graphtoken.ToString());
+
+#pragma warning disable IDE0037 // Use inferred member name
+            //var myObj = new { accessToken = managementtoken[0], managementRefresh = managementtoken[1], graphToken = graphtoken[0], graphRefresh = graphtoken[1] };
+
             // Get the access token from MS Identity
             MicrosoftIdentityClient idClient = new MicrosoftIdentityClient(clientId, clientSecret, "common");
             string accessToken = await idClient.GetAccessTokenFromAuthorizationCode(responseMessage);
