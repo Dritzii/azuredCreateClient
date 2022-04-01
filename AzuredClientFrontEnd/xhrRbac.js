@@ -1,4 +1,4 @@
-const getBtn = document.getElementById('get-btn');
+//const getBtn = document.getElementById('get-btn');
 const postBtn = document.getElementById('post-btn');
 
 const sendHttpRequest = (method, url, data) => {
@@ -73,5 +73,5 @@ function loginToken(accesscode) {
   document.cookie = "authToken" + "=" + accesscode;
 }
 
-getBtn.addEventListener('click', getData);
+//getBtn.addEventListener('click', getData);
 postBtn.addEventListener('click', sendData);
