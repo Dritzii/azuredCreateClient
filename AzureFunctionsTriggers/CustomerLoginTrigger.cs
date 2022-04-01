@@ -37,8 +37,8 @@ namespace azuredCreateClient
             Console.WriteLine(clientSecret);
             // Get the access token from MS Identity
             ManagementLogin managementLogin = new ManagementLogin("common", clientId, clientSecret);
-            string accessToken = await managementLogin.CustomerReturnManagementTokenAsync(responseMessage);
-            log.LogInformation(accessToken);
+            var token = await managementLogin.CustomerReturnManagementTokenAsync(responseMessage);
+            log.LogInformation(token.ToString());
 
             // test sub iteration
 
@@ -47,7 +47,7 @@ namespace azuredCreateClient
 
 
 #pragma warning disable IDE0037 // Use inferred member name
-            var myObj = new { accessToken = accessToken };
+            var myObj = new { accessToken = token };
 #pragma warning restore IDE0037 // Use inferred member name
             var jsonToReturn = JsonConvert.SerializeObject(myObj);
             log.LogInformation(jsonToReturn);

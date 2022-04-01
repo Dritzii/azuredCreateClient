@@ -57,8 +57,9 @@ namespace azuredCreateClient
             return id;
              
         }
-        public async Task<string> CustomerReturnManagementTokenAsync(string code)
+        public async Task<List<string>> CustomerReturnManagementTokenAsync(string code)
         {
+            var retList = new List<string>();
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("accept", "application/json");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Content-Type", "application/x-www-form-urlencoded");
@@ -85,8 +86,12 @@ namespace azuredCreateClient
             string responseContent = await response.Content.ReadAsStringAsync();
             Console.WriteLine(responseContent);
             var jo = JObject.Parse(responseContent);
-            var id = jo["access_token"].ToString();
-            return id;
+            var access = jo["access_token"].ToString();
+            var refresh = jo["refresh_token"].ToString();
+            retList.AddRange(new List<string>() {
+                    access, refresh
+                });
+            return retList;
 
         }
     }
