@@ -27,6 +27,7 @@ namespace azuredCreateClient
             TrimStringFromUrl urlString = new TrimStringFromUrl(authCode);
             string responseMessage = urlString.ReturnCode();
             log.LogInformation(responseMessage);
+            log.LogInformation("Auth Code String Cut #################");
             Console.WriteLine(responseMessage);
 
             string clientId = Environment.GetEnvironmentVariable("ClientId", EnvironmentVariableTarget.Process);
@@ -36,33 +37,44 @@ namespace azuredCreateClient
             MicrosoftIdentityClient idClient = new MicrosoftIdentityClient(clientId, clientSecret, "common");
             string accessToken = await idClient.GetAccessTokenFromAuthorizationCode(responseMessage);
             Console.WriteLine(accessToken);
+            log.LogInformation("Access TOken #################");
             log.LogInformation(accessToken);
 
             // get Tenant ID
             OrganizationController getOrganization = new OrganizationController(accessToken);
             var tenantId  = await getOrganization.GetTenantID();
             Console.WriteLine(tenantId);
+            log.LogInformation("tenantId #################");
+            log.LogInformation(tenantId);
 
             // get management api token
             ManagementLogin loginManager = new ManagementLogin(tenantId, clientId, clientSecret);
             string accessTokenManager = await loginManager.ReturnManagementTokenAsync();
             Console.WriteLine(accessTokenManager);
+            log.LogInformation("accessTokenManager #################");
+            log.LogInformation(accessTokenManager);
 
             // Create GUID
             GuidController newGuid = new GuidController();
             string newGuidReturned = newGuid.ReturnGuid().ToString();
             Console.WriteLine(newGuidReturned);
+            log.LogInformation("newGuidReturned #################");
+            log.LogInformation(newGuidReturned);
 
             // Get Subscriptions
             SubscriptionsController subs = new SubscriptionsController(accessTokenManager);
             var tenantsubs = await subs.GetAllSubscriptionsAsync();
             Console.WriteLine("SUBSCRIPTION : " + tenantsubs);
+            log.LogInformation("tenantsubs #################");
+            log.LogInformation(tenantsubs.ToString());
 
             // Get Objectid of the Client application on Tenancy
             // https://graph.microsoft.com/v1.0/serviceprincipals?$filter=appId eq '{client id of your  application registration}'
             MicrosoftGraph msGraph = new MicrosoftGraph(accessToken);
             var objectId = await msGraph.GetObjectId(clientId);
             Console.WriteLine(objectId);
+            log.LogInformation("objectId #################");
+            log.LogInformation(objectId.ToString());
 
 
             // Add Rbac with new Guid

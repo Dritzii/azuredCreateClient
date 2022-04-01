@@ -115,7 +115,7 @@ function loginToken(accesscode) {
 }
 function checkCookie() {
   document.cookie = "urlcode" + "=" + window.location.href;
-  sendDataAccessToken();
+  //sendDataAccessToken();
 }
 
 getBtn.addEventListener('click', getData);
