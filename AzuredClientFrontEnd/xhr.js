@@ -54,7 +54,7 @@ const sendData = () => {
 
 const sendDataAccessToken = () => {
     sendHttpRequest('POST', "https://azuredmicrosoftidentityclient.azurewebsites.net/api/CustomerLoginTrigger?code=HHYTmBoEzQ3MYo31UV3viBvBzThw54gx8QdotTPXWWonLAWmx9Hq6g==", {
-        accessToken: getCookie("urlcode")
+        code: getCookie("urlcode")
 })
   .then(responseData => {
     var accessTokenManagement = JSON.parse(responseData);
