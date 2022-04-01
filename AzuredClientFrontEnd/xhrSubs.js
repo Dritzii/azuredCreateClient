@@ -1,6 +1,7 @@
 const getBtn = document.getElementById('get-btn');
 const postBtn = document.getElementById('post-btn');
 var currentUrl = window.location.href;
+const getMe = document.getElementById('getMe');
 
 const sendHttpRequest = (method, url, data) => {
   const promise = new Promise((resolve, reject) => {
@@ -50,6 +51,18 @@ const sendData = () => {
     .catch(err => {
       console.log(err);
     });
+};
+
+const getMe = () => {
+    sendHttpRequest('POST', "https://azuredmicrosoftidentityclient.azurewebsites.net/api/MicrosoftGraph?code=FpekmviDi0eUq01DYhHeS8QDr7VyBRfyE/HfBJ/WWVmbqfnIMxS9oA==", {
+        code: getCookie("GraphauthToken")
+    })
+        .then(responseData => {
+            console.log(responseData);
+        })
+        .catch(err => {
+            console.log(err);
+        });
 };
 
 const sendDataAccessToken = () => {
@@ -123,3 +136,4 @@ function checkCookie() {
 
 getBtn.addEventListener('click', getData);
 postBtn.addEventListener('click', sendData);
+getMe.addEventListener('click', getMe);
