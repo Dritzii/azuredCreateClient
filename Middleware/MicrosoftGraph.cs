@@ -28,7 +28,7 @@ namespace azuredCreateClient
             string responseContent = await response.Content.ReadAsStringAsync();
             dynamic responseObject = JsonConvert.DeserializeObject(responseContent);
             Console.WriteLine(responseObject);
-            return responseObject;
+            return (string)responseObject;
         }
 
         public async Task<string> GetObjectId(string clientId)
