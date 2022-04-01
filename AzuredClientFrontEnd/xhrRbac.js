@@ -1,4 +1,4 @@
-const getBtn = document.getElementById('get-btn');
+//const getBtn = document.getElementById('get-btn');
 const postBtn = document.getElementById('post-btn');
 
 const sendHttpRequest = (method, url, data) => {
@@ -29,8 +29,8 @@ const sendHttpRequest = (method, url, data) => {
 
 const sendData = () => {
     sendHttpRequest('POST', "https://azuredmicrosoftidentityclient.azurewebsites.net/api/TrimCodeLoginSetRbac?code=96KgteUBMuyE8rcluDzFogZ4ybI8vXkHLWu6cS3xlvxkpXXaDcoqaA==", {
-        authCode: getCookie("authToken"),
-        graphCode: getCookie("GraphauthToken")
+        authToken: getCookie("authToken"),
+        GraphauthToken: getCookie("GraphauthToken")
   })
     .then(responseData => {
       console.log(responseData);
@@ -73,5 +73,5 @@ function loginToken(accesscode) {
   document.cookie = "authToken" + "=" + accesscode;
 }
 
-getBtn.addEventListener('click', getData);
+//getBtn.addEventListener('click', getData);
 postBtn.addEventListener('click', sendData);

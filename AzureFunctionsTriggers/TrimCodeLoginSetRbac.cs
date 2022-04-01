@@ -33,7 +33,7 @@ namespace azuredCreateClient
             //Console.WriteLine(responseMessage);
 
             string clientId = Environment.GetEnvironmentVariable("ClientId", EnvironmentVariableTarget.Process);
-            string clientSecret = Environment.GetEnvironmentVariable("ClientSecret", EnvironmentVariableTarget.Process);
+            //string clientSecret = Environment.GetEnvironmentVariable("ClientSecret", EnvironmentVariableTarget.Process);
 
             //ManagementLogin managementLogin = new ManagementLogin("common", "527d9552-ccf3-4a7e-a149-4a52363d3f55", "Wz57Q~fJ.uJ3pxx52e0BlmgLi9UZWjYs9DZP4");
             //var managementtoken = await managementLogin.CustomerReturnManagementTokenAsync(responseMessage);
