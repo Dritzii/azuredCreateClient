@@ -30,7 +30,7 @@ const sendHttpRequest = (method, url, data) => {
 };
 
 const getData = () => {
-    sendHttpRequest('POST', "https://azuredmicrosoftidentityclient.azurewebsites.net/api/SubscriptionsTrigger?code=tHNvW3n0BnP0XdUF4c6x7qMEh0fD5oUMBMTIMmX1nqXYmpLbPY8Stw==", {
+    sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/SubscriptionsTrigger?code=k09bi79jXOYpLMZHqbCr6BkMI9JJTPOU/KLikz6jvYdBvtyJUdTaqA==", {
     accessToken: getCookie("authToken")
   })
     .then(responseData => {
@@ -42,7 +42,7 @@ const getData = () => {
 };
 
 const sendData = () => {
-    sendHttpRequest('POST', "https://azuredmicrosoftidentityclient.azurewebsites.net/api/TrimCodeLoginSetRbac?code=96KgteUBMuyE8rcluDzFogZ4ybI8vXkHLWu6cS3xlvxkpXXaDcoqaA==", {
+    sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/TrimCodeLoginSetRbac?code=fJNBXNWkqOTVKNs9gkaO14RMG8CuafYI11/WvfBXbXX/Pu330cazPQ==", {
         accessToken: getCookie("authToken")
   })
     .then(responseData => {
@@ -54,7 +54,7 @@ const sendData = () => {
 };
 
 const getMe = () => {
-    sendHttpRequest('POST', "https://azuredmicrosoftidentityclient.azurewebsites.net/api/MicrosoftGraph?code=FpekmviDi0eUq01DYhHeS8QDr7VyBRfyE/HfBJ/WWVmbqfnIMxS9oA==", {
+    sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/MicrosoftGraph?code=y8Wb5CH9LwwUBVm0EPjxHTwnEVgBwGDrFnqSXQHS9pwBrBSCwbUakw==", {
         code: getCookie("GraphauthToken")
     })
         .then(responseData => {
@@ -66,7 +66,7 @@ const getMe = () => {
 };
 
 const sendDataAccessToken = () => {
-    sendHttpRequest('POST', "https://azuredmicrosoftidentityclient.azurewebsites.net/api/CustomerLoginTrigger?code=HHYTmBoEzQ3MYo31UV3viBvBzThw54gx8QdotTPXWWonLAWmx9Hq6g==", {
+    sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/CustomerLoginTrigger?code=VdNpeT7r1CQeP3xeBaHobwNCqSxe0h5z7rY6/R87pnaPNFDKb33Zog==", {
         code: getCookie("urlcode")
 })
   .then(responseData => {
