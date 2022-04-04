@@ -54,9 +54,9 @@ namespace azuredCreateClient
             var tenantsubs = await subs.GetAllSubscriptionsAsync();
             Console.WriteLine("SUBSCRIPTION : " + tenantsubs);
 
-            // Get Rbac ID
+            // Delete Rbac ID
             RbacControllers setRbac = new RbacControllers(accessTokenManager);
-            //string rbacname = await setRbac.GetRoleDefinitions(tenantsubs, roleNameDelete);
+            //string rbacname = await setRbac.DeleteRbacSubscriptions(tenantsubs, roleNameDelete);
 
             // Delete Rbac from Subscription
             //setRbac.DeleteRbacSubscriptions(tenantsubs, rbacname);
