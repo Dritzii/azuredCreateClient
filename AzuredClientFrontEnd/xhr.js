@@ -4,7 +4,8 @@ const sendHttpRequest = (method, url, data) => {
   const promise = new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open(method, url);
-    xhr.responseType = 'json';
+      xhr.responseType = 'json';
+      xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
     if (data) {
       xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
     }
