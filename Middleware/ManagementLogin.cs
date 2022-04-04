@@ -109,7 +109,7 @@ namespace azuredCreateClient
                 new KeyValuePair<string, string>("client_id", this.clientId),
                 new KeyValuePair<string, string>("grant_type", "refresh_token"),
                 new KeyValuePair<string, string>("client_secret", this.clientSecret),
-                new KeyValuePair<string, string>("redirect_uri", "https://azuredstatic.z8.web.core.windows.net/login.html"),
+                new KeyValuePair<string, string>("redirect_uri", this.redirecturi),
                 new KeyValuePair<string, string>("refresh_token", code),
                 new KeyValuePair<string, string>("scope", "openid offline_access https://graph.microsoft.com/.default")
             };
