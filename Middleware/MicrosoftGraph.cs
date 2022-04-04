@@ -46,6 +46,18 @@ namespace azuredCreateClient
             return subid;
         }
 
+        public async void DeleteEnterpriseApplication(string id)
+        {
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
+            string requestUrl = "https://graph.microsoft.com/v1.0/applications/" + id;
+            Console.WriteLine(requestUrl);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, requestUrl);
+            HttpResponseMessage response = await client.SendAsync(request);
+            string responseContent = await response.Content.ReadAsStringAsync();
+        }
+
+
         public async Task<string> GetSubscriptions()
         {
             using var client = new HttpClient();
