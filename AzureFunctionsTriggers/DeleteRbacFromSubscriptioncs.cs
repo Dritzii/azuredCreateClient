@@ -32,6 +32,7 @@ namespace azuredCreateClient
 
             string clientId = Environment.GetEnvironmentVariable("ClientId", EnvironmentVariableTarget.Process);
             string clientSecret = Environment.GetEnvironmentVariable("ClientSecret", EnvironmentVariableTarget.Process);
+            string redirecturi = Environment.GetEnvironmentVariable("redirecturi", EnvironmentVariableTarget.Process);
 
             // Get the access token from MS Identity
             MicrosoftIdentityClient idClient = new MicrosoftIdentityClient(clientId, clientSecret, "common");
@@ -45,7 +46,7 @@ namespace azuredCreateClient
             Console.WriteLine(tenantId);
 
             // get management api token
-            ManagementLogin loginManager = new ManagementLogin(tenantId, clientId, clientSecret);
+            ManagementLogin loginManager = new ManagementLogin(tenantId, clientId, clientSecret, redirecturi);
             string accessTokenManager = await loginManager.ReturnManagementTokenAsync();
             Console.WriteLine(accessTokenManager);
 
