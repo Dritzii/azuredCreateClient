@@ -5,6 +5,7 @@ const sendHttpRequest = (method, url, data) => {
     const xhr = new XMLHttpRequest();
     xhr.open(method, url);
     xhr.responseType = 'json';
+    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
     if (data) {
       xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
     }
