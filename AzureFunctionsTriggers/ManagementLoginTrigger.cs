@@ -28,9 +28,10 @@ namespace azuredCreateClient
             // Get the Application details from the settings
             string clientId = Environment.GetEnvironmentVariable("ClientId", EnvironmentVariableTarget.Process);
             string clientSecret = Environment.GetEnvironmentVariable("ClientSecret", EnvironmentVariableTarget.Process);
+            string redirecturi = Environment.GetEnvironmentVariable("redirecturi", EnvironmentVariableTarget.Process);
 
             // Get the access token from MS Identity
-            ManagementLogin managementLogin = new ManagementLogin(tenantId, clientId, clientSecret);
+            ManagementLogin managementLogin = new ManagementLogin(tenantId, clientId, clientSecret, redirecturi);
             string accessToken = await managementLogin.ReturnManagementTokenAsync();
             log.LogInformation(accessToken);
 #pragma warning disable IDE0037 // Use inferred member name
