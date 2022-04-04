@@ -6,9 +6,9 @@ const sendHttpRequest = (method, url, data) => {
     xhr.open(method, url);
     xhr.responseType = 'json';
     xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-    if (data) {
-      xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-    }
+    //if (data) {
+    //  xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+   // }
 
     xhr.onload = () => {
       if (xhr.status >= 400) {
