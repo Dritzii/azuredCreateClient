@@ -50,8 +50,6 @@ namespace azuredCreateClient
             //var sublist = await subscriptionsCon.GetAllSubscriptionsAsync();
 
             var graphtoken = await managementLogin.RefreshReturnManagementTokenAsync(managementtoken[1]);
-            log.LogInformation(graphtoken.ToString());
-
 #pragma warning disable IDE0037 // Use inferred member name
             var myObj = new { accessToken = managementtoken[0], managementRefresh = managementtoken[1], graphToken = graphtoken[0] , graphRefresh = graphtoken[1] };
 #pragma warning restore IDE0037 // Use inferred member name
