@@ -12,17 +12,18 @@ namespace azuredCreateClient
     {
         readonly string baseUrl = "https://login.microsoftonline.com/";
         readonly string endPoint = "/oauth2/v2.0/token";
+        readonly string redirecturi;
         readonly string clientId;
         readonly string clientSecret;
         readonly string tenantId;
 
 
-        public ManagementLogin(string tenantId, string clientId, string clientSecret)
+        public ManagementLogin(string tenantId, string clientId, string clientSecret, string redirecturi)
         {
             this.tenantId = tenantId;
             this.clientId = clientId;
             this.clientSecret = clientSecret;
-
+            this.redirecturi = redirecturi;
         }
 
         public async Task<string> ReturnManagementTokenAsync()
@@ -71,7 +72,7 @@ namespace azuredCreateClient
                 new KeyValuePair<string, string>("client_id", this.clientId),
                 new KeyValuePair<string, string>("grant_type", "authorization_code"),
                 new KeyValuePair<string, string>("client_secret", this.clientSecret),
-                new KeyValuePair<string, string>("redirect_uri", "https://azuredstatic.z8.web.core.windows.net/login.html"),
+                new KeyValuePair<string, string>("redirect_uri", this.redirecturi),
                 new KeyValuePair<string, string>("code", code),
                 new KeyValuePair<string, string>("scope", "openid offline_access https://management.core.windows.net/.default")
             };

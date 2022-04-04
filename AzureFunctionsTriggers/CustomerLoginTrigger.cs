@@ -33,12 +33,13 @@ namespace azuredCreateClient
             // Get the Application details from the settings
             string clientId = Environment.GetEnvironmentVariable("ClientId", EnvironmentVariableTarget.Process);
             string clientSecret = Environment.GetEnvironmentVariable("ClientSecret", EnvironmentVariableTarget.Process);
+            string redirecturi = Environment.GetEnvironmentVariable("redirecturi", EnvironmentVariableTarget.Process);
             log.LogInformation(clientId.ToString());
             log.LogInformation(clientSecret.ToString());
             Console.WriteLine(clientId);
             Console.WriteLine(clientSecret);
             // Get the access token from MS Identity
-            ManagementLogin managementLogin = new ManagementLogin("common", clientId, clientSecret);
+            ManagementLogin managementLogin = new ManagementLogin("common", clientId, clientSecret, redirecturi);
             var managementtoken = await managementLogin.CustomerReturnManagementTokenAsync(responseMessage);
             log.LogInformation(managementtoken.ToString());
 
