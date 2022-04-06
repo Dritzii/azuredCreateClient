@@ -21,7 +21,7 @@ namespace azuredCreateClient.Controllers
             this.token = token;
         }
 
-        public async Task<List<string>> CustomerReturnManagementTokenAsync(string subscriptionId, string tag = "FWaaSAzured", string tagValue = "GatewaySubnetRoute", string resourceType = "Microsoft.Network/routeTables")
+        public async Task<List<string>> GetResourceByTag(string subscriptionId, string tag = "FWaaSAzured", string tagValue = "GatewaySubnetRoute", string resourceType = "Microsoft.Network/routeTables")
         {
             var retList = new List<string>();
             using var client = new HttpClient();
