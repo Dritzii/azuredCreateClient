@@ -27,30 +27,6 @@ const sendHttpRequest = (method, url, data) => {
   return promise;
 };
 
-const getData = () => {
-    sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/SubscriptionsTrigger?code=k09bi79jXOYpLMZHqbCr6BkMI9JJTPOU/KLikz6jvYdBvtyJUdTaqA==", {
-    accessToken: getCookie("authToken")
-  })
-    .then(responseData => {
-      console.log(responseData);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-};
-
-const sendData = () => {
-    sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/TrimCodeLoginSetRbac?code=fJNBXNWkqOTVKNs9gkaO14RMG8CuafYI11/WvfBXbXX/Pu330cazPQ==", {
-        accessToken: getCookie("authToken")
-  })
-    .then(responseData => {
-      console.log(responseData);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-};
-
 const sendDataAccessToken = () => {
     sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/CustomerLoginTrigger?code=VdNpeT7r1CQeP3xeBaHobwNCqSxe0h5z7rY6/R87pnaPNFDKb33Zog==", {
         code: getCookie("urlcode")
@@ -68,18 +44,7 @@ const sendDataAccessToken = () => {
   });
 };
 
-const delData = (role) => {
-    sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/DeleteRbacFromSubscriptioncs?code=1SCZRt5OPo482v4mPrDRvPqtHvoBIjVRD8BShwjKD8txkVLAgw5a4g==", {
-        accessToken: getCookie("authToken"),
-        roleName: role
-    })
-        .then(responseData => {
-            console.log(responseData);
-        })
-        .catch(err => {
-            console.log(err);
-        });
-};
+
 function getCookie(cname) {
   let name = cname + "=";
   let ca = document.cookie.split(';');

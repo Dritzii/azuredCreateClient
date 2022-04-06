@@ -1,6 +1,4 @@
 const getBtn = document.getElementById('get-btn');
-//const postBtn = document.getElementById('post-btn');
-var currentUrl = window.location.href;
 const getMe1 = document.getElementById('getMe');
 
 const sendHttpRequest = (method, url, data) => {
@@ -41,17 +39,6 @@ const getData = () => {
     });
 };
 
-const sendData = () => {
-    sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/TrimCodeLoginSetRbac?code=fJNBXNWkqOTVKNs9gkaO14RMG8CuafYI11/WvfBXbXX/Pu330cazPQ==", {
-        accessToken: getCookie("authToken")
-  })
-    .then(responseData => {
-      console.log(responseData);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-};
 
 const getMe = () => {
     sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/MicrosoftGraph?code=y8Wb5CH9LwwUBVm0EPjxHTwnEVgBwGDrFnqSXQHS9pwBrBSCwbUakw==", {
@@ -65,35 +52,8 @@ const getMe = () => {
         });
 };
 
-const sendDataAccessToken = () => {
-    sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/CustomerLoginTrigger?code=VdNpeT7r1CQeP3xeBaHobwNCqSxe0h5z7rY6/R87pnaPNFDKb33Zog==", {
-        code: getCookie("urlcode")
-})
-  .then(responseData => {
-    var accessTokenManagement = JSON.parse(responseData);
-    console.log(accessTokenManagement);
-      document.cookie = "authToken=" + accessTokenManagement.accessToken;
-      document.cookie = "authTokenRefresh=" + accessTokenManagement.managementRefresh;
-      document.cookie = "GraphauthToken=" + accessTokenManagement.graphToken;
-      document.cookie = "GraphauthTokenRefresh=" + accessTokenManagement.graphRefresh;
-  })
-  .catch(err => {
-    console.log(err);
-  });
-};
 
-const delData = (role) => {
-    sendHttpRequest('POST', "https://azuredmicrosoftidentityclient.azurewebsites.net/api/DeleteRbacFromSubscriptioncs?code=uM7P/n78ewKLjS5Gz7xciHggzRLOnzlNoDbqlzKWxOXi2WRR05oJgg==", {
-        accessToken: getCookie("authToken"),
-        roleName: role
-    })
-        .then(responseData => {
-            console.log(responseData);
-        })
-        .catch(err => {
-            console.log(err);
-        });
-};
+
 function getCookie(cname) {
   let name = cname + "=";
   let ca = document.cookie.split(';');
@@ -126,13 +86,7 @@ function buildTableSubscriptions() {
         }
     }
 
-function loginToken(accesscode) {
-  document.cookie = "authToken" + "=" + accesscode;
-}
-function checkCookie() {
-  document.cookie = "urlcode" + "=" + window.location.href;
-  sendDataAccessToken();
-}
+
 
 getBtn.addEventListener('click', getData);
 getMe1.addEventListener('click', getMe);
