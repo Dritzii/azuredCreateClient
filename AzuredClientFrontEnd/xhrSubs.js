@@ -1,5 +1,4 @@
 const getBtn = document.getElementById('get-btn');
-//const postBtn = document.getElementById('post-btn');
 var currentUrl = window.location.href;
 const getMe1 = document.getElementById('getMe');
 
@@ -41,18 +40,6 @@ const getData = () => {
     });
 };
 
-const sendData = () => {
-    sendHttpRequest('POST', "https://azuredmicrosoftidentityclient.azurewebsites.net/api/TrimCodeLoginSetRbac?code=96KgteUBMuyE8rcluDzFogZ4ybI8vXkHLWu6cS3xlvxkpXXaDcoqaA==", {
-        accessToken: getCookie("authToken")
-  })
-    .then(responseData => {
-      console.log(responseData);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-};
-
 const getMe = () => {
     sendHttpRequest('POST', "https://azuredmicrosoftidentityclient.azurewebsites.net/api/MicrosoftGraph?code=FpekmviDi0eUq01DYhHeS8QDr7VyBRfyE/HfBJ/WWVmbqfnIMxS9oA==", {
         code: getCookie("GraphauthToken")
@@ -65,22 +52,6 @@ const getMe = () => {
         });
 };
 
-const sendDataAccessToken = () => {
-    sendHttpRequest('POST', "https://azuredmicrosoftidentityclient.azurewebsites.net/api/CustomerLoginTrigger?code=HHYTmBoEzQ3MYo31UV3viBvBzThw54gx8QdotTPXWWonLAWmx9Hq6g==", {
-        code: getCookie("urlcode")
-})
-  .then(responseData => {
-    var accessTokenManagement = JSON.parse(responseData);
-    console.log(accessTokenManagement);
-      document.cookie = "authToken=" + accessTokenManagement.accessToken;
-      document.cookie = "authTokenRefresh=" + accessTokenManagement.managementRefresh;
-      document.cookie = "GraphauthToken=" + accessTokenManagement.graphToken;
-      document.cookie = "GraphauthTokenRefresh=" + accessTokenManagement.graphRefresh;
-  })
-  .catch(err => {
-    console.log(err);
-  });
-};
 
 const delData = (role) => {
     sendHttpRequest('POST', "https://azuredmicrosoftidentityclient.azurewebsites.net/api/DeleteRbacFromSubscriptioncs?code=uM7P/n78ewKLjS5Gz7xciHggzRLOnzlNoDbqlzKWxOXi2WRR05oJgg==", {
@@ -125,14 +96,6 @@ function buildTableSubscriptions() {
             console.error(users);
         }
     }
-
-function loginToken(accesscode) {
-  document.cookie = "authToken" + "=" + accesscode;
-}
-function checkCookie() {
-  document.cookie = "urlcode" + "=" + window.location.href;
-  sendDataAccessToken();
-}
 
 getBtn.addEventListener('click', getData);
 getMe1.addEventListener('click', getMe);

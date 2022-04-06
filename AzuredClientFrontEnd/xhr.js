@@ -6,10 +6,6 @@ const sendHttpRequest = (method, url, data) => {
     xhr.open(method, url);
       xhr.responseType = 'json';
       xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-    //if (data) {
-     // xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-   // }
-
     xhr.onload = () => {
       if (xhr.status >= 400) {
         reject(xhr.response);
@@ -25,18 +21,6 @@ const sendHttpRequest = (method, url, data) => {
     xhr.send(JSON.stringify(data));
   });
   return promise;
-};
-
-const getData = () => {
-    sendHttpRequest('POST', "https://azuredmicrosoftidentityclient.azurewebsites.net/api/SubscriptionsTrigger?code=tHNvW3n0BnP0XdUF4c6x7qMEh0fD5oUMBMTIMmX1nqXYmpLbPY8Stw==", {
-    accessToken: getCookie("authToken")
-  })
-    .then(responseData => {
-      console.log(responseData);
-    })
-    .catch(err => {
-      console.log(err);
-    });
 };
 
 const sendData = () => {
