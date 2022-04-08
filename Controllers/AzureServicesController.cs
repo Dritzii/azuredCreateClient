@@ -33,13 +33,13 @@ namespace azuredCreateClient.Controllers
             HttpResponseMessage response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
             Console.WriteLine(responseContent);
-            //var jo = JObject.Parse(responseContent);
-            //var access = jo["access_token"].ToString();
-            //var refresh = jo["refresh_token"].ToString();
-            //retList.AddRange(new List<string>() {
-            //        access, refresh
-            //    });
-            //return retList;
+            var jo = JObject.Parse(responseContent);
+            var access = jo["access_token"].ToString();
+            var refresh = jo["refresh_token"].ToString();
+            retList.AddRange(new List<string>() {
+                    access, refresh
+                });
+            return retList;
 
         }
     }
