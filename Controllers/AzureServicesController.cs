@@ -9,13 +9,11 @@ namespace azuredCreateClient.Controllers
 {
     class AzureServicesController
     {
-        ManagementLogin managementlogin;
         string baseurl = "https://management.azure.com/subscriptions/";
         string token;
 
-        public AzureServicesController(ManagementLogin managementlogin, string baseurl, string endpoint, string token)
+        public AzureServicesController(string baseurl, string endpoint, string token)
         {
-            this.managementlogin = managementlogin;
             this.baseurl = baseurl;
             this.token = token;
         }

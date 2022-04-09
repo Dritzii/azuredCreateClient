@@ -1,5 +1,6 @@
 ﻿using MySqlConnector;
 using System;
+using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,11 +9,11 @@ namespace azuredCreateClient.Middleware
 {
     class DatabaseConnectioncs
     {
-        string server;
-        string user;
-        string password;
-        string database;
-        private MySqlConnection _connect;
+        readonly string server;
+        readonly string user;
+        readonly string password;
+        readonly string database;
+        private SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
 
         public DatabaseConnectioncs(string server, string user, string password, string database)
         {
@@ -20,41 +21,36 @@ namespace azuredCreateClient.Middleware
             this.user = user;
             this.password = password;
             this.database = database;
-            this._connect = new MySqlConnection(server + ";" + user + ";" + password + ";" + database);
+            builder.DataSource = this.server;
+            builder.UserID = this.user;
+            builder.Password = this.password;
+            builder.InitialCatalog = this.database;
         }
 
-        public async Task GetConnectionAsync()
+        public void GetConnection()
         {
-            await _connect.OpenAsync();
-            using var command = new MySqlCommand("SELECT field FROM table;", _connect);
-            using var reader = await command.ExecuteReaderAsync();
-            while (await reader.ReadAsync())
+            try
             {
-                var value = reader.GetValue(0);
-                // do something with 'value'
+                using SqlConnection connection = new SqlConnection(builder.ConnectionString);
+                Console.WriteLine("\nQuery data example:");
+                Console.WriteLine("=========================================\n");
+
+                String sql = "SELECT name, collation_name FROM sys.databases";
+
+                using SqlCommand command = new SqlCommand(sql, connection);
+                connection.Open();
+                using SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Console.WriteLine("{0} {1}", reader.GetString(0), reader.GetString(1));
+                }
             }
-        }
-
-        public async Task InsertIntoSubscriptions()
-        {
-
-            await _connect.OpenAsync();
-
-            // Insert some data
-            using (var cmd = new MySqlCommand())
+            catch (SqlException e)
             {
-                cmd.Connection = _connect;
-                cmd.CommandText = "INSERT INTO data (some_field) VALUES (@p)";
-                cmd.Parameters.AddWithValue("p", "Hello world");
-                await cmd.ExecuteNonQueryAsync();
+                Console.WriteLine(e.ToString());
             }
-
-            // Retrieve all rows
-            using (var cmd = new MySqlCommand("SELECT some_field FROM data", _connect))
-            using (var reader = await cmd.ExecuteReaderAsync())
-                while (await reader.ReadAsync())
-                    Console.WriteLine(reader.GetString(0));
-            
+            Console.ReadLine();
         }
     }
+
 }
