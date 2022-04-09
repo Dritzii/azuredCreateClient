@@ -38,5 +38,29 @@ namespace azuredCreateClient.Controllers
             return retList;
 
         }
+
+        public async Task<List<string>> GetResourceGroupById(string id)
+        {
+            // GET https://management.azure.com/{resourceId}?api-version=2021-04-01
+            var retList = new List<string>();
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            //GET https://management.azure.com/subscriptions/{subscriptionId}/resources?$filter={$filter}&$expand={$expand}&$top={$top}&api-version=2021-04-01
+            string sendUrl = baseurl + id + "?api-version=2021-04-01";
+            Console.WriteLine(sendUrl);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, sendUrl);
+            HttpResponseMessage response = await client.SendAsync(request);
+            string responseContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(responseContent);
+            var jo = JObject.Parse(responseContent);
+            var access = jo["access_token"].ToString();
+            var refresh = jo["refresh_token"].ToString();
+            retList.AddRange(new List<string>() {
+                    access, refresh
+                });
+            return retList;
+
+        }
+        
     }
 }
