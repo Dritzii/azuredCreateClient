@@ -47,7 +47,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             log.LogInformation(managementtoken.ToString());
 
             DatabaseConnectioncs firewallData = new DatabaseConnectioncs(dbhost, dbuser, dbpass, dbase);
-            var dbdata = firewallData.getFirewallfromDB(firewall);
+            var dbdata = firewallData.GetFirewallfromDB(firewall);
 
             AzureServicesController getresource = new AzureServicesController(managementtoken);
             var resourceData = getresource.GetResourceByTag((string)dbdata[0]);

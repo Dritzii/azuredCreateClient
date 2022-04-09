@@ -24,7 +24,7 @@ namespace azuredCreateClient.Middleware
             builder.InitialCatalog = this.database;
         }
 
-        public List<FirewallClass> getFirewallfromDB(string firewall)
+        public List<FirewallClass> GetFirewallfromDB(string firewall)
         {
             try
             {
