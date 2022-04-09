@@ -12,9 +12,8 @@ namespace azuredCreateClient.Controllers
         string baseurl = "https://management.azure.com/subscriptions/";
         string token;
 
-        public AzureServicesController(string baseurl, string endpoint, string token)
+        public AzureServicesController(string token)
         {
-            this.baseurl = baseurl;
             this.token = token;
         }
 
@@ -24,7 +23,7 @@ namespace azuredCreateClient.Controllers
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
             //GET https://management.azure.com/subscriptions/{subscriptionId}/resources?$filter={$filter}&$expand={$expand}&$top={$top}&api-version=2021-04-01
-            string sendUrl = this.baseurl + subscriptionId + String.Format("/resources?$filter=resourceType eq {0}&api-version=2021-04-01", resourceType);
+            string sendUrl = baseurl + subscriptionId + String.Format("/resources?$filter=resourceType eq {0}&api-version=2021-04-01", resourceType);
             Console.WriteLine(sendUrl);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, sendUrl);
             HttpResponseMessage response = await client.SendAsync(request);

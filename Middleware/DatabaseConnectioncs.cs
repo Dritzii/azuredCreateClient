@@ -1,9 +1,6 @@
-﻿using MySqlConnector;
-using System;
+﻿using System;
 using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace azuredCreateClient.Middleware
 {
@@ -27,7 +24,7 @@ namespace azuredCreateClient.Middleware
             builder.InitialCatalog = this.database;
         }
 
-        public void GetConnection()
+        public List<FirewallClass> getFirewallfromDB(string firewall)
         {
             try
             {
@@ -35,15 +32,29 @@ namespace azuredCreateClient.Middleware
                 Console.WriteLine("\nQuery data example:");
                 Console.WriteLine("=========================================\n");
 
-                String sql = "SELECT name, collation_name FROM sys.databases";
+                String sql = "SELECT s.subscriptionId," +
+                    " s.tenantId," +
+                    " s.displayName," +
+                    " f.name," +
+                    " f.uri " +
+                    "from subscriptions s inner join [firewalls] f on s.subscriptionId = f.subscriptionId";
 
                 using SqlCommand command = new SqlCommand(sql, connection);
                 connection.Open();
                 using SqlDataReader reader = command.ExecuteReader();
+                List<FirewallClass> results = new List<FirewallClass>();
                 while (reader.Read())
                 {
-                    Console.WriteLine("{0} {1}", reader.GetString(0), reader.GetString(1));
+
+                    FirewallClass newItem = new FirewallClass();
+                    newItem.subscriptionId = (string)reader.GetValue(0);
+                    newItem.subscriptionId = (string)reader.GetValue(1);
+                    newItem.subscriptionId = (string)reader.GetValue(2);
+                    newItem.subscriptionId = (string)reader.GetValue(3);
+                    newItem.subscriptionId = (string)reader.GetValue(4);
+                    results.Add(newItem);
                 }
+                return results;
             }
             catch (SqlException e)
             {
