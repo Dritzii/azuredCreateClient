@@ -37,7 +37,7 @@ namespace azuredCreateClient.Middleware
                     " s.displayName," +
                     " f.name," +
                     " f.uri " +
-                    "from subscriptions s inner join [firewalls] f on s.subscriptionId = f.subscriptionId";
+                    "from subscriptions s inner join firewalls f on s.subscriptionId = f.subscriptionId";
 
                 using SqlCommand command = new SqlCommand(sql, connection);
                 connection.Open();

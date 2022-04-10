@@ -45,10 +45,6 @@ namespace azuredCreateClient
             var managementtoken = await managementLogin.CustomerReturnManagementTokenAsync(responseMessage);
             log.LogInformation(managementtoken.ToString());
 
-            // test sub iteration
-
-            //SubscriptionsController subscriptionsCon = new SubscriptionsController(accessToken);
-            //var sublist = await subscriptionsCon.GetAllSubscriptionsAsync();
 
             var graphtoken = await managementLogin.RefreshReturnManagementTokenAsync(managementtoken[1]);
             log.LogInformation(graphtoken[0]);
