@@ -6,6 +6,7 @@ namespace azuredCreateClient.Middleware
 {
     class DatabaseConnectioncs
     {
+        private static List<string> retList;
         readonly string server;
         readonly string user;
         readonly string password;
@@ -24,7 +25,7 @@ namespace azuredCreateClient.Middleware
             builder.InitialCatalog = this.database;
         }
 
-        public List<FirewallClass> GetFirewallfromDB(string firewall)
+        public static List<string> GetFirewallfromDB(string firewall)
         {
             try
             {
@@ -45,7 +46,7 @@ namespace azuredCreateClient.Middleware
                 List<FirewallClass> results = new List<FirewallClass>();
                 while (reader.Read())
                 {
-
+                    var retList = new List<string>();
                     FirewallClass newItem = new FirewallClass();
                     newItem.subscriptionId = (string)reader.GetValue(0);
                     newItem.subscriptionId = (string)reader.GetValue(1);
@@ -54,7 +55,7 @@ namespace azuredCreateClient.Middleware
                     newItem.subscriptionId = (string)reader.GetValue(4);
                     results.Add(newItem);
                 }
-                return results;
+                return retList;
             }
             catch (SqlException e)
             {
