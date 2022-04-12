@@ -30,11 +30,17 @@ namespace azuredCreateClient.Controllers
             string responseContent = await response.Content.ReadAsStringAsync();
             Console.WriteLine(responseContent);
             var jo = JObject.Parse(responseContent);
-            var access = jo["access_token"].ToString();
-            var refresh = jo["refresh_token"].ToString();
-            retList.AddRange(new List<string>() {
-                    access, refresh
+            foreach (var items in jo["value"])
+            {
+                var c1 = items["id"].Value<string>();
+                var c2 = items["name"].Value<string>();
+                var c3 = items["type"].Value<string>();
+                var c4 = items["location"].Value<string>();
+                var c5 = items["tags"].Value<string>();
+                retList.AddRange(new List<string>() {
+                    c1, c2, c3, c4, c5
                 });
+            }
             return retList;
 
         }

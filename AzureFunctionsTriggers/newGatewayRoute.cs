@@ -43,9 +43,10 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             log.LogInformation(managementtoken.ToString());
 
 
-            //AzureServicesController getresource = new AzureServicesController(managementtoken);
-            //var resourceData = getresource.GetResourceByTag((string)dbdata[0]);
-            //log.LogInformation(resourceData.ToString());
+            AzureServicesController getresource = new AzureServicesController(managementtoken);
+            var resourceData = getresource.GetResourceByTag((string)dbdata[0].subscriptionId);
+            log.LogInformation(resourceData.ToString());
+            Console.WriteLine(resourceData);
 #pragma warning disable IDE0037 // Use inferred member name
             //var myObj = new { accessToken = managementtoken[0]};
 #pragma warning restore IDE0037 // Use inferred member name
