@@ -6,16 +6,11 @@ namespace azuredCreateClient.Middleware
 {
     class DatabaseConnectioncs
     {
-        string server;
-        string user;
-        string password;
-        string database;
-
         public DatabaseConnectioncs()
         {
         }
 
-        public static List<FirewallClass> GetFirewallfromDB( string server, string user, string password, string database)
+        public static List<FirewallClass> GetFirewallfromDB( string server= "arazured.database.windows.net", string user = "fwaasupdates_prod@azuredaseproddb", string password= "Aqualite12@", string database= "fwaasapplication")
         {
             List<FirewallClass> list = new List<FirewallClass>();
             SqlConnectionStringBuilder myBuilder = new SqlConnectionStringBuilder();
@@ -24,12 +19,8 @@ namespace azuredCreateClient.Middleware
             myBuilder.Password = password;
             myBuilder.InitialCatalog = database;
             using SqlConnection connection = new SqlConnection(myBuilder.ConnectionString);
-            String sql = "SELECT s.subscriptionId," +
-                    " s.tenantId," +
-                    " s.displayName," +
-                    " f.name," +
-                    " f.uri " +
-                    "from subscriptions s inner join [firewalls] f on s.subscriptionId = f.subscriptionId";
+            string sql = "SELECT subscriptionId, tenantId, displayName, name, uri from firewallseq;";
+            Console.WriteLine(sql);
             using (var cn = new SqlConnection(sql))
             {
                 using (var cmd = new SqlCommand() { Connection = cn, CommandText = sql })
@@ -40,6 +31,7 @@ namespace azuredCreateClient.Middleware
 
                     while (reader.Read())
                     {
+                        Console.WriteLine(reader.GetString(0));
                         list.Add(new FirewallClass()
                         {
                             subscriptionId = reader.GetString(0),
