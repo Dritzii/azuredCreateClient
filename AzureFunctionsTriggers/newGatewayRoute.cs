@@ -45,12 +45,13 @@ namespace azuredCreateClient.AzureFunctionsTriggers
 
             //AzureServicesController getresource = new AzureServicesController(managementtoken);
             //var resourceData = getresource.GetResourceByTag((string)dbdata[0]);
+            //log.LogInformation(resourceData.ToString());
 #pragma warning disable IDE0037 // Use inferred member name
             //var myObj = new { accessToken = managementtoken[0]};
 #pragma warning restore IDE0037 // Use inferred member name
             //var jsonToReturn = JsonConvert.SerializeObject(myObj);
             //log.LogInformation(jsonToReturn);
-            return new JsonResult(dbdata); // returning json
+            return new JsonResult(managementtoken); // returning json
         }
     }
 }

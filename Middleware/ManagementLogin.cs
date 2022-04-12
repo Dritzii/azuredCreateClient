@@ -41,16 +41,16 @@ namespace azuredCreateClient
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("accept", "application/json");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Content-Type", "application/x-www-form-urlencoded");
             //string authenticationURL = "client_id=" + this.clientId + "&grant_type=client_credentials&resource=https://management.azure.com&client_secret=" + this.clientSecret;
-            string tenantUrl = baseUrl + this.tenantId + endPoint;
+            string tenantUrl = baseUrl + this.tenantId + "/oauth2/token";
+            Console.WriteLine(tenantUrl);
 
             List<KeyValuePair<string, string>> content = new List<KeyValuePair<string, string>>()
             {
                 new KeyValuePair<string, string>("client_id", this.clientId),
                 new KeyValuePair<string, string>("grant_type", "client_credentials"),
-                new KeyValuePair<string, string>("resource", "https://management.azure.com/"),
+                new KeyValuePair<string, string>("resource", "https://management.azure.com"),
                 new KeyValuePair<string, string>("client_secret", this.clientSecret)
             };
-            Console.WriteLine(tenantUrl);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, tenantUrl)
             {
                 Content = new FormUrlEncodedContent(content),
