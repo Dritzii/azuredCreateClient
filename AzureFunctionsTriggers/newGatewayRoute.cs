@@ -34,8 +34,8 @@ namespace azuredCreateClient.AzureFunctionsTriggers
 
             
 
-            var dbdata = DatabaseConnectioncs.GetFirewallfromDB("tdaepa01", connectionstring); //, connectionstring
-
+            var dbdata = DatabaseConnectioncs.GetFirewallfromDB("tdaepa01"); //, connectionstring
+            Console.WriteLine("TENANT ID IS: " + dbdata[0].tenantId);
 
             // Get the access token from MS Identity
             ManagementLogin managementLogin = new ManagementLogin(dbdata[0].tenantId, clientId, clientSecret, redirecturi);
