@@ -15,7 +15,7 @@ namespace azuredCreateClient.Middleware
         {
         }
 
-        public static List<FirewallClass> GetFirewallfromDB(string firewall, string server, string user, string password, string database)
+        public static List<FirewallClass> GetFirewallfromDB( string server, string user, string password, string database)
         {
             List<FirewallClass> list = new List<FirewallClass>();
             SqlConnectionStringBuilder myBuilder = new SqlConnectionStringBuilder();
