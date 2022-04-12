@@ -9,19 +9,20 @@ namespace azuredCreateClient.Middleware
         public DatabaseConnectioncs()
         {
         }
-
-        public static List<FirewallClass> GetFirewallfromDB( string server= "arazured.database.windows.net", string user = "fwaasupdates_prod@azuredaseproddb", string password= "Aqualite12@", string database= "fwaasapplication")
+        // https://githubhot.com/repo/Azure/Azure-Functions/issues/2064 add this to fix 
+        /*
+         * The type initializer for 'Microsoft.Data.SqlClient.LocalAppContextSwitches' threw an exception. Could not load file or assembly 'System.Configuration.ConfigurationManager, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51'. The system cannot find the file specified.
+         * 
+         * 
+         */
+        public static List<FirewallClass> GetFirewallfromDB(string firewall = "" ,string connectionstring = "Server=arazured.database.windows.net,1433;Initial Catalog=fwaasapplication;User ID=aradmin;Password=Aqualite12@;")
         {
             List<FirewallClass> list = new List<FirewallClass>();
-            SqlConnectionStringBuilder myBuilder = new SqlConnectionStringBuilder();
-            myBuilder.DataSource = server;
-            myBuilder.UserID = user;
-            myBuilder.Password = password;
-            myBuilder.InitialCatalog = database;
-            using SqlConnection connection = new SqlConnection(myBuilder.ConnectionString);
-            string sql = "SELECT subscriptionId, tenantId, displayName, name, uri from firewallseq;";
+            string connection = connectionstring;
+            Console.WriteLine(connection);
+            string sql = String.Format("SELECT subscriptionId, tenantId, displayName, name, uri from firewallseq where name like '%{0}%';", firewall);
             Console.WriteLine(sql);
-            using (var cn = new SqlConnection(sql))
+            using (var cn = new SqlConnection(connection))
             {
                 using (var cmd = new SqlCommand() { Connection = cn, CommandText = sql })
                 {

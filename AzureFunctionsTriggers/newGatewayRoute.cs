@@ -31,22 +31,14 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             string clientId = Environment.GetEnvironmentVariable("ClientId", EnvironmentVariableTarget.Process);
             string clientSecret = Environment.GetEnvironmentVariable("ClientSecret", EnvironmentVariableTarget.Process);
             string redirecturi = Environment.GetEnvironmentVariable("redirecturi", EnvironmentVariableTarget.Process);
-            string dbuser = Environment.GetEnvironmentVariable("dbuser", EnvironmentVariableTarget.Process);
-            string dbhost = Environment.GetEnvironmentVariable("dbhost", EnvironmentVariableTarget.Process);
-            string dbpass = Environment.GetEnvironmentVariable("dbpass", EnvironmentVariableTarget.Process);
-            string dbase = Environment.GetEnvironmentVariable("dbase", EnvironmentVariableTarget.Process);
-            log.LogInformation(clientId);
-            log.LogInformation(clientSecret);
-            log.LogInformation(redirecturi);
-            Console.WriteLine(clientId);
-            Console.WriteLine(clientSecret);
-            Console.WriteLine(redirecturi);
+            string connectionstring = Environment.GetEnvironmentVariable("connectionstring", EnvironmentVariableTarget.Process);
+
             // Get the access token from MS Identity
             //ManagementLogin managementLogin = new ManagementLogin(tenantId, clientId, clientSecret, redirecturi);
             //var managementtoken = await managementLogin.ReturnManagementTokenAsync();
             //log.LogInformation(managementtoken.ToString());
 
-            var dbdata = DatabaseConnectioncs.GetFirewallfromDB();
+            var dbdata = DatabaseConnectioncs.GetFirewallfromDB("tdaepa01", connectionstring);
 
             //AzureServicesController getresource = new AzureServicesController(managementtoken);
             //var resourceData = getresource.GetResourceByTag((string)dbdata[0]);
