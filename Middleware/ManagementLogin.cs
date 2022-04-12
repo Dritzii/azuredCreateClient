@@ -47,7 +47,7 @@ namespace azuredCreateClient
             {
                 new KeyValuePair<string, string>("client_id", this.clientId),
                 new KeyValuePair<string, string>("grant_type", "client_credentials"),
-                new KeyValuePair<string, string>("resource", "https://management.azure.com/.default"),
+                new KeyValuePair<string, string>("resource", "https://management.azure.com/"),
                 new KeyValuePair<string, string>("client_secret", this.clientSecret)
             };
             Console.WriteLine(tenantUrl);
