@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using azuredCreateClient.Middleware;
 using Newtonsoft.Json.Linq;
 
 namespace azuredCreateClient
@@ -16,11 +17,19 @@ namespace azuredCreateClient
         readonly string clientId;
         readonly string clientSecret;
         readonly string tenantId;
-
+        private FirewallClass firewallClass;
 
         public ManagementLogin(string tenantId, string clientId, string clientSecret, string redirecturi)
         {
             this.tenantId = tenantId;
+            this.clientId = clientId;
+            this.clientSecret = clientSecret;
+            this.redirecturi = redirecturi;
+        }
+
+        public ManagementLogin(FirewallClass firewallClass, string clientId, string clientSecret, string redirecturi)
+        {
+            this.firewallClass = firewallClass;
             this.clientId = clientId;
             this.clientSecret = clientSecret;
             this.redirecturi = redirecturi;

@@ -16,16 +16,15 @@ namespace azuredCreateClient.AzureFunctionsTriggers
     {
         [FunctionName("newGatewayRoute")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             // Get the authentication code from the request payload
-            //string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            //dynamic data = JsonConvert.DeserializeObject(requestBody);
-            //string tenantId = data.tenantId;
-            //string firewall = data.firewall;
-            //Console.WriteLine(tenantId);
-            //log.LogInformation(tenantId);
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            dynamic data = JsonConvert.DeserializeObject(requestBody);
+            string firewall = data.firewall;
+            Console.WriteLine(firewall);
+            log.LogInformation(firewall);
 
             // Get the Application details from the settings
             string clientId = Environment.GetEnvironmentVariable("ClientId", EnvironmentVariableTarget.Process);
@@ -33,12 +32,16 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             string redirecturi = Environment.GetEnvironmentVariable("redirecturi", EnvironmentVariableTarget.Process);
             string connectionstring = Environment.GetEnvironmentVariable("connectionstring", EnvironmentVariableTarget.Process);
 
-            // Get the access token from MS Identity
-            //ManagementLogin managementLogin = new ManagementLogin(tenantId, clientId, clientSecret, redirecturi);
-            //var managementtoken = await managementLogin.ReturnManagementTokenAsync();
-            //log.LogInformation(managementtoken.ToString());
+            
 
-            var dbdata = DatabaseConnectioncs.GetFirewallfromDB("tdaepa01", connectionstring);
+            var dbdata = DatabaseConnectioncs.GetFirewallfromDB("tdaepa01"); //, connectionstring
+
+
+            // Get the access token from MS Identity
+            ManagementLogin managementLogin = new ManagementLogin(dbdata, clientId, clientSecret, redirecturi);
+            var managementtoken = await managementLogin.ReturnManagementTokenAsync();
+            log.LogInformation(managementtoken.ToString());
+
 
             //AzureServicesController getresource = new AzureServicesController(managementtoken);
             //var resourceData = getresource.GetResourceByTag((string)dbdata[0]);
