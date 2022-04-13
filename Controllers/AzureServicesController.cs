@@ -23,7 +23,7 @@ namespace azuredCreateClient.Controllers
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
             //GET https://management.azure.com/subscriptions/{subscriptionId}/resources?$filter={$filter}&$expand={$expand}&$top={$top}&api-version=2021-04-01
-            string sendUrl = baseurl + subscriptionId + String.Format("/resources?$filter=resourceType eq {0}&api-version=2021-04-01", resourceType);
+            string sendUrl = baseurl + subscriptionId + String.Format("/resources?$filter=resourceType eq '{0}'&api-version=2021-04-01", resourceType);
             Console.WriteLine(sendUrl);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, sendUrl);
             HttpResponseMessage response = await client.SendAsync(request);
@@ -37,10 +37,12 @@ namespace azuredCreateClient.Controllers
                 var c3 = items["type"].Value<string>();
                 var c4 = items["location"].Value<string>();
                 var c5 = items["tags"].Value<string>();
+                //var c6 = items["tags"]["FWaaSAzured"].Value<string>();
                 retList.AddRange(new List<string>() {
-                    c1, c2, c3, c4, c5
+                    c1, c2, c3, c4, c5//, c6
                 });
             }
+            Console.WriteLine(retList);
             return retList;
 
         }
@@ -51,7 +53,7 @@ namespace azuredCreateClient.Controllers
             var retList = new List<string>();
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
-            //GET https://management.azure.com/subscriptions/{subscriptionId}/resources?$filter={$filter}&$expand={$expand}&$top={$top}&api-version=2021-04-01
+            //GET https://management.azure.com/{resourceId}?api-version=2021-04-01
             string sendUrl = baseurl + id + "?api-version=2021-04-01";
             Console.WriteLine(sendUrl);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, sendUrl);
