@@ -39,10 +39,9 @@ namespace azuredCreateClient.Controllers
                 var c2 = items["name"].Value<string>();
                 var c3 = items["type"].Value<string>();
                 var c4 = items["location"].Value<string>();
-                var c5 = items["tags"].Value<string>();
-                //var c6 = items["tags"]["FWaaSAzured"].Value<string>();
+                //var c5 = items["tags"].Value<string>();
                 retList.AddRange(new List<string>() {
-                    c1, c2, c3, c4, c5//, c6
+                    c1, c2, c3, c4//, c5//, c6
                 });
             }
             Console.WriteLine(retList);
