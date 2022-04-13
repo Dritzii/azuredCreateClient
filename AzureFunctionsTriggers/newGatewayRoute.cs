@@ -34,11 +34,11 @@ namespace azuredCreateClient.AzureFunctionsTriggers
 
             
 
-            var dbdata = DatabaseConnectioncs.GetFirewallfromDB(firewall); //, connectionstring
+            var dbdata = DatabaseConnectioncs.GetFirewallfromDB(firewall, connectionstring); //, connectionstring
             Console.WriteLine("TENANT ID IS: " + dbdata[0].tenantId);
 
             // Get the access token from MS Identity
-            ManagementLogin managementLogin = new ManagementLogin(dbdata[0].tenantId, "baf1387d-a1ed-44d2-af1e-738a43985599", ")1$Z.D#/}((>&/Jt[*?{_)[L?}.]_^%&{)@;%", "https://azuredfwassacreation.z8.web.core.windows.net/login.html");
+            ManagementLogin managementLogin = new ManagementLogin(dbdata[0].tenantId, clientId, clientSecret, redirecturi);
             var managementtoken = await managementLogin.ReturnManagementTokenAsync();
             log.LogInformation(managementtoken.ToString());
 
