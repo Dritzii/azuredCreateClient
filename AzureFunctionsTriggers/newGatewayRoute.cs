@@ -34,17 +34,17 @@ namespace azuredCreateClient.AzureFunctionsTriggers
 
             
 
-            var dbdata = DatabaseConnectioncs.GetFirewallfromDB(firewall, connectionstring); //, connectionstring
+            var dbdata = DatabaseConnectioncs.GetFirewallfromDB(firewall); //, connectionstring
             Console.WriteLine("TENANT ID IS: " + dbdata[0].tenantId);
 
             // Get the access token from MS Identity
-            ManagementLogin managementLogin = new ManagementLogin(dbdata[0].tenantId, clientId, clientSecret, redirecturi);
+            ManagementLogin managementLogin = new ManagementLogin(dbdata[0].tenantId, "baf1387d-a1ed-44d2-af1e-738a43985599", ")1$Z.D#/}((>&/Jt[*?{_)[L?}.]_^%&{)@;%", "https://azuredfwassacreation.z8.web.core.windows.net/login.html");
             var managementtoken = await managementLogin.ReturnManagementTokenAsync();
             log.LogInformation(managementtoken.ToString());
 
 
             AzureServicesController getresource = new AzureServicesController(managementtoken);
-            var resourceData = getresource.GetResourceByTag((string)dbdata[0].subscriptionId);
+            var resourceData = await getresource.GetResourceByTag(dbdata[0].subscriptionId);
             log.LogInformation(resourceData.ToString());
             Console.WriteLine(resourceData.ToString());
 #pragma warning disable IDE0037 // Use inferred member name
@@ -52,7 +52,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
 #pragma warning restore IDE0037 // Use inferred member name
             //var jsonToReturn = JsonConvert.SerializeObject(myObj);
             //log.LogInformation(jsonToReturn);
-            return new JsonResult(managementtoken); // returning json
+            return new JsonResult(resourceData); // returning json
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -11,10 +12,12 @@ namespace azuredCreateClient.Controllers
     {
         string baseurl = "https://management.azure.com/subscriptions/";
         string token;
+        readonly JsonSerializerSettings jss = new JsonSerializerSettings();
 
         public AzureServicesController(string token)
         {
             this.token = token;
+            jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
         }
 
         public async Task<List<string>> GetResourceByTag(string subscriptionId, string tag = "FWaaSAzured", string tagValue = "GatewaySubnetRoute", string resourceType = "Microsoft.Network/routeTables")
