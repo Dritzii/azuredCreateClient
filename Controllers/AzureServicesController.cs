@@ -71,6 +71,34 @@ namespace azuredCreateClient.Controllers
             return retList;
 
         }
-        
+
+        public async Task<List<string>> newGatewayRoute(string id, string name, string ipaddress)
+        {
+            // GET https://management.azure.com/{resourceId}?api-version=2021-04-01
+            var retList = new List<string>();
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            //PUT /subscriptions/@subscriptionId@/resourceGroups/@resourceGroupName@/providers/Microsoft.Network/routeTables/@routeTableName@/routes/@routeName@
+            char[] charsToTrimStart = { '/','s', 'u', 'b', 's', 'c', 'r', 'i', 'p', 't', 'i', 'o', 'n', 's', '/' };
+            string idTrimmed = id.TrimStart(charsToTrimStart);
+            string sendUrl = baseurl + idTrimmed + string.Format("/routes/{}?api-version=2021-04-01", name);
+            Console.WriteLine(sendUrl);
+            var myObj = new { };
+#pragma warning restore IDE0037 // Use inferred member name
+            var jsonToReturn = JsonConvert.SerializeObject(myObj);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, sendUrl);
+            HttpResponseMessage response = await client.SendAsync(request);
+            string responseContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(responseContent);
+            
+            var jo = JObject.Parse(responseContent);
+            var access = jo["access_token"].ToString();
+            var refresh = jo["refresh_token"].ToString();
+            retList.AddRange(new List<string>() {
+                    access, refresh
+                });
+            return retList;
+
+        }
     }
 }
