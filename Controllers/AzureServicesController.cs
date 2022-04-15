@@ -72,7 +72,7 @@ namespace azuredCreateClient.Controllers
 
         }
 
-        public async Task<List<string>> newGatewayRoute(string id, string name, string ipaddress)
+        public async void newGatewayRoute(string id, string name, string ipaddress)
         {
             // GET https://management.azure.com/{resourceId}?api-version=2021-04-01
             var retList = new List<string>();
