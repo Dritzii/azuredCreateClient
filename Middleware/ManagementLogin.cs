@@ -40,7 +40,6 @@ namespace azuredCreateClient
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("accept", "application/json");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Content-Type", "application/x-www-form-urlencoded");
-            //string authenticationURL = "client_id=" + this.clientId + "&grant_type=client_credentials&resource=https://management.azure.com&client_secret=" + this.clientSecret;
             string tenantUrl = baseUrl + this.tenantId + "/oauth2/token";
             Console.WriteLine(tenantUrl);
 
@@ -73,7 +72,6 @@ namespace azuredCreateClient
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("accept", "application/json");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Content-Type", "application/x-www-form-urlencoded");
-            //string authenticationURL = "client_id=" + this.clientId + "&grant_type=authorization_code&resource=https://management.azure.com&client_secret=" + this.clientSecret;
             string tenantUrl = baseUrl + this.tenantId + endPoint;
 
             List<KeyValuePair<string, string>> content = new List<KeyValuePair<string, string>>()
@@ -110,7 +108,6 @@ namespace azuredCreateClient
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("accept", "application/json");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Content-Type", "application/x-www-form-urlencoded");
-            //string authenticationURL = "client_id=" + this.clientId + "&grant_type=authorization_code&resource=https://management.azure.com&client_secret=" + this.clientSecret;
             string tenantUrl = baseUrl + this.tenantId + endPoint;
 
             List<KeyValuePair<string, string>> content = new List<KeyValuePair<string, string>>()

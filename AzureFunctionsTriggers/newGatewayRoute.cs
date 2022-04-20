@@ -46,14 +46,14 @@ namespace azuredCreateClient.AzureFunctionsTriggers
 
             AzureServicesController getresource = new AzureServicesController(managementtoken);
             var resourceData = await getresource.GetResourceByTag(dbdata[0].subscriptionId);
-            getresource.NewGatewayRoute(resourceData[0], firewall, ipaddress);
-            //getresource.newGatewayRoute();
+            int indexList = getresource.filterResourceByTag(resourceData);
+            getresource.NewGatewayRoute(resourceData[indexList], firewall, ipaddress);
 #pragma warning disable IDE0037 // Use inferred member name
             //var myObj = new { accessToken = managementtoken[0]};
 #pragma warning restore IDE0037 // Use inferred member name
             //var jsonToReturn = JsonConvert.SerializeObject(myObj);
             //log.LogInformation(jsonToReturn);
-            return new JsonResult(resourceData[0]); // returning json
+            return new JsonResult(resourceData); // returning json
         }
     }
 }
