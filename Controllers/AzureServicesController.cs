@@ -87,7 +87,7 @@ namespace azuredCreateClient.Controllers
             //PUT /subscriptions/@subscriptionId@/resourceGroups/@resourceGroupName@/providers/Microsoft.Network/routeTables/@routeTableName@/routes/@routeName@
             char[] charsToTrimStart = { '/','s', 'u', 'b', 's', 'c', 'r', 'i', 'p', 't', 'i', 'o', 'n', 's', '/' };
             string idTrimmed = id.TrimStart(charsToTrimStart);
-            string sendUrl = baseurl + idTrimmed + string.Format("/routes/{0}?api-version=2021-04-01", name);
+            string sendUrl = baseurl + idTrimmed + string.Format("/routes/{0}?api-version=2021-04-01", "NMAgent-" + ipaddress);
             Console.WriteLine(sendUrl);
             var payload = new { name = "NMAgent-" + ipaddress , properties = new { addressPrefix = ipaddress + "/32", nextHopType = "Internet" } };
             Console.WriteLine(payload);
