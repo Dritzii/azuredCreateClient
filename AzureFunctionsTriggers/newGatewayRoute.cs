@@ -33,9 +33,9 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             string redirecturi = Environment.GetEnvironmentVariable("redirecturi", EnvironmentVariableTarget.Process);
             string connectionstring = Environment.GetEnvironmentVariable("connectionstring", EnvironmentVariableTarget.Process);
 
-            
 
-            var dbdata = DatabaseConnectioncs.GetFirewallfromDB(firewall, connectionstring);
+            DatabaseConnectioncs dbconn = new DatabaseConnectioncs(connectionstring);
+            var dbdata = dbconn.GetFirewallfromDB(firewall);
             Console.WriteLine("TENANT ID IS: " + dbdata[0].tenantId);
 
             // Get the access token from MS Identity
@@ -48,11 +48,8 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             var resourceData = await getresource.GetResourceByTag(dbdata[0].subscriptionId);
             int indexList = getresource.filterResourceByTag(resourceData);
             getresource.NewGatewayRoute(resourceData[indexList], firewall, ipaddress);
-#pragma warning disable IDE0037 // Use inferred member name
-            //var myObj = new { accessToken = managementtoken[0]};
-#pragma warning restore IDE0037 // Use inferred member name
-            //var jsonToReturn = JsonConvert.SerializeObject(myObj);
-            //log.LogInformation(jsonToReturn);
+
+            dbconn.InsertIntoHistory(dbdata[0].tenantId, firewall, ipaddress, resourceData[indexList], dbdata[0].subscriptionId, dbdata[0].displayName);
             return new JsonResult(resourceData); // returning json
         }
     }

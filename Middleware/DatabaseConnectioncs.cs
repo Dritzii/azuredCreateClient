@@ -6,8 +6,10 @@ namespace azuredCreateClient.Middleware
 {
     class DatabaseConnectioncs
     {
-        public DatabaseConnectioncs()
+        string connectionstring;
+        public DatabaseConnectioncs(string connectionstring)
         {
+            this.connectionstring = connectionstring;
         }
         // https://githubhot.com/repo/Azure/Azure-Functions/issues/2064 add this to fix 
         /*
@@ -15,10 +17,10 @@ namespace azuredCreateClient.Middleware
          * 
          * 
          */
-        public static List<FirewallClass> GetFirewallfromDB(string firewall = "" ,string connectionstring = "Server=arazured.database.windows.net,1433;Initial Catalog=fwaasapplication;User ID=aradmin;Password=Aqualite12@;")
+        public List<FirewallClass> GetFirewallfromDB(string firewall = "")
         {
             List<FirewallClass> list = new List<FirewallClass>();
-            string connection = connectionstring;
+            string connection = this.connectionstring;
             string sql = String.Format("SELECT subscriptionId, tenantId, displayName, name, uri from firewallseq where name like '%{0}%';", firewall);
             using (var cn = new SqlConnection(connection))
             {
@@ -44,6 +46,23 @@ namespace azuredCreateClient.Middleware
             }
 
             return list;
+
+        }
+        public void InsertIntoHistory(string tenantId, string deviceName, string ipAddress, string managementResourcePath, string subscriptionId, string displayName)
+        {
+            var Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+            string connection = this.connectionstring;
+            string sql = String.Format("INSERT INTO [dbo].[historyUpdates] VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6})", tenantId, deviceName, ipAddress, Timestamp, managementResourcePath, subscriptionId, displayName);
+            using (var cn = new SqlConnection(connection))
+            {
+                using (var cmd = new SqlCommand() { Connection = cn, CommandText = sql })
+                {
+                    cn.Open();
+
+                    var reader = cmd.ExecuteReader();
+                }
+            }
+
 
         }
     }
