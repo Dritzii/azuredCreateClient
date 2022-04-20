@@ -45,8 +45,6 @@ namespace azuredCreateClient.Controllers
                     c1, c5
                 });
             }
-            int indexList = filterResourceByTag(retList);
-            Console.WriteLine(indexList);
             return retList;
         }
 

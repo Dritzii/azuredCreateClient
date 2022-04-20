@@ -19,9 +19,7 @@ namespace azuredCreateClient.Middleware
         {
             List<FirewallClass> list = new List<FirewallClass>();
             string connection = connectionstring;
-            Console.WriteLine(connection);
             string sql = String.Format("SELECT subscriptionId, tenantId, displayName, name, uri from firewallseq where name like '%{0}%';", firewall);
-            Console.WriteLine(sql);
             using (var cn = new SqlConnection(connection))
             {
                 using (var cmd = new SqlCommand() { Connection = cn, CommandText = sql })
