@@ -58,7 +58,6 @@ namespace azuredCreateClient.Controllers
 
         public async Task<List<string>> GetResourceGroupById(string id)
         {
-            // GET https://management.azure.com/{resourceId}?api-version=2021-04-01
             var retList = new List<string>();
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
