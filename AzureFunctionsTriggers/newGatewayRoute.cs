@@ -23,6 +23,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             string firewall = data.firewall;
+            string ipaddress = data.ipaddress;
             Console.WriteLine(firewall);
             log.LogInformation(firewall);
 
@@ -45,13 +46,14 @@ namespace azuredCreateClient.AzureFunctionsTriggers
 
             AzureServicesController getresource = new AzureServicesController(managementtoken);
             var resourceData = await getresource.GetResourceByTag(dbdata[0].subscriptionId);
+            getresource.NewGatewayRoute(resourceData[0], firewall, ipaddress);
             //getresource.newGatewayRoute();
 #pragma warning disable IDE0037 // Use inferred member name
             //var myObj = new { accessToken = managementtoken[0]};
 #pragma warning restore IDE0037 // Use inferred member name
             //var jsonToReturn = JsonConvert.SerializeObject(myObj);
             //log.LogInformation(jsonToReturn);
-            return new JsonResult(resourceData); // returning json
+            return new JsonResult(resourceData[0]); // returning json
         }
     }
 }

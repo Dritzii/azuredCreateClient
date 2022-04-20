@@ -17,7 +17,7 @@ namespace azuredCreateClient
         readonly string clientId;
         readonly string clientSecret;
         readonly string tenantId;
-        private FirewallClass firewallClass;
+        private readonly FirewallClass firewallClass;
 
         public ManagementLogin(string tenantId, string clientId, string clientSecret, string redirecturi)
         {

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace azuredCreateClient.Controllers
@@ -72,32 +73,40 @@ namespace azuredCreateClient.Controllers
 
         }
 
-        public async void newGatewayRoute(string id, string name, string ipaddress)
+        public async void NewGatewayRoute(string id, string name, string ipaddress)
         {
             // GET https://management.azure.com/{resourceId}?api-version=2021-04-01
             var retList = new List<string>();
             using var client = new HttpClient();
+            string source = "The mountains are behind the clouds today.";
+            // Replace one substring with another with String.Replace.
+            // Only exact matches are supported.
+            var replacement = source.Replace("mountains", "peaks");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
             //PUT /subscriptions/@subscriptionId@/resourceGroups/@resourceGroupName@/providers/Microsoft.Network/routeTables/@routeTableName@/routes/@routeName@
             char[] charsToTrimStart = { '/','s', 'u', 'b', 's', 'c', 'r', 'i', 'p', 't', 'i', 'o', 'n', 's', '/' };
             string idTrimmed = id.TrimStart(charsToTrimStart);
-            string sendUrl = baseurl + idTrimmed + string.Format("/routes/{}?api-version=2021-04-01", name);
+            string sendUrl = baseurl + idTrimmed + string.Format("/routes/{0}?api-version=2021-04-01", name);
             Console.WriteLine(sendUrl);
-            var myObj = new { };
+            var payload = new { name = "NMAgent-" + ipaddress , properties = new { addressPrefix = ipaddress.Replace("-", "/"), nextHopType = "Internet" } };
+            Console.WriteLine(payload);
 #pragma warning restore IDE0037 // Use inferred member name
-            var jsonToReturn = JsonConvert.SerializeObject(myObj);
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, sendUrl);
-            HttpResponseMessage response = await client.SendAsync(request);
-            string responseContent = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(responseContent);
+            var jsonToReturn = JsonConvert.SerializeObject(payload);
+            Console.WriteLine(jsonToReturn);
+            //HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, sendUrl) {
+            //    Content = new StringContent(jsonToReturn.ToString(), Encoding.UTF8, "application/json"),
+            //};
+            //HttpResponseMessage response = await client.SendAsync(request);
+            //string responseContent = await response.Content.ReadAsStringAsync();
+            //Console.WriteLine(responseContent);
             
-            var jo = JObject.Parse(responseContent);
-            var access = jo["access_token"].ToString();
-            var refresh = jo["refresh_token"].ToString();
-            retList.AddRange(new List<string>() {
-                    access, refresh
-                });
-            return retList;
+            //var jo = JObject.Parse(responseContent);
+            //var access = jo["access_token"].ToString();
+            //var refresh = jo["refresh_token"].ToString();
+            //retList.AddRange(new List<string>() {
+            //        access, refresh
+            //    });
+            //return retList;
 
         }
     }
