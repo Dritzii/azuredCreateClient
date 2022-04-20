@@ -34,12 +34,12 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             string connectionstring = Environment.GetEnvironmentVariable("connectionstring", EnvironmentVariableTarget.Process);
 
 
-            DatabaseConnectioncs dbconn = new DatabaseConnectioncs(connectionstring);
+            DatabaseConnectioncs dbconn = new DatabaseConnectioncs("Server=arazured.database.windows.net,1433;Initial Catalog=fwaasapplication;User ID=aradmin;Password=Aqualite12@;");
             var dbdata = dbconn.GetFirewallfromDB(firewall);
             Console.WriteLine("TENANT ID IS: " + dbdata[0].tenantId);
 
             // Get the access token from MS Identity
-            ManagementLogin managementLogin = new ManagementLogin(dbdata[0].tenantId, clientId, clientSecret, redirecturi);
+            ManagementLogin managementLogin = new ManagementLogin(dbdata[0].tenantId, "baf1387d-a1ed-44d2-af1e-738a43985599", ")1$Z.D#/}((>&/Jt[*?{_)[L?}.]_^%&{)@;%", "https://azuredfwassacreation.z8.web.core.windows.net/login.html");
             var managementtoken = await managementLogin.ReturnManagementTokenAsync();
             log.LogInformation(managementtoken.ToString());
 
@@ -49,7 +49,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             int indexList = getresource.filterResourceByTag(resourceData);
             getresource.NewGatewayRoute(resourceData[indexList], firewall, ipaddress);
 
-            dbconn.InsertIntoHistory(dbdata[0].tenantId, firewall, ipaddress, resourceData[indexList], dbdata[0].subscriptionId, dbdata[0].displayName);
+            dbconn.InsertIntoHistory(dbdata[0].tenantId, firewall, ipaddress, resourceData[indexList], dbdata[0].subscriptionId, dbdata[0].displayName, resourceData[indexList] + string.Format("/routes/{0}?api-version=2021-04-01", firewall));
             return new JsonResult(resourceData); // returning json
         }
     }
