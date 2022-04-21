@@ -102,7 +102,6 @@ namespace azuredCreateClient.Controllers
         }
         public async Task<string> GetRouteTable(string id)
         {
-            var retList = new List<string>();
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
             //PUT /subscriptions/@subscriptionId@/resourceGroups/@resourceGroupName@/providers/Microsoft.Network/routeTables/@routeTableName@/routes/@routeName@
@@ -113,7 +112,6 @@ namespace azuredCreateClient.Controllers
             HttpResponseMessage response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
             Console.WriteLine(responseContent);
-            //var jo = JObject.Parse(responseContent);
             return responseContent;
         }
     }
