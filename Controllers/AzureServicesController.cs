@@ -100,5 +100,21 @@ namespace azuredCreateClient.Controllers
             string responseContent = await response.Content.ReadAsStringAsync();
             Console.WriteLine(responseContent);
         }
+        public async Task<string> GetRouteTable(string id)
+        {
+            var retList = new List<string>();
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            //PUT /subscriptions/@subscriptionId@/resourceGroups/@resourceGroupName@/providers/Microsoft.Network/routeTables/@routeTableName@/routes/@routeName@
+            char[] charsToTrimStart = { '/', 's', 'u', 'b', 's', 'c', 'r', 'i', 'p', 't', 'i', 'o', 'n', 's', '/' };
+            string idTrimmed = id.TrimStart(charsToTrimStart);
+            string sendUrl = baseurl + idTrimmed + "?api-version=2021-05-01";
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, sendUrl){};
+            HttpResponseMessage response = await client.SendAsync(request);
+            string responseContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(responseContent);
+            //var jo = JObject.Parse(responseContent);
+            return responseContent;
+        }
     }
 }
