@@ -21,10 +21,6 @@ namespace azuredCreateClient.Controllers
             jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
         }
 
-        public AzureServicesController()
-        {
-
-        }
 
         public async Task<List<string>> GetResourceByTag(string subscriptionId, string resourceType = "Microsoft.Network/routeTables")
         {
@@ -52,38 +48,6 @@ namespace azuredCreateClient.Controllers
             }
             return retList;
         }
-
-        public int filterResourceByTag(List<string> listName)
-        {
-            int index = listName.FindIndex(a => a == "{\r\n  \"FWaaSAzured\": \"GatewaySubnetRoute\"\r\n}");
-            return index - 1;
-
-        }
-
-        public string GetListofRoutesFromTable(string? jsonRT)
-        {
-            string jsonData = jsonRT;
-            Console.WriteLine(jsonData);
-            var jo = JObject.Parse(jsonData);
-            JObject channel = (JObject)jo["channel"];
-            JArray item = (JArray)channel["routes"];
-            foreach (var items in jo["properties"]["routes"])
-            {
-                if (items["properties"]["nextHopType"].ToString() == "Internet")
-                {
-                    Console.WriteLine("Pass");
-                }
-                else
-                {
-
-                    item.Add(items);
-                }
-
-            }
-            return (string)jo;
-
-        }
-
 
         public async Task<List<string>> GetResourceGroupById(string id)
         {
@@ -114,17 +78,14 @@ namespace azuredCreateClient.Controllers
             char[] charsToTrimStart = { '/','s', 'u', 'b', 's', 'c', 'r', 'i', 'p', 't', 'i', 'o', 'n', 's', '/' };
             string idTrimmed = id.TrimStart(charsToTrimStart);
             string sendUrl = baseurl + idTrimmed + string.Format("/routes/{0}?api-version=2021-04-01", "NMAgent-" + ipaddress);
-            //Console.WriteLine(sendUrl);
             var payload = new { name = profixName + ipaddress , properties = new { addressPrefix = ipaddress + prefix, nextHopType = nexthoptype } };
-            //Console.WriteLine(payload);
             var jsonToReturn = JsonConvert.SerializeObject(payload);
-            //Console.WriteLine(jsonToReturn);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, sendUrl) {
                 Content = new StringContent(jsonToReturn.ToString(), Encoding.UTF8, "application/json"),
             };
             HttpResponseMessage response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
-            //Console.WriteLine(responseContent);
+            Console.WriteLine(responseContent);
         }
         public async Task<string> GetRouteTable(string id)
         {
@@ -136,7 +97,6 @@ namespace azuredCreateClient.Controllers
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, sendUrl){};
             HttpResponseMessage response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
-            //Console.WriteLine(responseContent);
             return responseContent;
         }
         public async void updateOrCreateRouteTableWithRoutes(string id, string routes, string location = "australiasoutheast")
@@ -147,18 +107,14 @@ namespace azuredCreateClient.Controllers
             char[] charsToTrimStart = { '/', 's', 'u', 'b', 's', 'c', 'r', 'i', 'p', 't', 'i', 'o', 'n', 's', '/' };
             string idTrimmed = id.TrimStart(charsToTrimStart);
             string sendUrl = baseurl + idTrimmed;
-            //Console.WriteLine(sendUrl);
             var payload = new { properties = new { routes }, location = location };
-            //Console.WriteLine(payload);
             var jsonToReturn = JsonConvert.SerializeObject(payload);
-            //Console.WriteLine(jsonToReturn);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, sendUrl)
             {
                 Content = new StringContent(jsonToReturn.ToString(), Encoding.UTF8, "application/json"),
             };
             HttpResponseMessage response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
-            //Console.WriteLine(responseContent);
         }
     }
 }
