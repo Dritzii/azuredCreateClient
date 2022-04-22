@@ -48,11 +48,11 @@ namespace azuredCreateClient.Middleware
             return list;
 
         }
-        public void InsertIntoHistory(string tenantId, string deviceName, string ipAddress, string managementResourcePath, string subscriptionId, string displayName, string fullManagementResourcePath)
+        public void InsertIntoHistory(string tenantId, string deviceName, string ipAddress, string managementResourcePath, string subscriptionId, string displayName, string fullManagementResourcePath, string jsonbody)
         {
             var Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
             string connection = this.connectionstring;
-            string sql = String.Format("INSERT INTO [dbo].[historyUpdates] VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')", tenantId, deviceName, ipAddress, Timestamp, managementResourcePath, subscriptionId, displayName, fullManagementResourcePath);
+            string sql = String.Format("INSERT INTO [dbo].[historyUpdates] VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}')", tenantId, deviceName, ipAddress, Timestamp, managementResourcePath, subscriptionId, displayName, fullManagementResourcePath, jsonbody);
             using (var cn = new SqlConnection(connection))
             {
                 using (var cmd = new SqlCommand() { Connection = cn, CommandText = sql })
