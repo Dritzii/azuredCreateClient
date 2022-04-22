@@ -101,20 +101,37 @@ namespace azuredCreateClient.Controllers
         }
         public async void updateOrCreateRouteTableWithRoutes(string id, string routes, string location = "australiasoutheast")
         {
+            //Console.WriteLine(routes);
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            string routeTrimmed = routes.Replace("\r\n", string.Empty);
+            string routeTrimmeds = routeTrimmed.Replace("\\", string.Empty);
             // https://management.azure.com/subscriptions/6c737636-bd1d-49fd-8eea-48d69ae27155/resourceGroups/rg_NetworkConfigurations/providers/Microsoft.Network/routeTables/johnAzuredTest?api-version=2021-04-01
             char[] charsToTrimStart = { '/', 's', 'u', 'b', 's', 'c', 'r', 'i', 'p', 't', 'i', 'o', 'n', 's', '/' };
             string idTrimmed = id.TrimStart(charsToTrimStart);
-            string sendUrl = baseurl + idTrimmed;
-            var payload = new { properties = new { routes }, location = location };
+            string sendUrl = baseurl + idTrimmed + "?api-version=2021-04-01";
+            var payload = new { properties = new { routes = routeTrimmed }, location = location , tags = new { FWaaSAzured = "GatewaySubnetRoute"}};
+            //JObject o = new JObject{
+            //    "properties",
+            //    {
+            //    "routes", new JArray { routes }
+            //    },
+            //    "tags",{"FWaaSAzured", "GatewaySubnetRoute"},
+            //    "location", "australiasoutheast"
+
+//            };
+          //  Console.WriteLine(o.ToString());
+            
             var jsonToReturn = JsonConvert.SerializeObject(payload);
+            var payloadjson = JsonConvert.DeserializeObject(jsonToReturn);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, sendUrl)
             {
-                Content = new StringContent(jsonToReturn.ToString(), Encoding.UTF8, "application/json"),
+                Content = new StringContent(payloadjson.ToString(), Encoding.UTF8, "application/json"),
             };
             HttpResponseMessage response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(responseContent);
+            
         }
     }
 }

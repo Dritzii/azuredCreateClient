@@ -50,7 +50,9 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             getresource.NewGatewayRoute(resourceData[indexList], ipaddress);
             string routeData = await getresource.GetRouteTable(resourceData[indexList]);
             string iterateRTJSON = JsonPlaying.GetListofRoutesFromTable(routeData);
-            //dbconn.InsertIntoHistory(dbdata[0].tenantId, "NMAgent-" + ipaddress, ipaddress, resourceData[indexList], dbdata[0].subscriptionId, dbdata[0].displayName, resourceData[indexList] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), routeData);
+            //Console.WriteLine(iterateRTJSON);
+            getresource.updateOrCreateRouteTableWithRoutes(resourceData[indexList], iterateRTJSON);
+            dbconn.InsertIntoHistory(dbdata[0].tenantId, "NMAgent-" + ipaddress, ipaddress, resourceData[indexList], dbdata[0].subscriptionId, dbdata[0].displayName, resourceData[indexList] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), routeData);
             return new JsonResult(iterateRTJSON); // returning json
         }
     }
