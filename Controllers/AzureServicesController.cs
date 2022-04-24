@@ -101,9 +101,10 @@ namespace azuredCreateClient.Controllers
         }
         public async void updateOrCreateRouteTableWithRoutes(string id, string routes, string location = "australiasoutheast")
         {
+            Console.WriteLine(routes.ToString());
             using var client = new HttpClient();
             //JObject jo = JObject.Parse(routes);
-            JArray a = JArray.Parse(routes);
+            //JArray a = JArray.Parse(routes);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
             string routeTrimmed = routes.Replace("\r\n", string.Empty);
             string routeTrimmeds = routeTrimmed.Replace("\\", string.Empty);
@@ -111,24 +112,25 @@ namespace azuredCreateClient.Controllers
             char[] charsToTrimStart = { '/', 's', 'u', 'b', 's', 'c', 'r', 'i', 'p', 't', 'i', 'o', 'n', 's', '/' };
             string idTrimmed = id.TrimStart(charsToTrimStart);
             string sendUrl = baseurl + idTrimmed + "?api-version=2021-04-01";
-            //var payload = new { properties = new { routes = jo }, location = location , tags = new { FWaaSAzured = "GatewaySubnetRoute"}};
-            JObject o = new JObject{
-                "properties",
-                {
-                "routes", new JArray { a }
-                },
-                "tags",{"FWaaSAzured", "GatewaySubnetRoute"},
-                "location", "australiasoutheast"
-
-            };
-            Console.WriteLine(a.ToString());
-            Console.WriteLine(o.ToString());
+            var payload = new { properties = new { routes = routes.ToString() }, location = location , tags = new { FWaaSAzured = "GatewaySubnetRoute"}};
+            Console.WriteLine(payload);
+            //JObject o = new JObject{
+            //    "properties",
+            //    {
+            //    "routes", new JArray { a }
+            //    },
+            //    "tags",{"FWaaSAzured", "GatewaySubnetRoute"},
+            //    "location", "australiasoutheast"
+            //
+            //};
+            //Console.WriteLine(a.ToString());
+            //Console.WriteLine(o.ToString());
 
             //var jsonToReturn = JsonConvert.SerializeObject(payload);
             //var payloadjson = JsonConvert.DeserializeObject(jsonToReturn);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, sendUrl)
             {
-                Content = new StringContent(o.ToString(), Encoding.UTF8, "application/json"),
+                Content = new StringContent(payload.ToString(), Encoding.UTF8, "application/json"),
             };
             HttpResponseMessage response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
