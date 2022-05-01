@@ -13,7 +13,7 @@ namespace azuredCreateClient.Middleware
             JObject channel = (JObject)jo["properties"];
             JArray surveytrackingA = new JArray();
             JArray item = (JArray)channel["routes"];
-            //item.RemoveAll();
+            item.Remove("id");
             foreach (var items in item)
             {
                 if (items["properties"]["nextHopType"].ToString() == "Internet")
@@ -22,11 +22,9 @@ namespace azuredCreateClient.Middleware
                 else
                 {
                     surveytrackingA.Add(items);
-           
                 }
 
             }
-            //Console.Write(surveytrackingA.ToString());
             return surveytrackingA.ToString();
         }
         public static int filterResourceByTag(List<string> listName)

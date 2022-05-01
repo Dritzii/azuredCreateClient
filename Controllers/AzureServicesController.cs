@@ -101,41 +101,46 @@ namespace azuredCreateClient.Controllers
         }
         public async void updateOrCreateRouteTableWithRoutes(string id, string routes, string location = "australiasoutheast")
         {
-            Console.WriteLine(routes.ToString());
+            //Console.WriteLine(routes.ToString());
             using var client = new HttpClient();
             //JObject jo = JObject.Parse(routes);
             //JArray a = JArray.Parse(routes);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
-            string routeTrimmed = routes.Replace("\r\n", string.Empty);
-            string routeTrimmeds = routeTrimmed.Replace("\\", string.Empty);
+            //string routeTrimmed = routes.Replace(@"\r\n", "");
+            string[] charactersToReplace = new string[] { @"\t", @"\n", @"\r", " " , @"\r\n", @"\" };
+            foreach (string s in charactersToReplace)
+            {
+                routes = routes.Replace(s, "");
+            }
             // https://management.azure.com/subscriptions/6c737636-bd1d-49fd-8eea-48d69ae27155/resourceGroups/rg_NetworkConfigurations/providers/Microsoft.Network/routeTables/johnAzuredTest?api-version=2021-04-01
             char[] charsToTrimStart = { '/', 's', 'u', 'b', 's', 'c', 'r', 'i', 'p', 't', 'i', 'o', 'n', 's', '/' };
             string idTrimmed = id.TrimStart(charsToTrimStart);
             string sendUrl = baseurl + idTrimmed + "?api-version=2021-04-01";
             var payload = new { properties = new { routes = routes.ToString() }, location = location , tags = new { FWaaSAzured = "GatewaySubnetRoute"}};
-            Console.WriteLine(payload);
+            Console.WriteLine(payload.ToString());
             //JObject o = new JObject{
             //    "properties",
             //    {
-            //    "routes", new JArray { a }
+            //    "routes", new JArray { routes.ToString() }
             //    },
             //    "tags",{"FWaaSAzured", "GatewaySubnetRoute"},
-            //    "location", "australiasoutheast"
-            //
+            //   "location", "australiasoutheast"
+            
             //};
             //Console.WriteLine(a.ToString());
             //Console.WriteLine(o.ToString());
-
-            //var jsonToReturn = JsonConvert.SerializeObject(payload);
-            //var payloadjson = JsonConvert.DeserializeObject(jsonToReturn);
+            var jsonToReturn = JsonConvert.SerializeObject(payload);
+            Console.WriteLine(jsonToReturn.ToString());
+            /*
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, sendUrl)
             {
-                Content = new StringContent(payload.ToString(), Encoding.UTF8, "application/json"),
+                Content = new StringContent(jsonToReturn.ToString(), Encoding.UTF8, "application/json"),
             };
             HttpResponseMessage response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
             Console.WriteLine(responseContent);
-            
+            */
+
         }
     }
 }
