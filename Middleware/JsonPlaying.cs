@@ -25,6 +25,7 @@ namespace azuredCreateClient.Middleware
                 }
 
             }
+            Console.WriteLine(surveytrackingA);
             return surveytrackingA.ToString();
         }
         public static int filterResourceByTag(List<string> listName)
