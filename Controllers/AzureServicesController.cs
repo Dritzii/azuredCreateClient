@@ -117,7 +117,7 @@ namespace azuredCreateClient.Controllers
             string idTrimmed = id.TrimStart(charsToTrimStart);
             string sendUrl = baseurl + idTrimmed + "?api-version=2021-04-01";
             var payload = new { properties = new { routes = routes.ToString() }, location = location , tags = new { FWaaSAzured = "GatewaySubnetRoute"}};
-            Console.WriteLine(payload.ToString());
+            //Console.WriteLine(payload.ToString());
             //JObject o = new JObject{
             //    "properties",
             //    {
@@ -130,7 +130,7 @@ namespace azuredCreateClient.Controllers
             //Console.WriteLine(a.ToString());
             //Console.WriteLine(o.ToString());
             var jsonToReturn = JsonConvert.SerializeObject(payload);
-            Console.WriteLine(jsonToReturn.ToString());
+            //Console.WriteLine(jsonToReturn.ToString());
             /*
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, sendUrl)
             {
