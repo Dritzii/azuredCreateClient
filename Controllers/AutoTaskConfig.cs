@@ -41,7 +41,7 @@ namespace azuredCreateClient.Controllers
             return subid;
         }
 
-        public async void CreateTicket(int companyId = 409, string titleTicket = "TestCindy", int status = 5)
+        public async void CreateTicket(int companyId = 409, string titleTicket = "TestCindy", int status = 5, int priority = 2 )
         {
             string url = baseUrl + "Tickets";
             using var client = new HttpClient();
@@ -49,7 +49,7 @@ namespace azuredCreateClient.Controllers
             client.DefaultRequestHeaders.Add("UserName", this.username);
             client.DefaultRequestHeaders.Add("Secret", this.secret);
 
-            var payload = new { companyID = companyId, QueueID = 5, title = titleTicket, status = status , priority = 2};
+            var payload = new { companyID = companyId, QueueID = 5, title = titleTicket, status = status , priority = priority };
             var jsonToReturn = JsonConvert.SerializeObject(payload);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url)
             {
