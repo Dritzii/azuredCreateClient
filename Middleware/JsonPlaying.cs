@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -35,18 +36,12 @@ namespace azuredCreateClient.Middleware
                     json.Add("name", "Silver");
                     json.Add("age", 19);
                      */
-                    //surveytrackingA.Add(items);
-                    //json.Add("name", items["name"].Values().ToString());
                     var payload = new { name = items["name"].ToString(), properties = new { addressPrefix = items["properties"]["addressPrefix"].ToString(),
                         nextHopType = items["properties"]["nextHopType"].ToString() } };
-                    Console.WriteLine(payload);
-                    //json.Add("properties", new JObject("addressPrefix", items["properties"]["addressPrefix"].ToString()));
-                    surveytrackingA.Add(payload);
-                    // , "nextHopType", items["properties"]["nextHopType"].ToString()
+                    surveytrackingA.Add(JsonConvert.SerializeObject(payload));
                 }
 
             }
-            //Console.WriteLine(surveytrackingA);
             return surveytrackingA.ToString();
         }
         public static int filterResourceByTag(List<string> listName)
