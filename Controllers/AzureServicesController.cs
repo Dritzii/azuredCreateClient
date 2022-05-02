@@ -103,7 +103,7 @@ namespace azuredCreateClient.Controllers
         public async void updateOrCreateRouteTableWithRoutes(string id, JArray routes, string location = "australiasoutheast")
         {
             Boolean ifOver = JsonPlaying.JarrayOver300(routes);
-            if (ifOver)
+            if (ifOver == true)
             {
                 Console.WriteLine(routes);
                 var payload = new { properties = new { }, location = location, tags = new { FWaaSAzured = "GatewaySubnetRoute" } };
@@ -133,6 +133,7 @@ namespace azuredCreateClient.Controllers
             }
             else
             {
+                Console.WriteLine("Nothing to update as Route Table not over 300");
                 return;
             }
                 
