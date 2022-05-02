@@ -31,12 +31,6 @@ namespace azuredCreateClient.Middleware
                         }
                       }
                      */
-                    //JObject obj = new JObject();
-                    //obj.Add("name", items["name"].ToString());
-                    //obj.Add("properties", items["properties"]["addressPrefix"].ToString());
-                    //obj.Add("properties", items["properties"]["nextHopType"].ToString());
-                    //surveytrackingA.Add(obj);
-
                     var payload = new { name = items["name"].ToString(), properties = new { addressPrefix = items["properties"]["addressPrefix"].ToString(),
                         nextHopType = items["properties"]["nextHopType"].ToString() } };
                     var jsonToReturn = JsonConvert.SerializeObject(payload);
