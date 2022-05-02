@@ -30,6 +30,8 @@ namespace azuredCreateClient.Middleware
                           "nextHopType": "Internet"
                         }
                       }
+                    answered my own question:
+                    https://stackoverflow.com/questions/72082275/c-sharp-jarray-strings-to-jarray-of-objects/72082507?noredirect=1#comment127364153_72082507
                      */
                     var payload = new { name = items["name"].ToString(), properties = new { addressPrefix = items["properties"]["addressPrefix"].ToString(),
                         nextHopType = items["properties"]["nextHopType"].ToString() } };
