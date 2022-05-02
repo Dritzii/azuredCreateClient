@@ -33,6 +33,9 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             string clientSecret = Environment.GetEnvironmentVariable("ClientSecret", EnvironmentVariableTarget.Process);
             string redirecturi = Environment.GetEnvironmentVariable("redirecturi", EnvironmentVariableTarget.Process);
             string connectionstring = Environment.GetEnvironmentVariable("connectionstring", EnvironmentVariableTarget.Process);
+            string autotaskapicode = Environment.GetEnvironmentVariable("autotaskapicode", EnvironmentVariableTarget.Process);
+            string autotaskuser = Environment.GetEnvironmentVariable("autotaskuser", EnvironmentVariableTarget.Process);
+            string autotaskpass = Environment.GetEnvironmentVariable("autotaskpass", EnvironmentVariableTarget.Process);
 
 
             DatabaseConnectioncs dbconn = new DatabaseConnectioncs("Server=arazured.database.windows.net,1433;Initial Catalog=fwaasapplication;User ID=aradmin;Password=Aqualite12@;");
