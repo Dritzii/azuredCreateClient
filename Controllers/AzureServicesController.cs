@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using azuredCreateClient.Middleware;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -99,48 +100,43 @@ namespace azuredCreateClient.Controllers
             string responseContent = await response.Content.ReadAsStringAsync();
             return responseContent;
         }
-        public async void updateOrCreateRouteTableWithRoutes(string id, string routes, string location = "australiasoutheast")
+        public async void updateOrCreateRouteTableWithRoutes(string id, JArray routes, string location = "australiasoutheast")
         {
-            Console.WriteLine(routes.ToString());
-            using var client = new HttpClient();
-            //JObject jo = JObject.Parse(routes);
-            //JArray a = JArray.Parse(routes);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
-            //string routeTrimmed = routes.Replace(@"\r\n", "");
-            //string[] charactersToReplace = new string[] { @"\t", @"\n", @"\r", " " , @"\r\n", @"\" };
-            //foreach (string s in charactersToReplace)
-            //{
-            //    routes = routes.Replace(s, "");
-            // }
-            // https://management.azure.com/subscriptions/6c737636-bd1d-49fd-8eea-48d69ae27155/resourceGroups/rg_NetworkConfigurations/providers/Microsoft.Network/routeTables/johnAzuredTest?api-version=2021-04-01
-            char[] charsToTrimStart = { '/', 's', 'u', 'b', 's', 'c', 'r', 'i', 'p', 't', 'i', 'o', 'n', 's', '/' };
-            string idTrimmed = id.TrimStart(charsToTrimStart);
-            string sendUrl = baseurl + idTrimmed + "?api-version=2021-04-01";
-            var payload = new { properties = new { routes = routes }, location = location , tags = new { FWaaSAzured = "GatewaySubnetRoute"}};
-            //Console.WriteLine(payload.ToString());
-            //JObject o = new JObject{
-            //    "properties",
-            //    {
-            //    "routes", new JArray { routes.ToString() }
-            //    },
-            //    "tags",{"FWaaSAzured", "GatewaySubnetRoute"},
-            //   "location", "australiasoutheast"
-            
-            //};
-            //Console.WriteLine(a.ToString());
-            //Console.WriteLine(o.ToString());
-            var jsonToReturn = JsonConvert.SerializeObject(payload);
-            Console.WriteLine(jsonToReturn.ToString());
-            /*
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, sendUrl)
+            Boolean ifOver = JsonPlaying.JarrayOver300(routes);
+            if (ifOver)
             {
-                Content = new StringContent(jsonToReturn.ToString(), Encoding.UTF8, "application/json"),
-            };
-            HttpResponseMessage response = await client.SendAsync(request);
-            string responseContent = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(responseContent);
+                Console.WriteLine(routes);
+                var payload = new { properties = new { }, location = location, tags = new { FWaaSAzured = "GatewaySubnetRoute" } };
+                var jsonToReturn = JsonConvert.SerializeObject(payload);
+                string jsonPayload = jsonToReturn.ToString();
+                JObject JOpayload = JObject.Parse(jsonPayload);
+                JOpayload["properties"]["routes"] = routes;
+                var PayloadObject = JsonConvert.SerializeObject(JOpayload);
+
+                Console.WriteLine(PayloadObject.ToString());
+
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+                // https://management.azure.com/subscriptions/6c737636-bd1d-49fd-8eea-48d69ae27155/resourceGroups/rg_NetworkConfigurations/providers/Microsoft.Network/routeTables/johnAzuredTest?api-version=2021-04-01
+                char[] charsToTrimStart = { '/', 's', 'u', 'b', 's', 'c', 'r', 'i', 'p', 't', 'i', 'o', 'n', 's', '/' };
+                string idTrimmed = id.TrimStart(charsToTrimStart);
+                string sendUrl = baseurl + idTrimmed + "?api-version=2021-04-01";
+
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, sendUrl)
+                {
+                    Content = new StringContent(PayloadObject.ToString(), Encoding.UTF8, "application/json"),
+                };
+                HttpResponseMessage response = await client.SendAsync(request);
+                string responseContent = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(responseContent);
+
+            }
+            else
+            {
+                return;
+            }
+                
             
-            */
         }
     }
 }

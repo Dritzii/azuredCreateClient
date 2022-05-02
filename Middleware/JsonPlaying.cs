@@ -2,13 +2,12 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace azuredCreateClient.Middleware
 {
     class JsonPlaying
     {
-        public static string GetListofRoutesFromTable(string jsonRT)
+        public static JArray GetListofRoutesFromTable(string jsonRT)
         {
             JObject jo = JObject.Parse(jsonRT);
             JObject properties = (JObject)jo["properties"];
@@ -31,18 +30,23 @@ namespace azuredCreateClient.Middleware
                           "nextHopType": "Internet"
                         }
                       }
-                    var json = new JObject();
-                    json.Add("id", "Luna");
-                    json.Add("name", "Silver");
-                    json.Add("age", 19);
                      */
+                    //JObject obj = new JObject();
+                    //obj.Add("name", items["name"].ToString());
+                    //obj.Add("properties", items["properties"]["addressPrefix"].ToString());
+                    //obj.Add("properties", items["properties"]["nextHopType"].ToString());
+                    //surveytrackingA.Add(obj);
+
                     var payload = new { name = items["name"].ToString(), properties = new { addressPrefix = items["properties"]["addressPrefix"].ToString(),
                         nextHopType = items["properties"]["nextHopType"].ToString() } };
-                    surveytrackingA.Add(JsonConvert.SerializeObject(payload));
+                    var jsonToReturn = JsonConvert.SerializeObject(payload);
+                    string jsonPayload = jsonToReturn.ToString();
+                    JObject JOpayload = JObject.Parse(jsonPayload);
+                    surveytrackingA.Add(JOpayload);
                 }
 
             }
-            return surveytrackingA.ToString();
+            return surveytrackingA;
         }
         public static int filterResourceByTag(List<string> listName)
         {
@@ -53,18 +57,14 @@ namespace azuredCreateClient.Middleware
 
         public static Boolean JarrayOver300(JArray array)
         {
-            if (array.Count == 0)
+            if (array.Count >= 300)
             {
-                if (array.Parent is JProperty && array.Parent.Parent != null)
-                {
-                    array.Parent.Remove();
-                }
-                else if (array.Parent is JArray)
-                {
-                    array.Remove();
-                }
+                return true;
             }
-            return false;
+            else
+            {
+                return false;
+            }
         }
     }
 }
