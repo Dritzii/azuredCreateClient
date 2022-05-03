@@ -48,7 +48,6 @@ namespace azuredCreateClient.Middleware
         {
             int index = listName.FindIndex(a => a == "{\r\n  \"FWaaSAzured\": \"GatewaySubnetRoute\"\r\n}");
             return index - 1;
-
         }
 
         public static Boolean JarrayOver300(JArray array)
