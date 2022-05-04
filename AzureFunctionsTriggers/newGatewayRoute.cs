@@ -48,15 +48,23 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             log.LogInformation(managementtoken.ToString());
 
 
+            // Autotask Init
+            AutoTaskConfig aconfig = new AutoTaskConfig("EG3FIQPCKDFLL5EY3TXYHMDMMCY", "apijp@AZURED.COM.AU", "q*1Z$2TxwC#7Q~6n@9gF8R*o@");
+
             AzureServicesController getresource = new AzureServicesController(managementtoken);
             var resourceData = await getresource.GetResourceByTag(dbdata[0].subscriptionId);
             int indexList = JsonPlaying.filterResourceByTag(resourceData);
             getresource.NewGatewayRoute(resourceData[indexList], ipaddress);
             string routeData = await getresource.GetRouteTable(resourceData[indexList]);
             JArray iterateRTJSON = JsonPlaying.GetListofRoutesFromTable(routeData);
-            getresource.updateOrCreateRouteTableWithRoutes(resourceData[indexList], iterateRTJSON);
-            AutoTaskConfig aconfig = new AutoTaskConfig("EG3FIQPCKDFLL5EY3TXYHMDMMCY", "apijp@AZURED.COM.AU", "q*1Z$2TxwC#7Q~6n@9gF8R*o@");
-            aconfig.CreateTicket();
+            try
+            {
+                getresource.updateOrCreateRouteTableWithRoutes(resourceData[indexList], iterateRTJSON);
+            }
+            catch (Exception)
+            {
+                aconfig.CreateTicket();
+            }
             dbconn.InsertIntoHistory(dbdata[0].tenantId, "NMAgent-" + ipaddress, ipaddress, resourceData[indexList], dbdata[0].subscriptionId, dbdata[0].displayName, resourceData[indexList] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), routeData);
             return new JsonResult(iterateRTJSON);
         }
