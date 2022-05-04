@@ -105,30 +105,36 @@ namespace azuredCreateClient.Controllers
             Boolean ifOver = JsonPlaying.JarrayOver300(routes);
             if (ifOver == true)
             {
-                Console.WriteLine(routes);
-                var payload = new { properties = new { }, location = location, tags = new { FWaaSAzured = "GatewaySubnetRoute" } };
-                var jsonToReturn = JsonConvert.SerializeObject(payload);
-                string jsonPayload = jsonToReturn.ToString();
-                JObject JOpayload = JObject.Parse(jsonPayload);
-                JOpayload["properties"]["routes"] = routes;
-                var PayloadObject = JsonConvert.SerializeObject(JOpayload);
-
-                Console.WriteLine(PayloadObject.ToString());
-
-                using var client = new HttpClient();
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
-                // https://management.azure.com/subscriptions/6c737636-bd1d-49fd-8eea-48d69ae27155/resourceGroups/rg_NetworkConfigurations/providers/Microsoft.Network/routeTables/johnAzuredTest?api-version=2021-04-01
-                char[] charsToTrimStart = { '/', 's', 'u', 'b', 's', 'c', 'r', 'i', 'p', 't', 'i', 'o', 'n', 's', '/' };
-                string idTrimmed = id.TrimStart(charsToTrimStart);
-                string sendUrl = baseurl + idTrimmed + "?api-version=2021-04-01";
-
-                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, sendUrl)
+                try
                 {
-                    Content = new StringContent(PayloadObject.ToString(), Encoding.UTF8, "application/json"),
-                };
-                HttpResponseMessage response = await client.SendAsync(request);
-                string responseContent = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(responseContent);
+                    var payload = new { properties = new { }, location = location, tags = new { FWaaSAzured = "GatewaySubnetRoute" } };
+                    var jsonToReturn = JsonConvert.SerializeObject(payload);
+                    string jsonPayload = jsonToReturn.ToString();
+                    JObject JOpayload = JObject.Parse(jsonPayload);
+                    JOpayload["properties"]["routes"] = routes;
+                    var PayloadObject = JsonConvert.SerializeObject(JOpayload);
+
+                    Console.WriteLine(PayloadObject.ToString());
+
+                    using var client = new HttpClient();
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+                    // https://management.azure.com/subscriptions/6c737636-bd1d-49fd-8eea-48d69ae27155/resourceGroups/rg_NetworkConfigurations/providers/Microsoft.Network/routeTables/johnAzuredTest?api-version=2021-04-01
+                    char[] charsToTrimStart = { '/', 's', 'u', 'b', 's', 'c', 'r', 'i', 'p', 't', 'i', 'o', 'n', 's', '/' };
+                    string idTrimmed = id.TrimStart(charsToTrimStart);
+                    string sendUrl = baseurl + idTrimmed + "?api-version=2021-04-01";
+
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, sendUrl)
+                    {
+                        Content = new StringContent(PayloadObject.ToString(), Encoding.UTF8, "application/json"),
+                    };
+                    HttpResponseMessage response = await client.SendAsync(request);
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine(response.StatusCode.ToString());
+                }
+                catch (HttpRequestException e)
+                {
+                    Console.WriteLine(e);
+                }
 
             }
             else
