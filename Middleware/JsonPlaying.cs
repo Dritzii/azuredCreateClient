@@ -38,6 +38,7 @@ namespace azuredCreateClient.Middleware
                     var jsonToReturn = JsonConvert.SerializeObject(payload);
                     string jsonPayload = jsonToReturn.ToString();
                     JObject JOpayload = JObject.Parse(jsonPayload);
+                    //surveytrackingA.Add(JObject.FromObject(payload));
                     surveytrackingA.Add(JOpayload);
                 }
 
