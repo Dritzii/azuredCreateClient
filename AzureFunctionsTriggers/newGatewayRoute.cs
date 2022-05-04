@@ -37,6 +37,11 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             string autotaskuser = Environment.GetEnvironmentVariable("autotaskuser", EnvironmentVariableTarget.Process);
             string autotaskpass = Environment.GetEnvironmentVariable("autotaskpass", EnvironmentVariableTarget.Process);
 
+            /*
+            * "EG3FIQPCKDFLL5EY3TXYHMDMMCY", "apijp@AZURED.COM.AU", "q*1Z$2TxwC#7Q~6n@9gF8R*o@"
+            */
+            // Autotask Init
+            AutoTaskConfig aconfig = new AutoTaskConfig(autotaskapicode, autotaskuser, autotaskpass);
 
             DatabaseConnectioncs dbconn = new DatabaseConnectioncs(connectionstring);
             // "Server=arazured.database.windows.net,1433;Initial Catalog=fwaasapplication;User ID=aradmin;Password=Aqualite12@;"
@@ -50,12 +55,6 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             ManagementLogin managementLogin = new ManagementLogin(dbdata[0].tenantId, clientId, clientSecret, redirecturi);
             var managementtoken = await managementLogin.ReturnManagementTokenAsync();
             log.LogInformation(managementtoken.ToString());
-
-            /*
-             * "EG3FIQPCKDFLL5EY3TXYHMDMMCY", "apijp@AZURED.COM.AU", "q*1Z$2TxwC#7Q~6n@9gF8R*o@"
-             */
-            // Autotask Init
-            AutoTaskConfig aconfig = new AutoTaskConfig(autotaskapicode, autotaskuser, autotaskpass);
 
             AzureServicesController getresource = new AzureServicesController(managementtoken);
             var resourceData = await getresource.GetResourceByTag(dbdata[0].subscriptionId);
