@@ -64,9 +64,9 @@ namespace azuredCreateClient.Middleware
                         nextHopType = items["properties"]["nextHopType"].ToString()
                     }
                 };
-                var jsonToReturn = JsonConvert.SerializeObject(payload);
-                string jsonPayload = jsonToReturn.ToString();
-                JObject JOpayload = JObject.Parse(jsonPayload);
+                //var jsonToReturn = JsonConvert.SerializeObject(payload);
+                //string jsonPayload = jsonToReturn.ToString();
+                //JObject JOpayload = JObject.Parse(jsonPayload);
                 surveytrackingA.Add(JObject.FromObject(payload));
             }
             return surveytrackingA;
@@ -81,7 +81,7 @@ namespace azuredCreateClient.Middleware
         public static Boolean JarrayOver300(JArray array)
         {
             Console.WriteLine(array.Count);
-            if (array.Count >= 350)
+            if (array.Count >= 5)
             {
                 return true;
             }

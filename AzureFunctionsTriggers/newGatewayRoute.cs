@@ -41,9 +41,9 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             * "EG3FIQPCKDFLL5EY3TXYHMDMMCY", "apijp@AZURED.COM.AU", "q*1Z$2TxwC#7Q~6n@9gF8R*o@"
             */
             // Autotask Init
-            AutoTaskConfig aconfig = new AutoTaskConfig(autotaskapicode, autotaskuser, autotaskpass);
+            AutoTaskConfig aconfig = new AutoTaskConfig("EG3FIQPCKDFLL5EY3TXYHMDMMCY", "apijp@AZURED.COM.AU", "q*1Z$2TxwC#7Q~6n@9gF8R*o@");
 
-            DatabaseConnectioncs dbconn = new DatabaseConnectioncs(connectionstring);
+            DatabaseConnectioncs dbconn = new DatabaseConnectioncs("Server=arazured.database.windows.net,1433;Initial Catalog=fwaasapplication;User ID=aradmin;Password=Aqualite12@;");
             // "Server=arazured.database.windows.net,1433;Initial Catalog=fwaasapplication;User ID=aradmin;Password=Aqualite12@;"
             var dbdata = dbconn.GetFirewallfromDB(firewall);
             Console.WriteLine("TENANT ID IS: " + dbdata[0].tenantId);
@@ -52,7 +52,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             /*
              * "baf1387d-a1ed-44d2-af1e-738a43985599", ")1$Z.D#/}((>&/Jt[*?{_)[L?}.]_^%&{)@;%", "https://azuredfwassacreation.z8.web.core.windows.net/login.html"
              */
-            ManagementLogin managementLogin = new ManagementLogin(dbdata[0].tenantId, clientId, clientSecret, redirecturi);
+            ManagementLogin managementLogin = new ManagementLogin(dbdata[0].tenantId, "baf1387d-a1ed-44d2-af1e-738a43985599", ")1$Z.D#/}((>&/Jt[*?{_)[L?}.]_^%&{)@;%", "https://azuredfwassacreation.z8.web.core.windows.net/login.html");
             var managementtoken = await managementLogin.ReturnManagementTokenAsync();
             log.LogInformation(managementtoken.ToString());
 
@@ -63,8 +63,9 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             string routeData = await getresource.GetRouteTable(resourceData[indexList]);
             // Get All Routes from Table
             JArray allRoutesJarray = JsonPlaying.GetAllRoutesFromRouteTableToJarray(routeData);
+            Boolean Over300 = JsonPlaying.JarrayOver300(allRoutesJarray);
             //If number of Routes exceed 300 then clear and add the non internet gateways in
-            if(JsonPlaying.JarrayOver300(allRoutesJarray) == true)
+            if (Over300 == true)
             {
                 //  get previous routes and only get non internet ones
                 JArray iterateRTJSON = JsonPlaying.GetListofRoutesFromTable(routeData);
