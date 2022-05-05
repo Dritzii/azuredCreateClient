@@ -63,9 +63,8 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             string routeData = await getresource.GetRouteTable(resourceData[indexList]);
             // Get All Routes from Table
             JArray allRoutesJarray = JsonPlaying.GetAllRoutesFromRouteTableToJarray(routeData);
-            Boolean Over300 = JsonPlaying.JarrayOver300(allRoutesJarray);
             //If number of Routes exceed 300 then clear and add the non internet gateways in
-            if (Over300 == true)
+            if (JsonPlaying.JarrayOver300(allRoutesJarray) == true)
             {
                 //  get previous routes and only get non internet ones
                 JArray iterateRTJSON = JsonPlaying.GetListofRoutesFromTable(routeData);
