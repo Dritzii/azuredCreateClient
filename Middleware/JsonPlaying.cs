@@ -64,9 +64,6 @@ namespace azuredCreateClient.Middleware
                         nextHopType = items["properties"]["nextHopType"].ToString()
                     }
                 };
-                //var jsonToReturn = JsonConvert.SerializeObject(payload);
-                //string jsonPayload = jsonToReturn.ToString();
-                //JObject JOpayload = JObject.Parse(jsonPayload);
                 surveytrackingA.Add(JObject.FromObject(payload));
             }
             return surveytrackingA;
