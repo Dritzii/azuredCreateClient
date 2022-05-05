@@ -45,6 +45,33 @@ namespace azuredCreateClient.Middleware
             }
             return surveytrackingA;
         }
+        public static JArray GetAllRoutesFromRouteTableToJarray(string jsonRT)
+        {
+            JObject jo = JObject.Parse(jsonRT);
+            JObject properties = (JObject)jo["properties"];
+            var surveytrackingA = new JArray();
+            JArray item = (JArray)properties["routes"];
+            item.Remove("id");
+            item.Remove("etag");
+            foreach (var items in item)
+            {
+                var payload = new
+                {
+                    name = items["name"].ToString(),
+                    properties = new
+                    {
+                        addressPrefix = items["properties"]["addressPrefix"].ToString(),
+                        nextHopType = items["properties"]["nextHopType"].ToString()
+                    }
+                };
+                var jsonToReturn = JsonConvert.SerializeObject(payload);
+                string jsonPayload = jsonToReturn.ToString();
+                JObject JOpayload = JObject.Parse(jsonPayload);
+                surveytrackingA.Add(JObject.FromObject(payload));
+            }
+            return surveytrackingA;
+        }
+
         public static int filterResourceByTag(List<string> listName)
         {
             int index = listName.FindIndex(a => a == "{\r\n  \"FWaaSAzured\": \"GatewaySubnetRoute\"\r\n}");
@@ -53,7 +80,8 @@ namespace azuredCreateClient.Middleware
 
         public static Boolean JarrayOver300(JArray array)
         {
-            if (array.Count >= 300)
+            Console.WriteLine(array.Count);
+            if (array.Count >= 3)
             {
                 return true;
             }
