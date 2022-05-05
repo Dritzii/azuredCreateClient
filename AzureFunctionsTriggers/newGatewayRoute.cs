@@ -61,16 +61,21 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             int indexList = JsonPlaying.filterResourceByTag(resourceData);
             getresource.NewGatewayRoute(resourceData[indexList], ipaddress);
             string routeData = await getresource.GetRouteTable(resourceData[indexList]);
+            // Get All Routes from Table
             JArray allRoutesJarray = JsonPlaying.GetAllRoutesFromRouteTableToJarray(routeData);
+            //If number of Routes exceed 300 then clear and add the non internet gateways in
             if(JsonPlaying.JarrayOver300(allRoutesJarray) == true)
             {
+                //  get previous routes and only get non internet ones
                 JArray iterateRTJSON = JsonPlaying.GetListofRoutesFromTable(routeData);
                 try
                 {
+                    // update whole table with non internet ones
                     getresource.updateOrCreateRouteTableWithRoutes(resourceData[indexList], iterateRTJSON);
                 }
                 catch (Exception)
                 {
+                    // any kind of error, we create a ticket
                     aconfig.CreateTicket();
                 }
             }

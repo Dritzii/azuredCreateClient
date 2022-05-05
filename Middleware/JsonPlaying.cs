@@ -81,7 +81,7 @@ namespace azuredCreateClient.Middleware
         public static Boolean JarrayOver300(JArray array)
         {
             Console.WriteLine(array.Count);
-            if (array.Count >= 3)
+            if (array.Count >= 350)
             {
                 return true;
             }
