@@ -23,7 +23,7 @@ namespace azuredCreateClient.Controllers
         }
 
 
-        public async Task<List<string>> GetAllTags(string subscriptionId, string resourceType = "Microsoft.Network/routeTables") //GetResourceByTag
+        public async Task<List<string>> GetAllRouteTables(string subscriptionId, string resourceType = "Microsoft.Network/routeTables") //GetResourceByTag
         {
             var retList = new List<string>();
             using var client = new HttpClient();
