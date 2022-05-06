@@ -39,12 +39,36 @@ namespace azuredCreateClient.Controllers
             foreach (var items in jo["value"])
             {
                 var c1 = items["id"].Value<string>();
-                //var c2 = items["name"].Value<string>();
-                //var c3 = items["type"].Value<string>();
-                //var c4 = items["location"].Value<string>();
                 var c5 = items?["tags"].ToString();
                 retList.AddRange(new List<string>() {
                     c1, c5
+                });
+            }
+            return retList;
+        }
+
+        public async Task<List<string>> GetAllTags(string subscriptionId, string tagName = "FWaaSAzured", string tagValue = "GatewaySubnetRoute")
+        {
+            var retList = new List<string>();
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            //GET https://management.azure.com/subscriptions/{subscriptionId}/resources?$filter={$filter}&$expand={$expand}&$top={$top}&api-version=2021-04-01
+            string sendUrl = baseurl + subscriptionId + String.Format("/resources?$filter=tagName eq '{0}' and tagValue eq '{1}'&api-version=2021-04-01", tagName, tagValue);
+            //Console.WriteLine(sendUrl);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, sendUrl);
+            HttpResponseMessage response = await client.SendAsync(request);
+            string responseContent = await response.Content.ReadAsStringAsync();
+            //Console.WriteLine(responseContent);
+            var jo = JObject.Parse(responseContent);
+            foreach (var items in jo["value"])
+            {
+                var c1 = items["id"].Value<string>();
+                var c2 = items["name"].Value<string>();
+                var c3 = items["type"].Value<string>();
+                var c4 = items["location"].Value<string>();
+                //var c5 = items?["tags"].ToString();
+                retList.AddRange(new List<string>() {
+                    c1, c2, c3, c4
                 });
             }
             return retList;
