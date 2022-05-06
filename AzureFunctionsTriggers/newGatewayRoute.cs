@@ -57,7 +57,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             AzureServicesController getresource = new AzureServicesController(managementtoken);
             var resourceData = await getresource.GetResourceByTag(dbdata[0].subscriptionId);
             int indexList = JsonPlaying.filterResourceByTag(resourceData);
-            getresource.NewGatewayRoute(resourceData[indexList], ipaddress);
+            //getresource.NewGatewayRoute(resourceData[indexList], ipaddress); -- so the last of the 300 will get inserted at the finally block
             string routeData = await getresource.GetRouteTable(resourceData[indexList]);
             // Get All Routes from Table
             JArray allRoutesJarray = JsonPlaying.GetAllRoutesFromRouteTableToJarray(routeData);
@@ -70,11 +70,16 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                 {
                     // update whole table with non internet ones
                     getresource.updateOrCreateRouteTableWithRoutes(resourceData[indexList], iterateRTJSON);
+                    
                 }
                 catch (Exception)
                 {
                     // any kind of error, we create a ticket
                     aconfig.CreateTicket();
+                }
+                finally
+                {
+                    getresource.NewGatewayRoute(resourceData[indexList], ipaddress);
                 }
             }
             else
