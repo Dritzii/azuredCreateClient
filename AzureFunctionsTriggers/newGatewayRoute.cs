@@ -80,6 +80,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                 {
                     // any kind of error, we create a ticket
                     aconfig.CreateTicket();
+                    return new BadRequestObjectResult(String.Format("Ticket Created in Autotask for Company {0}", "")); // 400
                 }
                 //finally
                 //{
@@ -93,7 +94,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                 getresource.NewGatewayRoute(resourceData[indexList], ipaddress);
             }
             dbconn.InsertIntoHistory(dbdata[0].tenantId, "NMAgent-" + ipaddress, ipaddress, resourceData[indexList], dbdata[0].subscriptionId, dbdata[0].displayName, resourceData[indexList] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), routeData);
-            return new JsonResult("OK");
+            return new OkObjectResult("OK"); // 200
         }
     }
 }
