@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace azuredCreateClient.Middleware
 {
@@ -33,8 +34,15 @@ namespace azuredCreateClient.Middleware
                     answered my own question:
                     https://stackoverflow.com/questions/72082275/c-sharp-jarray-strings-to-jarray-of-objects/72082507?noredirect=1#comment127364153_72082507
                      */
-                    var payload = new { name = items["name"].ToString(), properties = new { addressPrefix = items["properties"]["addressPrefix"].ToString(),
-                        nextHopType = items["properties"]["nextHopType"].ToString() } };
+                    var payload = new
+                    {
+                        name = items["name"].ToString(),
+                        properties = new
+                        {
+                            addressPrefix = items["properties"]["addressPrefix"].ToString(),
+                            nextHopType = items["properties"]["nextHopType"].ToString()
+                        }
+                    };
                     var jsonToReturn = JsonConvert.SerializeObject(payload);
                     string jsonPayload = jsonToReturn.ToString();
                     JObject JOpayload = JObject.Parse(jsonPayload);
@@ -67,6 +75,26 @@ namespace azuredCreateClient.Middleware
                 surveytrackingA.Add(JObject.FromObject(payload));
             }
             return surveytrackingA;
+        }
+        public static JObject NewGatewayRouteObject(string ipaddress, string profixName = "NMAgent-", string prefix = "/32", string nexthoptype = "internet")
+        {
+            var payload = new { name = profixName + ipaddress, properties = new { addressPrefix = ipaddress + prefix, nextHopType = nexthoptype } };
+            return JObject.FromObject(payload);
+        }
+
+        public static JArray MergeJArray(JArray jarray1, JArray jarray2)
+        {
+            JArray jarrayInitial = jarray1;
+            JArray jarrayIntoInitial = jarray2;
+            JArray mergedJarray = new JArray(jarrayInitial.Union(jarrayIntoInitial));
+            return mergedJarray;
+        }
+
+        public static JArray AddToJArray(JArray jarray1, JObject JObject)
+        {
+            JArray jarrayInitial = jarray1;
+            jarrayInitial.Add(JObject);
+            return jarrayInitial;
         }
 
         public static int filterResourceByTag(List<string> listName)

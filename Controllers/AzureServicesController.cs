@@ -102,7 +102,6 @@ namespace azuredCreateClient.Controllers
         }
         public async void updateOrCreateRouteTableWithRoutes(string id, JArray routes, string location = "australiasoutheast")
         {
-            
                 try
                 {
                     var payload = new { properties = new { }, location = location, tags = new { FWaaSAzured = "GatewaySubnetRoute" } };

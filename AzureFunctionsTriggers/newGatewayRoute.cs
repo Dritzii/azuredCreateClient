@@ -70,8 +70,10 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                 JArray iterateRTJSON = JsonPlaying.GetListofRoutesFromTable(routeData);
                 try
                 {
+                    JObject payloadObject = JsonPlaying.NewGatewayRouteObject(ipaddress);
+                    JArray finalMerged = JsonPlaying.AddToJArray(iterateRTJSON, payloadObject);
                     // update whole table with non internet ones
-                    getresource.updateOrCreateRouteTableWithRoutes(resourceData[indexList], iterateRTJSON);
+                    getresource.updateOrCreateRouteTableWithRoutes(resourceData[indexList], finalMerged);
                     
                 }
                 catch (Exception)
@@ -79,11 +81,11 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                     // any kind of error, we create a ticket
                     aconfig.CreateTicket();
                 }
-                finally
-                {
-                    System.Threading.Thread.Sleep(15000);
-                    getresource.NewGatewayRoute(resourceData[indexList], ipaddress);
-                }
+                //finally
+                //{
+                    //System.Threading.Thread.Sleep(15000); //the above is more dynamic, no more waiting
+                    //getresource.NewGatewayRoute(resourceData[indexList], ipaddress);
+                //}
             }
             else
             {
