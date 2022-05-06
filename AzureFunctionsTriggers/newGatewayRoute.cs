@@ -84,7 +84,8 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             }
             else
             {
-                // do nothing
+                // just add the one route if not over 300 array
+                getresource.NewGatewayRoute(resourceData[indexList], ipaddress);
             }
             dbconn.InsertIntoHistory(dbdata[0].tenantId, "NMAgent-" + ipaddress, ipaddress, resourceData[indexList], dbdata[0].subscriptionId, dbdata[0].displayName, resourceData[indexList] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), routeData);
             return new JsonResult("OK");
