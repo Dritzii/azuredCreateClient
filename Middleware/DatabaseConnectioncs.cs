@@ -17,8 +17,9 @@ namespace azuredCreateClient.Middleware
          * 
          * 
          */
-        public List<FirewallClass> GetFirewallfromDB(string firewall = "")
+        public List<FirewallClass> GetFirewallfromDB(string firewall = "testdevice")
         {
+            Console.WriteLine(firewall);
             List<FirewallClass> list = new List<FirewallClass>();
             string connection = this.connectionstring;
             string sql = String.Format("SELECT subscriptionId, tenantId, displayName, name, uri from firewallseq where name like '%{0}%';", firewall);

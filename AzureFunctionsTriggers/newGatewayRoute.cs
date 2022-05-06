@@ -25,8 +25,6 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             string firewall = data.firewall;
             string ipaddress = data.ipaddress;
-            Console.WriteLine(firewall);
-            log.LogInformation(firewall);
 
             // Get the Application details from the settings
             string clientId = Environment.GetEnvironmentVariable("ClientId", EnvironmentVariableTarget.Process);
