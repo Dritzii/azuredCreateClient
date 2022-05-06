@@ -68,25 +68,35 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             {
                 //  get previous routes and only get non internet ones
                 JArray iterateRTJSON = JsonPlaying.GetListofRoutesFromTable(routeData);
-                try
+                if (JsonPlaying.JarrayEmpty(iterateRTJSON) == false)
                 {
-                    JObject payloadObject = JsonPlaying.NewGatewayRouteObject(ipaddress);
-                    JArray finalMerged = JsonPlaying.AddToJArray(iterateRTJSON, payloadObject);
-                    // update whole table with non internet ones
-                    getresource.updateOrCreateRouteTableWithRoutes(resourceData[indexList], finalMerged);
-                    
-                }
-                catch (Exception)
-                {
-                    // any kind of error, we create a ticket
-                    aconfig.CreateTicket();
-                    return new BadRequestObjectResult(String.Format("Ticket Created in Autotask for Company {0}", "")); // 400
-                }
-                //finally
-                //{
+                    try
+                    {
+                        JObject payloadObject = JsonPlaying.NewGatewayRouteObject(ipaddress);
+                        JArray finalMerged = JsonPlaying.AddToJArray(iterateRTJSON, payloadObject);
+                        // update whole table with non internet ones
+                        getresource.updateOrCreateRouteTableWithRoutes(resourceData[indexList], finalMerged);
+
+                    }
+                    catch (Exception)
+                    {
+                        // any kind of error, we create a ticket
+                        aconfig.CreateTicket();
+                        return new BadRequestObjectResult(String.Format("Ticket Created in Autotask for Company {0}", "")); // 400
+                    }
+                    //finally
+                    //{
                     //System.Threading.Thread.Sleep(15000); //the above is more dynamic, no more waiting
                     //getresource.NewGatewayRoute(resourceData[indexList], ipaddress);
-                //}
+                    //}
+                }
+                else
+                {
+                    JObject payloadObject = JsonPlaying.NewGatewayRouteObject(ipaddress);
+                    JArray finalMerged = JsonPlaying.JobjectIntoJarray(payloadObject);
+                    // update whole table with non internet ones
+                    getresource.updateOrCreateRouteTableWithRoutes(resourceData[indexList], finalMerged);
+                }
             }
             else
             {

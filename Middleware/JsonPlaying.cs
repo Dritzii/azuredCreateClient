@@ -89,6 +89,12 @@ namespace azuredCreateClient.Middleware
             JArray mergedJarray = new JArray(jarrayInitial.Union(jarrayIntoInitial));
             return mergedJarray;
         }
+        public static JArray JobjectIntoJarray(JObject JObject)
+        {
+            JArray jarrayInitial = new JArray();
+            jarrayInitial.Add(JObject);
+            return jarrayInitial;
+        }
 
         public static JArray AddToJArray(JArray jarray1, JObject JObject)
         {
@@ -105,7 +111,6 @@ namespace azuredCreateClient.Middleware
 
         public static Boolean JarrayOver300(JArray array)
         {
-            Console.WriteLine(array.Count);
             if (array.Count >= 300)
             {
                 return true;
@@ -113,6 +118,18 @@ namespace azuredCreateClient.Middleware
             else
             {
                 return false;
+            }
+        }
+
+        public static Boolean JarrayEmpty(JArray array)
+        {
+            if (array.Count > 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
     }
