@@ -23,7 +23,7 @@ namespace azuredCreateClient.Controllers
         }
 
 
-        public async Task<List<string>> GetResourceByTag(string subscriptionId, string resourceType = "Microsoft.Network/routeTables")
+        public async Task<List<string>> GetAllTags(string subscriptionId, string resourceType = "Microsoft.Network/routeTables") //GetResourceByTag
         {
             var retList = new List<string>();
             using var client = new HttpClient();
@@ -47,7 +47,7 @@ namespace azuredCreateClient.Controllers
             return retList;
         }
 
-        public async Task<List<string>> GetAllTags(string subscriptionId, string tagName = "FWaaSAzured", string tagValue = "GatewaySubnetRoute")
+        public async Task<List<string>> GetResourceByTag(string subscriptionId, string tagName = "FWaaSAzured", string tagValue = "GatewaySubnetRoute")
         {
             var retList = new List<string>();
             using var client = new HttpClient();
