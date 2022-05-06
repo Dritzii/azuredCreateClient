@@ -37,11 +37,12 @@ namespace azuredCreateClient.AzureFunctionsTriggers
 
             /*
             * "EG3FIQPCKDFLL5EY3TXYHMDMMCY", "apijp@AZURED.COM.AU", "q*1Z$2TxwC#7Q~6n@9gF8R*o@"
+            * autotaskapicode, autotaskuser, autotaskpass
             */
             // Autotask Init
-            AutoTaskConfig aconfig = new AutoTaskConfig(autotaskapicode, autotaskuser, autotaskpass);
+            AutoTaskConfig aconfig = new AutoTaskConfig("EG3FIQPCKDFLL5EY3TXYHMDMMCY", "apijp@AZURED.COM.AU", "q*1Z$2TxwC#7Q~6n@9gF8R*o@");
 
-            DatabaseConnectioncs dbconn = new DatabaseConnectioncs(connectionstring);
+            DatabaseConnectioncs dbconn = new DatabaseConnectioncs("Server=arazured.database.windows.net,1433;Initial Catalog=fwaasapplication;User ID=aradmin;Password=Aqualite12@;");
             // "Server=arazured.database.windows.net,1433;Initial Catalog=fwaasapplication;User ID=aradmin;Password=Aqualite12@;"
             var dbdata = dbconn.GetFirewallfromDB(firewall);
             Console.WriteLine("TENANT ID IS: " + dbdata[0].tenantId);
@@ -49,8 +50,9 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             // Get the access token from MS Identity
             /*
              * "baf1387d-a1ed-44d2-af1e-738a43985599", ")1$Z.D#/}((>&/Jt[*?{_)[L?}.]_^%&{)@;%", "https://azuredfwassacreation.z8.web.core.windows.net/login.html"
+             *  clientId, clientSecret, redirecturi
              */
-            ManagementLogin managementLogin = new ManagementLogin(dbdata[0].tenantId, clientId, clientSecret, redirecturi);
+            ManagementLogin managementLogin = new ManagementLogin(dbdata[0].tenantId, "baf1387d-a1ed-44d2-af1e-738a43985599", ")1$Z.D#/}((>&/Jt[*?{_)[L?}.]_^%&{)@;%", "https://azuredfwassacreation.z8.web.core.windows.net/login.html");
             var managementtoken = await managementLogin.ReturnManagementTokenAsync();
             log.LogInformation(managementtoken.ToString());
 
@@ -79,6 +81,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                 }
                 finally
                 {
+                    System.Threading.Thread.Sleep(15000);
                     getresource.NewGatewayRoute(resourceData[indexList], ipaddress);
                 }
             }
