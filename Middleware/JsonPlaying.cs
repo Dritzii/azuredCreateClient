@@ -109,27 +109,15 @@ namespace azuredCreateClient.Middleware
             return index - 1;
         }
 
-        public static Boolean JarrayOver300(JArray array)
+        public static Boolean JarrayOverCount(JArray array, int count = 300)
         {
-            if (array.Count >= 300)
+            if (array.Count >= count)
             {
                 return true;
             }
             else
             {
                 return false;
-            }
-        }
-
-        public static Boolean JarrayEmpty(JArray array)
-        {
-            if (array.Count > 0)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
             }
         }
     }
