@@ -22,7 +22,7 @@ namespace azuredCreateClient.Middleware
             Console.WriteLine(firewall);
             List<FirewallClass> list = new List<FirewallClass>();
             string connection = this.connectionstring;
-            string sql = String.Format("SELECT subscriptionId, tenantId, displayName, name, uri from firewallseq where name like '%{0}%';", firewall);
+            string sql = String.Format("SELECT subscriptionId, tenantId, displayName, name, autotask_CompanyName from firewallseq where name like '%{0}%';", firewall);
             using (var cn = new SqlConnection(connection))
             {
                 using (var cmd = new SqlCommand() { Connection = cn, CommandText = sql })
