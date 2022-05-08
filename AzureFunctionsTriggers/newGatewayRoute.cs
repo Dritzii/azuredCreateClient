@@ -81,9 +81,9 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                     catch (Exception)
                     {
                         // any kind of error, we create a ticket
-                        int companyId = await aconfig.GetCompanyId("");
+                        int companyId = await aconfig.GetCompanyId(dbdata[0].uri);
                         aconfig.CreateTicket(companyId);
-                        return new BadRequestObjectResult(String.Format("Ticket Created in Autotask for Company {0}", "")); // 400
+                        return new BadRequestObjectResult(String.Format("Ticket Created in Autotask for Company {0}", dbdata[0].uri)); // 400
                     }
                     //finally
                     //{
