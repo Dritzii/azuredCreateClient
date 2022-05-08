@@ -111,14 +111,30 @@ namespace azuredCreateClient.Middleware
 
         public static Boolean JarrayOverCount(JArray array, int count = 300)
         {
-            if (array.Count >= count)
+            if (count == 0)
             {
-                return true;
+                if (array.Count > count)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+
             }
             else
             {
-                return false;
+                if (array.Count >= count)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
+
         }
     }
 }
