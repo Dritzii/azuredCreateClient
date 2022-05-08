@@ -105,7 +105,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                 getresource.NewGatewayRoute(resourceData[0], ipaddress);
             }
             dbconn.InsertIntoHistory(dbdata[0].tenantId, "NMAgent-" + ipaddress, ipaddress, resourceData[0], dbdata[0].subscriptionId, dbdata[0].displayName, resourceData[0] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), routeData);
-            return new OkObjectResult("OK"); // 200
+            return new OkObjectResult(new { tenantId = dbdata[0].tenantId, ipaddressRTName = "NMAgent-" + ipaddress, ipaddress = ipaddress, resourcePath = resourceData[0], subscriptionId = dbdata[0].subscriptionId, subscriptionName = dbdata[0].displayName, fullResourcePath = resourceData[0] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), payload = routeData }); // 200
         }
     }
 }
