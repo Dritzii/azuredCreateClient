@@ -64,6 +64,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             string routeData = await getresource.GetRouteTable(resourceData[0]);
             // Get All Routes from Table
             JArray allRoutesJarray = JsonPlaying.GetAllRoutesFromRouteTableToJarray(routeData);
+            int CountOfJarray = JsonPlaying.JarrayCount(allRoutesJarray);
             //If number of Routes exceed 300 then clear and add the non internet gateways in
             int maxRoutesInt = Int32.Parse(maxRoutesCount);
             if (JsonPlaying.JarrayOverCount(allRoutesJarray, maxRoutesInt) == true)
@@ -106,8 +107,8 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                 // just add the one route if not over 300 array
                 getresource.NewGatewayRoute(resourceData[0], ipaddress);
             }
-            dbconn.InsertIntoHistory(dbdata[0].tenantId, "NMAgent-" + ipaddress, ipaddress, resourceData[0], dbdata[0].subscriptionId, dbdata[0].displayName, resourceData[0] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), routeData);
-            return new OkObjectResult(new { tenantId = dbdata[0].tenantId, ipaddressRTName = "NMAgent-" + ipaddress, ipaddress = ipaddress, resourcePath = resourceData[0], subscriptionId = dbdata[0].subscriptionId, subscriptionName = dbdata[0].displayName, fullResourcePath = resourceData[0] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), payload = routeData }); // 200
+            dbconn.InsertIntoHistory(dbdata[0].tenantId, "NMAgent-" + ipaddress, ipaddress, resourceData[0], dbdata[0].subscriptionId, dbdata[0].displayName, resourceData[0] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), CountOfJarray.ToString());
+            return new OkObjectResult(new { tenantId = dbdata[0].tenantId, ipaddressRTName = "NMAgent-" + ipaddress, ipaddress = ipaddress, resourcePath = resourceData[0], subscriptionId = dbdata[0].subscriptionId, subscriptionName = dbdata[0].displayName, fullResourcePath = resourceData[0] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), CountOfJarray = CountOfJarray }); // 200
         }
     }
 }

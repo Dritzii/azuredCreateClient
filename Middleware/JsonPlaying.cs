@@ -160,6 +160,12 @@ namespace azuredCreateClient.Middleware
             return index - 1;
         }
 
+        public static int JarrayCount(JArray array)
+        {
+            return array.Count;
+        }
+
+
         public static Boolean JarrayOverCount(JArray array, int count = 300)
         {
             if (count == 0)
