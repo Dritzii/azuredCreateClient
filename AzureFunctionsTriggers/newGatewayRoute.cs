@@ -34,6 +34,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             string autotaskapicode = Environment.GetEnvironmentVariable("autotaskapicode", EnvironmentVariableTarget.Process);
             string autotaskuser = Environment.GetEnvironmentVariable("autotaskuser", EnvironmentVariableTarget.Process);
             string autotaskpass = Environment.GetEnvironmentVariable("autotaskpass", EnvironmentVariableTarget.Process);
+            string maxRoutesCount = Environment.GetEnvironmentVariable("maxRoutesCount", EnvironmentVariableTarget.Process);
 
             /*
             * "EG3FIQPCKDFLL5EY3TXYHMDMMCY", "apijp@AZURED.COM.AU", "q*1Z$2TxwC#7Q~6n@9gF8R*o@"
@@ -64,7 +65,8 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             // Get All Routes from Table
             JArray allRoutesJarray = JsonPlaying.GetAllRoutesFromRouteTableToJarray(routeData);
             //If number of Routes exceed 300 then clear and add the non internet gateways in
-            if (JsonPlaying.JarrayOverCount(allRoutesJarray) == true)
+            int maxRoutesInt = Int32.Parse(maxRoutesCount);
+            if (JsonPlaying.JarrayOverCount(allRoutesJarray, maxRoutesInt) == true)
             {
                 //  get previous routes and only get non internet ones
                 JArray iterateRTJSON = JsonPlaying.GetListofRoutesFromTable(routeData);
