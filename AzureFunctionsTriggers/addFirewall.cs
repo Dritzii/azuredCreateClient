@@ -60,13 +60,14 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                 log.LogInformation(tenantsubs[cspsubs].ToString());
                 log.LogInformation(tenantsubs[cspsubs - 1].ToString());
             }
-            
+
 
             // Return Object
-            var myObj = new { graphapiToken = graphCode, tenantid = tenantId, managementToken = authCode, subscriptionId = tenantsubs};
+            var myObj = new { graphapiToken = graphCode, tenantid = tenantId, managementToken = authCode, subscriptionId = tenantsubs };
             var jsonToReturn = JsonConvert.SerializeObject(myObj);
             log.LogInformation(jsonToReturn);
             Console.WriteLine(jsonToReturn);
             return new JsonResult(jsonToReturn);
         }
+    }
 }
