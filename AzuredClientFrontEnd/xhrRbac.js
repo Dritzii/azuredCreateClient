@@ -37,7 +37,7 @@ const addFirewall = () => {
       console.log(responseData);
     })
     .catch(err => {
-      console.log(err);
+      console.log(alert("Error"));
     }).then(alert("Successful Add"));
 };
 
