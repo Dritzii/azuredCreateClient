@@ -22,7 +22,7 @@ namespace azuredCreateClient.Middleware
             Console.WriteLine(firewall);
             List<FirewallClass> list = new List<FirewallClass>();
             string connection = this.connectionstring;
-            string sql = String.Format("SELECT subscriptionId, tenantId, displayName, name, autotask_CompanyName from firewallseq where name like '%{0}%';", firewall);
+            string sql = String.Format("SELECT subscriptionId, tenantId, displayName, name from firewallseq where name like '%{0}%';", firewall);
             using (var cn = new SqlConnection(connection))
             {
                 using (var cmd = new SqlCommand() { Connection = cn, CommandText = sql })
@@ -65,6 +65,126 @@ namespace azuredCreateClient.Middleware
             }
 
 
+        }
+
+        public void InsertIntoTenantandSubscriptions(string subscriptionId, string displayName, string tenantId)
+        {
+            var Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+            string connection = this.connectionstring;
+            string sql = String.Format("INSERT INTO [dbo].[subscriptions] VALUES ('{0}', '{1}', 'Enabled', '{3}', '{4}', '{5}')", subscriptionId, displayName, tenantId, Timestamp, Timestamp);
+            using (var cn = new SqlConnection(connection))
+            {
+                using (var cmd = new SqlCommand() { Connection = cn, CommandText = sql })
+                {
+                    cn.Open();
+
+                    var reader = cmd.ExecuteReader();
+                }
+            }
+
+
+        }
+
+        public void InsertIntoFirewall(string subscriptionId, string name)
+        {
+            var Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+            string connection = this.connectionstring;
+            string sql = String.Format("INSERT INTO [dbo].[firewalls] VALUES ('{0}', '{1}', 'createdurl.com', '0.0.0', '0.0.0', '0 days', '2019-05-28 12:13:52.0000000', '2019-05-28 12:13:52.0000000')", subscriptionId, name);
+            using (var cn = new SqlConnection(connection))
+            {
+                using (var cmd = new SqlCommand() { Connection = cn, CommandText = sql })
+                {
+                    cn.Open();
+
+                    var reader = cmd.ExecuteReader();
+                }
+            }
+
+
+        }
+        public bool subInDb(string subscriptionId = "")
+        {
+            string connection = this.connectionstring;
+            string sql = String.Format("SELECT CASE WHEN COUNT(1) > 0 THEN 1 ELSE 0 END AS [Value] FROM firewallseq where subscriptionId like '%{0}%';", subscriptionId);
+            using (var cn = new SqlConnection(connection))
+            {
+                using (var cmd = new SqlCommand() { Connection = cn, CommandText = sql })
+                {
+                    cn.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+
+                    while (reader.Read()) {
+                        if (reader.GetString(0) == "0")
+                        {
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool tenantInDB(string tenantId = "")
+        {
+            string connection = this.connectionstring;
+            string sql = String.Format("SELECT CASE WHEN COUNT(1) > 0 THEN 1 ELSE 0 END AS [Value] FROM firewallseq where tenantId like '%{0}%';", tenantId);
+            using (var cn = new SqlConnection(connection))
+            {
+                using (var cmd = new SqlCommand() { Connection = cn, CommandText = sql })
+                {
+                    cn.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+
+                    while (reader.Read())
+                    {
+                        if (reader.GetString(0) == "0")
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool firewallInDB(string firewall = "")
+        {
+            string connection = this.connectionstring;
+            string sql = String.Format("SELECT CASE WHEN COUNT(1) > 0 THEN 1 ELSE 0 END AS [Value] FROM firewallseq where name like '%{0}%';", firewall);
+            using (var cn = new SqlConnection(connection))
+            {
+                using (var cmd = new SqlCommand() { Connection = cn, CommandText = sql })
+                {
+                    cn.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+
+                    while (reader.Read())
+                    {
+                        if (reader.GetString(0) == "0")
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return false;
         }
     }
 

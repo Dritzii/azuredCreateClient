@@ -43,6 +43,12 @@ namespace azuredCreateClient
             return retList;
         }
 
+        public static int filterResourceByName(List<string> listName)
+        {
+            int index = listName.FindIndex(x => x.Contains("CSP"));
+            return index - 1;
+        }
+
         public async Task<string> GetAllSubscriptionsAsyncJO()
         {
             var retList = new List<string>();

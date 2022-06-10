@@ -7,6 +7,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using azuredCreateClient.Middleware;
 
 namespace azuredCreateClient
 {
@@ -24,7 +25,11 @@ namespace azuredCreateClient
             log.LogInformation(authCode);
             log.LogInformation(graphCode);
 
+            string connectionstring = Environment.GetEnvironmentVariable("connectionstring", EnvironmentVariableTarget.Process);
             string clientId = Environment.GetEnvironmentVariable("ClientId", EnvironmentVariableTarget.Process);
+
+            // get db connection
+            DatabaseConnectioncs dbconn = new DatabaseConnectioncs(connectionstring);
 
             // get Tenant ID
             OrganizationController getOrganization = new OrganizationController(graphCode);
@@ -32,14 +37,26 @@ namespace azuredCreateClient
             Console.WriteLine(tenantId);
             log.LogInformation("tenantId #################");
             log.LogInformation(tenantId);
-
+            
             // Get Subscriptions
             SubscriptionsController subs = new SubscriptionsController(authCode);
             var tenantsubs = await subs.GetAllSubscriptionsAsync();
             Console.WriteLine("SUBSCRIPTION : " + tenantsubs);
             log.LogInformation("tenantsubs #################");
             log.LogInformation(tenantsubs.ToString());
-
+            // filter rows from subs
+            var cspsubs = SubscriptionsController.filterResourceByName(tenantsubs);
+            // database logic
+            var tenantiddb = dbconn.tenantInDB(tenantId);
+            var subindb = dbconn.subInDb(tenantsubs[cspsubs]);
+            // true is null here
+            if (tenantiddb == true)
+            {
+                if(subindb == true)
+                {
+                    dbconn.InsertIntoTenantandSubscriptions(tenantsubs[cspsubs], tenantsubs[cspsubs - 1], tenantId);
+                }
+            }
             // Get Objectid of the Client application on Tenancy
             // https://graph.microsoft.com/v1.0/serviceprincipals?$filter=appId eq '{client id of your  application registration}'
             MicrosoftGraph msGraph = new MicrosoftGraph(graphCode);
