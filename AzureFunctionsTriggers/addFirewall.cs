@@ -15,7 +15,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
     {
         [FunctionName("addFirewall")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function,"post", Route = null)] HttpRequest req,
             ILogger log)
         {
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
@@ -31,7 +31,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
 
             // get db connection
             DatabaseConnectioncs dbconn = new DatabaseConnectioncs(connectionstring);
-
+            // "Server=arazured.database.windows.net,1433;Initial Catalog=fwaasapplication;User ID=aradmin;Password=Aqualite12@;"
             // get Tenant ID
             OrganizationController getOrganization = new OrganizationController(graphCode);
             var tenantId = await getOrganization.GetTenantID();
@@ -47,7 +47,8 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             log.LogInformation(tenantsubs.ToString());
             tenantsubs.ForEach(p => log.LogInformation(p));
             // filter rows from subs and get only CSP subs
-            var cspsubs = SubscriptionsController.filterResourceByName(tenantsubs);
+            int cspsubs = SubscriptionsController.filterResourceByName(tenantsubs);
+            int cspname = cspsubs - 1;
             // database logic
             var firewalldb = dbconn.firewallInDB(firewall);
             var subindb = dbconn.subInDb(tenantsubs[cspsubs]);
@@ -58,7 +59,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             {
                 dbconn.InsertIntoFirewall(tenantsubs[cspsubs], firewall);
                 log.LogInformation(tenantsubs[cspsubs].ToString());
-                log.LogInformation(tenantsubs[cspsubs - 1].ToString());
+                log.LogInformation(tenantsubs[cspname].ToString());
             }
 
 
