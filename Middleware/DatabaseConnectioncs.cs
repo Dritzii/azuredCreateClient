@@ -105,7 +105,7 @@ namespace azuredCreateClient.Middleware
         public bool subInDb(string subscriptionId = "")
         {
             string connection = this.connectionstring;
-            string sql = String.Format("SELECT CASE WHEN COUNT(1) > 0 THEN 1 ELSE 0 END AS [Value] FROM firewallseq where subscriptionId like '%{0}%';", subscriptionId);
+            string sql = String.Format("SELECT CASE WHEN COUNT(1) > 0 THEN 1 ELSE 0 END AS [Value] FROM subscriptions where subscriptionId like '%{0}%';", subscriptionId);
             using (var cn = new SqlConnection(connection))
             {
                 using (var cmd = new SqlCommand() { Connection = cn, CommandText = sql })
@@ -132,7 +132,7 @@ namespace azuredCreateClient.Middleware
         public bool tenantInDB(string tenantId = "")
         {
             string connection = this.connectionstring;
-            string sql = String.Format("SELECT CASE WHEN COUNT(1) > 0 THEN 1 ELSE 0 END AS [Value] FROM firewallseq where tenantId like '%{0}%';", tenantId);
+            string sql = String.Format("SELECT CASE WHEN COUNT(1) > 0 THEN 1 ELSE 0 END AS [Value] FROM subscriptions where tenantId like '%{0}%';", tenantId);
             using (var cn = new SqlConnection(connection))
             {
                 using (var cmd = new SqlCommand() { Connection = cn, CommandText = sql })
@@ -161,7 +161,7 @@ namespace azuredCreateClient.Middleware
         public bool firewallInDB(string firewall = "")
         {
             string connection = this.connectionstring;
-            string sql = String.Format("SELECT CASE WHEN COUNT(1) > 0 THEN 1 ELSE 0 END AS [Value] FROM firewallseq where name like '%{0}%';", firewall);
+            string sql = String.Format("SELECT CASE WHEN COUNT(1) > 0 THEN 1 ELSE 0 END AS [Value] FROM firewalls where name like '%{0}%';", firewall);
             using (var cn = new SqlConnection(connection))
             {
                 using (var cmd = new SqlCommand() { Connection = cn, CommandText = sql })
