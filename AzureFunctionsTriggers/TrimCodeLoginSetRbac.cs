@@ -48,13 +48,17 @@ namespace azuredCreateClient
             var cspsubs = SubscriptionsController.filterResourceByName(tenantsubs);
             // database logic
             var tenantiddb = dbconn.tenantInDB(tenantId);
+            log.LogInformation(tenantiddb.ToString());
             var subindb = dbconn.subInDb(tenantsubs[cspsubs]);
+            log.LogInformation(subindb.ToString());
             // true is null here
             if (tenantiddb == true)
             {
                 if(subindb == true)
                 {
                     dbconn.InsertIntoTenantandSubscriptions(tenantsubs[cspsubs], tenantsubs[cspsubs - 1], tenantId);
+                    log.LogInformation(tenantsubs[cspsubs].ToString());
+                    log.LogInformation(tenantsubs[cspsubs - 1].ToString());
                 }
             }
             // Get Objectid of the Client application on Tenancy

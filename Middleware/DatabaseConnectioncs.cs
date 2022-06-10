@@ -116,7 +116,7 @@ namespace azuredCreateClient.Middleware
 
 
                     while (reader.Read()) {
-                        if (reader.GetString(0) == "0")
+                        if (reader.GetInt32(0) == 0)
                         {
                             return true;
                         }
@@ -144,7 +144,7 @@ namespace azuredCreateClient.Middleware
 
                     while (reader.Read())
                     {
-                        if (reader.GetString(0) == "0")
+                        if (reader.GetInt32(0) == 0)
                         {
                             return true;
                         }
@@ -173,7 +173,7 @@ namespace azuredCreateClient.Middleware
 
                     while (reader.Read())
                     {
-                        if (reader.GetString(0) == "0")
+                        if (reader.GetInt32(0) == 0)
                         {
                             return true;
                         }
