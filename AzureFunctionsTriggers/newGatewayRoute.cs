@@ -50,7 +50,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             {
                 var dbcompany = dbconn.GetAutotaskCompanyNameFromDB(firewall);
                 int companyId = await aconfig.GetCompanyId(dbcompany[0].C_LongName);
-                aconfig.CreateTicket(companyId, String.Format("Firewall not added for device because it is not on the database : ", firewall));
+                aconfig.CreateTicket(companyId, String.Format("Firewall not added for device because it is not on the database : ", firewall), 1, 2);
                 return new BadRequestObjectResult(String.Format("No firewall in database matches : ", firewall));
             }
             // 400 error if database row is null
@@ -96,7 +96,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                         // any kind of error, we create a ticket
                         var dbcompany = dbconn.GetAutotaskCompanyNameFromDB(firewall);
                         int companyId = await aconfig.GetCompanyId(dbcompany[0].C_LongName);
-                        aconfig.CreateTicket(companyId, String.Format("Firewall not added because of a unknown exception for device : ", firewall));
+                        aconfig.CreateTicket(companyId, String.Format("Firewall not added because of a unknown exception for device : ", firewall), 1, 2);
                         return new BadRequestObjectResult(String.Format("Ticket Created in Autotask for Company {0}", dbcompany[0].C_LongName)); // 400
                     }
                     //finally
