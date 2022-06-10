@@ -46,7 +46,11 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             DatabaseConnectioncs dbconn = new DatabaseConnectioncs(connectionstring);
             // "Server=arazured.database.windows.net,1433;Initial Catalog=fwaasapplication;User ID=aradmin;Password=Aqualite12@;"
             var dbdata = dbconn.GetFirewallfromDB(firewall);
-            Console.WriteLine("TENANT ID IS: " + dbdata[0].tenantId);
+            if(dbdata == null)
+                return new BadRequestObjectResult(String.Format("No firewall in database matches : " , firewall)); // 400 error if database row is null
+            else
+                log.LogInformation("firewall found on database - cont");
+            log.LogInformation("TENANT ID IS: " + dbdata[0].tenantId);
 
             // Get the access token from MS Identity
             /*
@@ -55,7 +59,6 @@ namespace azuredCreateClient.AzureFunctionsTriggers
              */
             ManagementLogin managementLogin = new ManagementLogin(dbdata[0].tenantId, clientId, clientSecret, redirecturi);
             var managementtoken = await managementLogin.ReturnManagementTokenAsync();
-            log.LogInformation(managementtoken.ToString());
 
             AzureServicesController getresource = new AzureServicesController(managementtoken);
             var resourceData = await getresource.GetResourceByTag(dbdata[0].subscriptionId);
@@ -67,6 +70,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             int CountOfJarray = JsonPlaying.JarrayCount(allRoutesJarray);
             //If number of Routes exceed 300 then clear and add the non internet gateways in
             int maxRoutesInt = Int32.Parse(maxRoutesCount);
+            log.LogInformation(String.Format("Filter table by : {0}", maxRoutesCount));
             if (JsonPlaying.JarrayOverCount(allRoutesJarray, maxRoutesInt) == true)
             {
                 //  get previous routes and only get non internet ones
