@@ -49,6 +49,38 @@ namespace azuredCreateClient.Middleware
             return list;
 
         }
+
+        public List<fireWallAutoTaskModel> GetAutotaskCompanyNameFromDB(string firewall = "testdevice")
+        {
+            List<fireWallAutoTaskModel> list = new List<fireWallAutoTaskModel>();
+            string connection = _connectionstring;
+            string sql = String.Format("SELECT [subscriptionId] ,[name] ,[C_Code] ,[C_LongName] ,[C_Name] FROM [dbo].[fireWallAutotask] where name like '%{0}%';", firewall);
+            using (var cn = new SqlConnection(connection))
+            {
+                using (var cmd = new SqlCommand() { Connection = cn, CommandText = sql })
+                {
+                    cn.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Console.WriteLine(reader.GetString(0));
+                        list.Add(new fireWallAutoTaskModel()
+                        {
+                            subscriptionId = reader.GetString(0),
+                            name = reader.GetString(1),
+                            C_Code = reader.GetString(2),
+                            C_LongName = reader.GetString(3),
+                            C_Name = reader.GetString(4)
+                        });
+                    }
+                }
+            }
+
+            return list;
+
+        }
         public void InsertIntoHistory(string tenantId, string deviceName, string ipAddress, string managementResourcePath, string subscriptionId, string displayName, string fullManagementResourcePath, string jsonbody)
         {
             var Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
