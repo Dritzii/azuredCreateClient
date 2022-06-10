@@ -27,11 +27,11 @@ const sendHttpRequest = (method, url, data) => {
   return promise;
 };
 
-const addFirewall = () => {
+const addFirewall = (firewall) => {
     sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/TrimCodeLoginSetRbac?code=fJNBXNWkqOTVKNs9gkaO14RMG8CuafYI11/WvfBXbXX/Pu330cazPQ==", {
         authToken: getCookie("authToken"),
         GraphauthToken: getCookie("GraphauthToken"),
-        firewall : document.getElementById('fname').value
+        firewall : firewall
   })
     .then(responseData => {
       console.log(responseData);
@@ -87,5 +87,5 @@ function loginToken(accesscode) {
   document.cookie = "authToken" + "=" + accesscode;
 };
 
-getBtn.addEventListener('click', addFirewall);
+getBtn.addEventListener('click', addFirewall());
 postBtn.addEventListener('click', sendData);
