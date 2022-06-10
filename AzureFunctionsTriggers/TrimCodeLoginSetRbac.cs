@@ -29,7 +29,7 @@ namespace azuredCreateClient
             string clientId = Environment.GetEnvironmentVariable("ClientId", EnvironmentVariableTarget.Process);
 
             // get db connection
-            DatabaseConnectioncs dbconn = new DatabaseConnectioncs("Server=arazured.database.windows.net,1433;Initial Catalog=fwaasapplication;User ID=aradmin;Password=Aqualite12@;");
+            DatabaseConnectioncs dbconn = new DatabaseConnectioncs(connectionstring);
 
             // get Tenant ID
             OrganizationController getOrganization = new OrganizationController(graphCode);
