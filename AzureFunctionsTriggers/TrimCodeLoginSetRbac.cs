@@ -59,7 +59,7 @@ namespace azuredCreateClient
             {
                 if(subindb == true)
                 {
-                    dbconn.InsertIntoTenantandSubscriptions(tenantsubs[cspsubs], tenantsubs[cspsubs - 1], tenantId);
+                    dbconn.InsertIntoTenantandSubscriptions(tenantsubs[cspsubs], tenantsubs[cspsubs], tenantId);
                     log.LogInformation(tenantsubs[cspsubs].ToString());
                     log.LogInformation(tenantsubs[cspsubs - 1].ToString());
                 }
