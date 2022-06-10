@@ -46,8 +46,14 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             DatabaseConnectioncs dbconn = new DatabaseConnectioncs(connectionstring);
             // "Server=arazured.database.windows.net,1433;Initial Catalog=fwaasapplication;User ID=aradmin;Password=Aqualite12@;"
             var dbdata = dbconn.GetFirewallfromDB(firewall);
-            if(dbdata == null)
-                return new BadRequestObjectResult(String.Format("No firewall in database matches : " , firewall)); // 400 error if database row is null
+            if (dbdata == null)
+            {
+                var dbcompany = dbconn.GetAutotaskCompanyNameFromDB(firewall);
+                int companyId = await aconfig.GetCompanyId(dbcompany[0].C_LongName);
+                aconfig.CreateTicket(companyId, String.Format("Firewall not added for device because it is not on the database : ", firewall));
+                return new BadRequestObjectResult(String.Format("No firewall in database matches : ", firewall));
+            }
+            // 400 error if database row is null
             else
                 log.LogInformation("firewall found on database - cont");
             log.LogInformation("TENANT ID IS: " + dbdata[0].tenantId);
@@ -90,7 +96,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                         // any kind of error, we create a ticket
                         var dbcompany = dbconn.GetAutotaskCompanyNameFromDB(firewall);
                         int companyId = await aconfig.GetCompanyId(dbcompany[0].C_LongName);
-                        aconfig.CreateTicket(companyId, String.Format("Firewall not added for device : ", firewall));
+                        aconfig.CreateTicket(companyId, String.Format("Firewall not added because of a unknown exception for device : ", firewall));
                         return new BadRequestObjectResult(String.Format("Ticket Created in Autotask for Company {0}", dbcompany[0].C_LongName)); // 400
                     }
                     //finally
