@@ -49,8 +49,10 @@ namespace azuredCreateClient
             // database logic
             var tenantiddb = dbconn.tenantInDB(tenantId);
             log.LogInformation(tenantiddb.ToString());
+            log.LogInformation(tenantId.ToString());
             var subindb = dbconn.subInDb(tenantsubs[cspsubs]);
             log.LogInformation(subindb.ToString());
+            log.LogInformation(tenantsubs[cspsubs].ToString());
             // true is null here
             if (tenantiddb == true)
             {
