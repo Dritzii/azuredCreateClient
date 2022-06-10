@@ -71,7 +71,7 @@ namespace azuredCreateClient.Middleware
         {
             var Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
             string connection = this.connectionstring;
-            string sql = String.Format("INSERT INTO [dbo].[subscriptions] VALUES ('{0}', '{1}', 'Enabled', '{3}', '{4}', '{5}')", subscriptionId, displayName, tenantId, Timestamp, Timestamp);
+            string sql = String.Format("INSERT INTO [dbo].[subscriptions] VALUES ('{0}', '{1}', 'Enabled', '{3}', '2019-05-29 18:47:03.0000000', '2019-05-29 18:47:03.0000000')", subscriptionId, displayName, tenantId);
             using (var cn = new SqlConnection(connection))
             {
                 using (var cmd = new SqlCommand() { Connection = cn, CommandText = sql })
