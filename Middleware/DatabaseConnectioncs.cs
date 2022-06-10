@@ -99,8 +99,6 @@ namespace azuredCreateClient.Middleware
                     var reader = cmd.ExecuteReader();
                 }
             }
-
-
         }
         public bool subInDb(string subscriptionId = "")
         {
