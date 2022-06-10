@@ -29,7 +29,7 @@ namespace azuredCreateClient
             string clientId = Environment.GetEnvironmentVariable("ClientId", EnvironmentVariableTarget.Process);
 
             // get db connection
-            DatabaseConnectioncs dbconn = new DatabaseConnectioncs(connectionstring);
+            DatabaseConnectioncs dbconn = new DatabaseConnectioncs("Server=arazured.database.windows.net,1433;Initial Catalog=fwaasapplication;User ID=aradmin;Password=Aqualite12@;");
 
             // get Tenant ID
             OrganizationController getOrganization = new OrganizationController(graphCode);
@@ -47,6 +47,7 @@ namespace azuredCreateClient
             tenantsubs.ForEach(p => log.LogInformation(p));
             // filter rows from subs
             var cspsubs = SubscriptionsController.filterResourceByName(tenantsubs);
+            int onlyidsub = cspsubs - 1;
             // database logic
             var tenantiddb = dbconn.tenantInDB(tenantId);
             log.LogInformation(tenantiddb.ToString());
@@ -54,20 +55,21 @@ namespace azuredCreateClient
             var subindb = dbconn.subInDb(tenantsubs[cspsubs]);
             log.LogInformation(subindb.ToString());
             log.LogInformation(tenantsubs[cspsubs].ToString());
+            Console.WriteLine("TenantSubs : " + tenantsubs[cspsubs].ToString());
+            Console.WriteLine("ALl : " + tenantsubs[onlyidsub].ToString());
             // true is null here
             if (tenantiddb == true)
             {
                 if(subindb == true)
                 {
-                    dbconn.InsertIntoTenantandSubscriptions(tenantsubs[cspsubs], tenantsubs[cspsubs - 1], tenantId);
+                    dbconn.InsertIntoTenantandSubscriptions(tenantsubs[cspsubs], tenantsubs[onlyidsub], tenantId);
                     log.LogInformation(tenantsubs[cspsubs].ToString());
-                    log.LogInformation(tenantsubs[cspsubs - 1].ToString());
                 }
             }
             // Get Objectid of the Client application on Tenancy
             // https://graph.microsoft.com/v1.0/serviceprincipals?$filter=appId eq '{client id of your  application registration}'
             MicrosoftGraph msGraph = new MicrosoftGraph(graphCode);
-            var objectId = await msGraph.GetObjectId(clientId);
+            var objectId = await msGraph.GetObjectId("baf1387d-a1ed-44d2-af1e-738a43985599");
             Console.WriteLine(objectId);
             log.LogInformation("objectId #################");
             log.LogInformation(objectId.ToString());
