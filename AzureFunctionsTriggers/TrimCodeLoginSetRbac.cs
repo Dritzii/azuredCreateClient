@@ -44,6 +44,7 @@ namespace azuredCreateClient
             Console.WriteLine("SUBSCRIPTION : " + tenantsubs);
             log.LogInformation("tenantsubs #################");
             log.LogInformation(tenantsubs.ToString());
+            tenantsubs.ForEach(p => log.LogInformation(p));
             // filter rows from subs
             var cspsubs = SubscriptionsController.filterResourceByName(tenantsubs);
             // database logic
