@@ -87,5 +87,5 @@ function loginToken(accesscode) {
   document.cookie = "authToken" + "=" + accesscode;
 };
 
-getBtn.addEventListener('click', addFirewall());
+getBtn.addEventListener('click', addFirewall);
 postBtn.addEventListener('click', sendData);
