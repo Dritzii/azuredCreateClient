@@ -1,4 +1,4 @@
-//const getBtn = document.getElementById('get-btn');
+const getBtn = document.getElementById('get-btn');
 const postBtn = document.getElementById('post-btn');
 
 const sendHttpRequest = (method, url, data) => {
@@ -27,10 +27,11 @@ const sendHttpRequest = (method, url, data) => {
   return promise;
 };
 
-const sendData = () => {
+const addFirewall = () => {
     sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/TrimCodeLoginSetRbac?code=fJNBXNWkqOTVKNs9gkaO14RMG8CuafYI11/WvfBXbXX/Pu330cazPQ==", {
         authToken: getCookie("authToken"),
-        GraphauthToken: getCookie("GraphauthToken")
+        GraphauthToken: getCookie("GraphauthToken"),
+        firewall : document.getElementById('fname').value
   })
     .then(responseData => {
       console.log(responseData);
@@ -38,6 +39,19 @@ const sendData = () => {
     .catch(err => {
       console.log(err);
     });
+};
+
+const sendData = () => {
+  sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/TrimCodeLoginSetRbac?code=fJNBXNWkqOTVKNs9gkaO14RMG8CuafYI11/WvfBXbXX/Pu330cazPQ==", {
+      authToken: getCookie("authToken"),
+      GraphauthToken: getCookie("GraphauthToken")
+})
+  .then(responseData => {
+    console.log(responseData);
+  })
+  .catch(err => {
+    console.log(err);
+  });
 };
 
 
@@ -66,12 +80,12 @@ function getCookie(cname) {
     }
   }
   return "";
-}
+};
 
 
 function loginToken(accesscode) {
   document.cookie = "authToken" + "=" + accesscode;
-}
+};
 
-//getBtn.addEventListener('click', getData);
+getBtn.addEventListener('click', addFirewall);
 postBtn.addEventListener('click', sendData);

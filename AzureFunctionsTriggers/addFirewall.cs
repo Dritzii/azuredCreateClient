@@ -9,19 +9,20 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using azuredCreateClient.Middleware;
 
-namespace azuredCreateClient
+namespace azuredCreateClient.AzureFunctionsTriggers
 {
-    public static class TrimCodeLoginSetRbac
+    public static class addFirewall
     {
-        [FunctionName("TrimCodeLoginSetRbac")]
+        [FunctionName("addFirewall")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             string authCode = data.authToken;
             string graphCode = data.GraphauthToken;
+            string firewall = data.firewall;
             log.LogInformation(authCode);
             log.LogInformation(graphCode);
 
@@ -33,11 +34,11 @@ namespace azuredCreateClient
 
             // get Tenant ID
             OrganizationController getOrganization = new OrganizationController(graphCode);
-            var tenantId  = await getOrganization.GetTenantID();
+            var tenantId = await getOrganization.GetTenantID();
             Console.WriteLine(tenantId);
             log.LogInformation("tenantId #################");
             log.LogInformation(tenantId);
-            
+
             // Get Subscriptions
             SubscriptionsController subs = new SubscriptionsController(authCode);
             var tenantsubs = await subs.GetAllSubscriptionsAsync();
@@ -45,55 +46,27 @@ namespace azuredCreateClient
             log.LogInformation("tenantsubs #################");
             log.LogInformation(tenantsubs.ToString());
             tenantsubs.ForEach(p => log.LogInformation(p));
-            // filter rows from subs
+            // filter rows from subs and get only CSP subs
             var cspsubs = SubscriptionsController.filterResourceByName(tenantsubs);
             // database logic
-            var tenantiddb = dbconn.tenantInDB(tenantId);
-            log.LogInformation(tenantiddb.ToString());
-            log.LogInformation(tenantId.ToString());
+            var firewalldb = dbconn.firewallInDB(firewall);
             var subindb = dbconn.subInDb(tenantsubs[cspsubs]);
             log.LogInformation(subindb.ToString());
             log.LogInformation(tenantsubs[cspsubs].ToString());
             // true is null here
-            if (tenantiddb == true)
+            if (firewalldb == true)
             {
-                if(subindb == true)
-                {
-                    dbconn.InsertIntoTenantandSubscriptions(tenantsubs[cspsubs], tenantsubs[cspsubs - 1], tenantId);
-                    log.LogInformation(tenantsubs[cspsubs].ToString());
-                    log.LogInformation(tenantsubs[cspsubs - 1].ToString());
-                }
+                dbconn.InsertIntoFirewall(tenantsubs[cspsubs], firewall);
+                log.LogInformation(tenantsubs[cspsubs].ToString());
+                log.LogInformation(tenantsubs[cspsubs - 1].ToString());
             }
-            // Get Objectid of the Client application on Tenancy
-            // https://graph.microsoft.com/v1.0/serviceprincipals?$filter=appId eq '{client id of your  application registration}'
-            MicrosoftGraph msGraph = new MicrosoftGraph(graphCode);
-            var objectId = await msGraph.GetObjectId(clientId);
-            Console.WriteLine(objectId);
-            log.LogInformation("objectId #################");
-            log.LogInformation(objectId.ToString());
-
-
-            // Add Rbac with new Guid
-            RbacControllers setRbac = new RbacControllers(authCode);
-            foreach (var tenantsub in tenantsubs)
-            {
-                // Create GUID
-                GuidController newGuid = new GuidController();
-                string newGuidReturned = newGuid.ReturnGuid().ToString();
-                Console.WriteLine(newGuidReturned);
-                log.LogInformation("newGuidReturned #################");
-                log.LogInformation(newGuidReturned);
-                setRbac.PutRbacSubscriptions(tenantsub, newGuidReturned, objectId);
-
-            };
+            
 
             // Return Object
-            var myObj = new { graphapiToken = graphCode, tenantid = tenantId, managementToken = authCode, subscriptionId = tenantsubs , serviceprincipalId = objectId};
+            var myObj = new { graphapiToken = graphCode, tenantid = tenantId, managementToken = authCode, subscriptionId = tenantsubs};
             var jsonToReturn = JsonConvert.SerializeObject(myObj);
             log.LogInformation(jsonToReturn);
             Console.WriteLine(jsonToReturn);
             return new JsonResult(jsonToReturn);
-
         }
-    }
 }
