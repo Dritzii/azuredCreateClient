@@ -66,7 +66,6 @@ namespace azuredCreateClient.Controllers
                 var c2 = items["name"].Value<string>();
                 var c3 = items["type"].Value<string>();
                 var c4 = items["location"].Value<string>();
-                //var c5 = items?["tags"].ToString();
                 retList.AddRange(new List<string>() {
                     c1, c2, c3, c4
                 });
@@ -100,8 +99,7 @@ namespace azuredCreateClient.Controllers
         {
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
-            char[] charsToTrimStart = { '/','s', 'u', 'b', 's', 'c', 'r', 'i', 'p', 't', 'i', 'o', 'n', 's', '/' };
-            string idTrimmed = id.TrimStart(charsToTrimStart);
+            string idTrimmed = id.Substring(14);
             string sendUrl = baseurl + idTrimmed + string.Format("/routes/{0}?api-version=2021-04-01", "NMAgent-" + ipaddress);
             var payload = new { name = profixName + ipaddress , properties = new { addressPrefix = ipaddress + prefix, nextHopType = nexthoptype } };
             var jsonToReturn = JsonConvert.SerializeObject(payload);
@@ -116,8 +114,7 @@ namespace azuredCreateClient.Controllers
         {
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
-            char[] charsToTrimStart = { '/', 's', 'u', 'b', 's', 'c', 'r', 'i', 'p', 't', 'i', 'o', 'n', 's', '/' };
-            string idTrimmed = id.TrimStart(charsToTrimStart);
+            string idTrimmed = id.Substring(14);
             string sendUrl = baseurl + idTrimmed + "?api-version=2021-05-01";
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, sendUrl){};
             HttpResponseMessage response = await client.SendAsync(request);
@@ -140,9 +137,8 @@ namespace azuredCreateClient.Controllers
                     using var client = new HttpClient();
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
                     // https://management.azure.com/subscriptions/6c737636-bd1d-49fd-8eea-48d69ae27155/resourceGroups/rg_NetworkConfigurations/providers/Microsoft.Network/routeTables/johnAzuredTest?api-version=2021-04-01
-                    char[] charsToTrimStart = { '/', 's', 'u', 'b', 's', 'c', 'r', 'i', 'p', 't', 'i', 'o', 'n', 's', '/' };
-                    string idTrimmed = id.TrimStart(charsToTrimStart);
-                    string sendUrl = baseurl + idTrimmed + "?api-version=2021-04-01";
+                    string idTrimmed = id.Substring(14);
+                string sendUrl = baseurl + idTrimmed + "?api-version=2021-04-01";
 
                     HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, sendUrl)
                     {
