@@ -6,10 +6,11 @@ namespace azuredCreateClient.Middleware
 {
     class DatabaseConnectioncs
     {
-        string connectionstring;
+        private string _connectionstring;
+
         public DatabaseConnectioncs(string connectionstring)
         {
-            this.connectionstring = connectionstring;
+            _connectionstring = connectionstring;
         }
         // https://githubhot.com/repo/Azure/Azure-Functions/issues/2064 add this to fix 
         /*
@@ -21,7 +22,7 @@ namespace azuredCreateClient.Middleware
         {
             Console.WriteLine(firewall);
             List<FirewallClass> list = new List<FirewallClass>();
-            string connection = this.connectionstring;
+            string connection = _connectionstring;
             string sql = String.Format("SELECT subscriptionId, tenantId, displayName, name from firewallseq where name like '%{0}%';", firewall);
             using (var cn = new SqlConnection(connection))
             {
@@ -51,7 +52,7 @@ namespace azuredCreateClient.Middleware
         public void InsertIntoHistory(string tenantId, string deviceName, string ipAddress, string managementResourcePath, string subscriptionId, string displayName, string fullManagementResourcePath, string jsonbody)
         {
             var Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
-            string connection = this.connectionstring;
+            string connection = _connectionstring;
             string sql = String.Format("INSERT INTO [dbo].[historyUpdates] VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}')", tenantId, deviceName, ipAddress, Timestamp, managementResourcePath, subscriptionId, displayName, fullManagementResourcePath, jsonbody);
             using (var cn = new SqlConnection(connection))
             {
@@ -69,7 +70,7 @@ namespace azuredCreateClient.Middleware
         public void InsertIntoTenantandSubscriptions(string subscriptionId, string displayName, string tenantId)
         {
             var Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
-            string connection = this.connectionstring;
+            string connection = _connectionstring;
             string sql = String.Format("INSERT INTO [dbo].[subscriptions] VALUES ('{0}', '{1}', 'Enabled', '{2}', '2019-05-29 18:47:03.0000000', '2019-05-29 18:47:03.0000000')", subscriptionId, displayName, tenantId);
             using (var cn = new SqlConnection(connection))
             {
@@ -87,7 +88,7 @@ namespace azuredCreateClient.Middleware
         public void InsertIntoFirewall(string subscriptionId, string name)
         {
             var Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
-            string connection = this.connectionstring;
+            string connection = _connectionstring;
             string sql = String.Format("INSERT INTO [dbo].[firewalls] VALUES ('{0}', '{1}', 'createdurl.com', '0.0.0', '0.0.0', '0 days', '2019-05-28 12:13:52.0000000', '2019-05-28 12:13:52.0000000')", subscriptionId, name);
             using (var cn = new SqlConnection(connection))
             {
@@ -101,7 +102,7 @@ namespace azuredCreateClient.Middleware
         }
         public bool subInDb(string subscriptionId = "")
         {
-            string connection = this.connectionstring;
+            string connection = _connectionstring;
             string sql = String.Format("SELECT CASE WHEN COUNT(1) > 0 THEN 1 ELSE 0 END AS [Value] FROM firewallseq where subscriptionId like '%{0}%';", subscriptionId);
             using (var cn = new SqlConnection(connection))
             {
@@ -128,7 +129,7 @@ namespace azuredCreateClient.Middleware
 
         public bool tenantInDB(string tenantId = "")
         {
-            string connection = this.connectionstring;
+            string connection = _connectionstring;
             string sql = String.Format("SELECT CASE WHEN COUNT(1) > 0 THEN 1 ELSE 0 END AS [Value] FROM [firewallseq] where tenantId like '%{0}%';", tenantId);
             using (var cn = new SqlConnection(connection))
             {
@@ -157,7 +158,7 @@ namespace azuredCreateClient.Middleware
 
         public bool firewallInDB(string firewall = "")
         {
-            string connection = this.connectionstring;
+            string connection = _connectionstring;
             string sql = String.Format("SELECT CASE WHEN COUNT(1) > 0 THEN 1 ELSE 0 END AS [Value] FROM firewalls where name like '%{0}%';", firewall);
             using (var cn = new SqlConnection(connection))
             {
