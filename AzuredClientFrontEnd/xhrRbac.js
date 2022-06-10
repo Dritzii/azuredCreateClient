@@ -28,7 +28,7 @@ const sendHttpRequest = (method, url, data) => {
 };
 
 const addFirewall = (firewall) => {
-    sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/TrimCodeLoginSetRbac?code=fJNBXNWkqOTVKNs9gkaO14RMG8CuafYI11/WvfBXbXX/Pu330cazPQ==", {
+    sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/addFirewall?code=sCc4X5AqLOKl5_LucvG3TWaOXJyqbcqXWmH4q0kLZCBCAzFupnwbkQ==", {
         authToken: getCookie("authToken"),
         GraphauthToken: getCookie("GraphauthToken"),
         firewall : firewall
