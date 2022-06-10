@@ -39,8 +39,7 @@ namespace azuredCreateClient.Middleware
                             subscriptionId = reader.GetString(0),
                             tenantId = reader.GetString(1),
                             displayName = reader.GetString(2),
-                            name = reader.GetString(3),
-                            uri = reader.GetString(4)
+                            name = reader.GetString(3)
                         });
                     }
                 }
