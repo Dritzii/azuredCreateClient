@@ -56,7 +56,7 @@ const sendData = () => {
 };
 
 const addCompany = () => {
-  sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/TrimCodeLoginSetRbac?code=fJNBXNWkqOTVKNs9gkaO14RMG8CuafYI11/WvfBXbXX/Pu330cazPQ==", {
+  sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/AddCompany?code=GA-YqJ4vzn4TJkdov1f-lk5IARlNrZwfG-5VQr-44o6-AzFuw3tfTA==", {
       authToken: getCookie("authToken"),
       GraphauthToken: getCookie("GraphauthToken")
 })
