@@ -191,7 +191,7 @@ namespace azuredCreateClient.Middleware
         public bool firewallInDB(string firewall = "")
         {
             string connection = _connectionstring;
-            string sql = String.Format("SELECT CASE WHEN COUNT(1) > 0 THEN 1 ELSE 0 END AS [Value] FROM firewalls where name like '%{0}%';", firewall);
+            string sql = String.Format("SELECT CASE WHEN COUNT(1) > 0 THEN 1 ELSE 0 END AS [Value] FROM firewalls where name = '{0}';", firewall);
             using (var cn = new SqlConnection(connection))
             {
                 using (var cmd = new SqlCommand() { Connection = cn, CommandText = sql })
