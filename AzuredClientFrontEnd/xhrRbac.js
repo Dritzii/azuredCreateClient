@@ -35,7 +35,7 @@ const addFirewall = () => {
         firewall : document.getElementById('fname').value
   })
     .then(responseData => {
-      console.log(responseData);
+      alert(responseData);
     })
         .catch(err => {
             console.log(err);
