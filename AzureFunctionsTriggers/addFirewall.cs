@@ -60,15 +60,12 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                 dbconn.InsertIntoFirewall(tenantsubs[cspsubs], firewall);
                 log.LogInformation(tenantsubs[cspsubs].ToString());
                 log.LogInformation(tenantsubs[cspname].ToString());
+                var obj = new {firewall = firewall, tenantId = tenantId, subscriptionid = tenantsubs[cspsubs] };
+                var addingFirewallReturn = JsonConvert.SerializeObject(obj);
+                return new JsonResult(addingFirewallReturn);
             }
 
-
-            // Return Object
-            var myObj = new { graphapiToken = graphCode, tenantid = tenantId, managementToken = authCode, subscriptionId = tenantsubs };
-            var jsonToReturn = JsonConvert.SerializeObject(myObj);
-            log.LogInformation(jsonToReturn);
-            Console.WriteLine(jsonToReturn);
-            return new JsonResult(jsonToReturn);
+            return new JsonResult("Nothing has been created");
         }
     }
 }
