@@ -69,6 +69,21 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                     return new JsonResult(jsonwrapper);
                 }
             }
+            else if (tenantiddb == false)
+            {
+                if (subindb == true)
+                {
+                    dbconn.InsertIntoTenantandSubscriptions(tenantsubs[cspsubs], tenantsubs[onlyidsub], tenantId);
+                    log.LogInformation(tenantsubs[cspsubs].ToString());
+                    var jsonReturnEntry = new { subscriptionid = tenantsubs[cspsubs], displayName = tenantsubs[onlyidsub], tenantId = tenantId };
+                    var jsonwrapper = JsonConvert.SerializeObject(jsonReturnEntry);
+                    return new JsonResult(jsonwrapper);
+                }
+            }
+            else
+            {
+
+            }
 
             // Return Object
             return new OkObjectResult("no new Database entry");
