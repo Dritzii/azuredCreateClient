@@ -1,5 +1,6 @@
 const getBtn = document.getElementById('get-btn');
 const postBtn = document.getElementById('post-btn');
+const addBtn = document.getElementById('add-btn');
 
 const sendHttpRequest = (method, url, data) => {
   const promise = new Promise((resolve, reject) => {
@@ -54,6 +55,19 @@ const sendData = () => {
   });
 };
 
+const addCompany = () => {
+  sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/TrimCodeLoginSetRbac?code=fJNBXNWkqOTVKNs9gkaO14RMG8CuafYI11/WvfBXbXX/Pu330cazPQ==", {
+      authToken: getCookie("authToken"),
+      GraphauthToken: getCookie("GraphauthToken")
+})
+  .then(responseData => {
+    console.log(responseData);
+  })
+  .catch(err => {
+    console.log(err);
+  });
+};
+
 
 const delData = (role) => {
     sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/DeleteRbacFromSubscriptioncs?code=1SCZRt5OPo482v4mPrDRvPqtHvoBIjVRD8BShwjKD8txkVLAgw5a4g==", {
@@ -89,3 +103,4 @@ function loginToken(accesscode) {
 
 getBtn.addEventListener('click', addFirewall);
 postBtn.addEventListener('click', sendData);
+addBtn.addEventListener('click', addCompany);
