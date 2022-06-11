@@ -46,26 +46,26 @@ namespace azuredCreateClient
             log.LogInformation(tenantsubs.ToString());
             tenantsubs.ForEach(p => log.LogInformation(p));
             // filter rows from subs
-            int cspsubs = SubscriptionsController.filterResourceByName(tenantsubs);
-            int onlyidsub = cspsubs - 1;
+            //int cspsubs = SubscriptionsController.filterResourceByName(tenantsubs);
+            //int onlyidsub = cspsubs - 1;
             // database logic
-            var tenantiddb = dbconn.tenantInDB(tenantId);
-            log.LogInformation(tenantiddb.ToString());
-            log.LogInformation(tenantId.ToString());
-            var subindb = dbconn.subInDb(tenantsubs[cspsubs]);
-            log.LogInformation(subindb.ToString());
-            log.LogInformation(tenantsubs[cspsubs].ToString());
-            Console.WriteLine("TenantSubs : " + tenantsubs[cspsubs].ToString());
-            Console.WriteLine("ALl : " + tenantsubs[onlyidsub].ToString());
+            //var tenantiddb = dbconn.tenantInDB(tenantId);
+            //log.LogInformation(tenantiddb.ToString());
+            //log.LogInformation(tenantId.ToString());
+            //var subindb = dbconn.subInDb(tenantsubs[cspsubs]);
+            //log.LogInformation(subindb.ToString());
+            //log.LogInformation(tenantsubs[cspsubs].ToString());
+            //Console.WriteLine("TenantSubs : " + tenantsubs[cspsubs].ToString());
+            //Console.WriteLine("ALl : " + tenantsubs[onlyidsub].ToString());
             // true is null here
-            if (tenantiddb == true)
-            {
-                if(subindb == true)
-                {
-                    dbconn.InsertIntoTenantandSubscriptions(tenantsubs[cspsubs], tenantsubs[onlyidsub], tenantId);
-                    log.LogInformation(tenantsubs[cspsubs].ToString());
-                }
-            }
+            //if (tenantiddb == true)
+            // {
+            //    if(subindb == true)
+            //   {
+            //        dbconn.InsertIntoTenantandSubscriptions(tenantsubs[cspsubs], tenantsubs[onlyidsub], tenantId);
+            //        log.LogInformation(tenantsubs[cspsubs].ToString());
+            //    }
+            // }
             // Get Objectid of the Client application on Tenancy
             // https://graph.microsoft.com/v1.0/serviceprincipals?$filter=appId eq '{client id of your  application registration}'
             MicrosoftGraph msGraph = new MicrosoftGraph(graphCode);
