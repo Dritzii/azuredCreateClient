@@ -108,7 +108,7 @@ namespace azuredCreateClient.Controllers
             };
             HttpResponseMessage response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(responseContent);
+            //Console.WriteLine(responseContent);
         }
         public async Task<string> GetRouteTable(string id)
         {
@@ -121,6 +121,20 @@ namespace azuredCreateClient.Controllers
             string responseContent = await response.Content.ReadAsStringAsync();
             return responseContent;
         }
+        public async Task<string> GetRouteTableLocation(string id)
+        {
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            string idTrimmed = id.Substring(14);
+            string sendUrl = baseurl + idTrimmed + "?api-version=2021-05-01";
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, sendUrl) { };
+            HttpResponseMessage response = await client.SendAsync(request);
+            string responseContent = await response.Content.ReadAsStringAsync();
+            var jo = JObject.Parse(responseContent);
+            var location = jo["location"].ToString();
+            return location;
+        }
+
         public async void updateOrCreateRouteTableWithRoutes(string id, JArray routes, string location = "australiasoutheast")
         {
             try
@@ -132,13 +146,13 @@ namespace azuredCreateClient.Controllers
                     JOpayload["properties"]["routes"] = routes;
                     var PayloadObject = JsonConvert.SerializeObject(JOpayload);
 
-                    Console.WriteLine(PayloadObject.ToString());
+                    //Console.WriteLine(PayloadObject.ToString());
 
                     using var client = new HttpClient();
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
                     // https://management.azure.com/subscriptions/6c737636-bd1d-49fd-8eea-48d69ae27155/resourceGroups/rg_NetworkConfigurations/providers/Microsoft.Network/routeTables/johnAzuredTest?api-version=2021-04-01
                     string idTrimmed = id.Substring(14);
-                string sendUrl = baseurl + idTrimmed + "?api-version=2021-04-01";
+                    string sendUrl = baseurl + idTrimmed + "?api-version=2021-04-01";
 
                     HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, sendUrl)
                     {
@@ -147,11 +161,14 @@ namespace azuredCreateClient.Controllers
                     HttpResponseMessage response = await client.SendAsync(request);
                     string responseContent = await response.Content.ReadAsStringAsync();
                     Console.WriteLine(response.StatusCode.ToString());
-                }
+                    //Console.WriteLine(responseContent);
+            }
                 catch (HttpRequestException e)
                 {
+
                     Console.WriteLine(e);
-                }
+                    Console.WriteLine("Error at Update or Create tables");
+            }
         }
     }
 }

@@ -78,32 +78,42 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             //int indexList = JsonPlaying.filterResourceByTag(resourceData); -- removed as using get resource by tag has been updated to only match for fwaas tags - no need for this
             //getresource.NewGatewayRoute(resourceData[indexList], ipaddress); -- so the last of the 300 will get inserted at the finally block
             string routeData = await getresource.GetRouteTable(resourceData[0]);
+            string routetableLocation = await getresource.GetRouteTableLocation(resourceData[0]);
+            Console.WriteLine(routeData);
             // Get All Routes from Table
             JArray allRoutesJarray = JsonPlaying.GetAllRoutesFromRouteTableToJarray(routeData);
+           // Console.WriteLine(allRoutesJarray);
             int CountOfJarray = JsonPlaying.JarrayCount(allRoutesJarray);
             //If number of Routes exceed 300 then clear and add the non internet gateways in
-            int maxRoutesInt = Int32.Parse(maxRoutesCount);
+            //int maxRoutesInt = Int32.Parse(maxRoutesCount);
             log.LogInformation(String.Format("Filter table by : {0}", maxRoutesCount));
-            if (JsonPlaying.JarrayOverCount(allRoutesJarray, maxRoutesInt) == true)
+            if (JsonPlaying.JarrayOverCount(allRoutesJarray, 300) == true)
             {
+                Console.WriteLine("Above 300");
                 //  get previous routes and only get non internet ones
                 JArray iterateRTJSON = JsonPlaying.GetListofRoutesFromTable(routeData);
                 if (JsonPlaying.JarrayOverCount(iterateRTJSON, 0) == false)
                 {
                     try
                     {
+                        Console.WriteLine("Jarray Over 0 adding");
                         JObject payloadObject = JsonPlaying.NewGatewayRouteObject(ipaddress);
                         JArray finalMerged = JsonPlaying.AddToJArray(iterateRTJSON, payloadObject);
                         // update whole table with non internet ones
-                        getresource.updateOrCreateRouteTableWithRoutes(resourceData[0], finalMerged);
+                        Console.WriteLine("Final Merged");
+                        //Console.WriteLine(finalMerged);
+                        getresource.updateOrCreateRouteTableWithRoutes(resourceData[0], finalMerged, routetableLocation);
 
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
                         // any kind of error, we create a ticket
+                        Console.WriteLine("Error");
+                        Console.WriteLine(e);
                         var dbcompany = dbconn.GetAutotaskCompanyNameFromDB(firewall);
                         if (dbcompany == null)
                         {
+                            Console.WriteLine("No Database with Company name");
                             return new BadRequestObjectResult(String.Format("Company not found in database in Autotask for Company")); // 400
                         }
                         else
@@ -121,17 +131,20 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                 }
                 else
                 {
+                    Console.WriteLine("Not Above 300");
                     JObject payloadObject = JsonPlaying.NewGatewayRouteObject(ipaddress);
                     JArray finalMerged = JsonPlaying.JobjectIntoJarray(payloadObject);
                     // update whole table with non internet ones
-                    getresource.updateOrCreateRouteTableWithRoutes(resourceData[0], finalMerged);
+                    getresource.updateOrCreateRouteTableWithRoutes(resourceData[0], finalMerged, routetableLocation);
                 }
             }
             else
             {
+                Console.WriteLine("Adding 1 route only");
                 // just add the one route if not over 300 array
                 getresource.NewGatewayRoute(resourceData[0], ipaddress);
             }
+            Console.WriteLine("Insert into History");
             dbconn.InsertIntoHistory(dbdata[0].tenantId, "NMAgent-" + ipaddress, ipaddress, resourceData[0], dbdata[0].subscriptionId, dbdata[0].displayName, resourceData[0] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), CountOfJarray.ToString());
             return new OkObjectResult(new { tenantId = dbdata[0].tenantId, ipaddressRTName = "NMAgent-" + ipaddress, ipaddress = ipaddress, resourcePath = resourceData[0], subscriptionId = dbdata[0].subscriptionId, subscriptionName = dbdata[0].displayName, fullResourcePath = resourceData[0] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), CountOfJarray = CountOfJarray }); // 200
         }
