@@ -163,7 +163,7 @@ namespace azuredCreateClient.Controllers
                     Console.WriteLine(response.StatusCode.ToString());
                     //Console.WriteLine(responseContent);
             }
-                catch (HttpRequestException e)
+                catch (Exception e)
                 {
 
                     Console.WriteLine(e);
