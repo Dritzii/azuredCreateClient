@@ -46,25 +46,32 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             DatabaseConnectioncs dbconn = new DatabaseConnectioncs(connectionstring);
             // "Server=arazured.database.windows.net,1433;Initial Catalog=fwaasapplication;User ID=aradmin;Password=Aqualite12@;"
             var dbdata = dbconn.GetFirewallfromDB(firewall);
-            if (dbdata == null)
+            try
             {
-                var dbcompany = dbconn.GetAutotaskCompanyNameFromDB(firewall);
-                if(dbcompany == null)
+                if (dbdata == null)
                 {
-                    return new BadRequestObjectResult(String.Format("No Company Name in database matches : ", firewall));
+                    var dbcompany = dbconn.GetAutotaskCompanyNameFromDB(firewall);
+                    if (dbcompany == null)
+                    {
+                        return new BadRequestObjectResult(String.Format("No Company Name in database matches : ", firewall));
+                    }
+                    else
+                    {
+                        int companyId = await aconfig.GetCompanyId(dbcompany[0].C_LongName);
+                        aconfig.CreateTicket(companyId, String.Format("Firewall not added for device because it is not on the database : ", firewall), 1, 2);
+                        return new BadRequestObjectResult(String.Format("No firewall in database matches : ", firewall));
+                    }
                 }
-                else
-                {
-                    int companyId = await aconfig.GetCompanyId(dbcompany[0].C_LongName);
-                    aconfig.CreateTicket(companyId, String.Format("Firewall not added for device because it is not on the database : ", firewall), 1, 2);
-                    return new BadRequestObjectResult(String.Format("No firewall in database matches : ", firewall));
-                }    
+                
             }
-            // 400 error if database row is null
-            else
-                log.LogInformation("firewall found on database - cont");
+            catch (Exception E)
+            {
+                log.LogInformation(E.ToString());
+                return new BadRequestObjectResult(String.Format("Database Error"));
+            }
+            log.LogInformation("firewall found on database - cont");
             log.LogInformation("TENANT ID IS: " + dbdata[0].tenantId);
-
+            
             // Get the access token from MS Identity
             /*
              * "baf1387d-a1ed-44d2-af1e-738a43985599", ")1$Z.D#/}((>&/Jt[*?{_)[L?}.]_^%&{)@;%", "https://azuredfwassacreation.z8.web.core.windows.net/login.html"
@@ -75,15 +82,15 @@ namespace azuredCreateClient.AzureFunctionsTriggers
 
             AzureServicesController getresource = new AzureServicesController(managementtoken);
             var resourceData = await getresource.GetResourceByTag(dbdata[0].subscriptionId);
-            //int indexList = JsonPlaying.filterResourceByTag(resourceData); -- removed as using get resource by tag has been updated to only match for fwaas tags - no need for this
-            //getresource.NewGatewayRoute(resourceData[indexList], ipaddress); -- so the last of the 300 will get inserted at the finally block
             string routeData = await getresource.GetRouteTable(resourceData[0]);
             string routetableLocation = await getresource.GetRouteTableLocation(resourceData[0]);
             Console.WriteLine(routeData);
+
             // Get All Routes from Table
+
             JArray allRoutesJarray = JsonPlaying.GetAllRoutesFromRouteTableToJarray(routeData);
-           // Console.WriteLine(allRoutesJarray);
             int CountOfJarray = JsonPlaying.JarrayCount(allRoutesJarray);
+
             //If number of Routes exceed 300 then clear and add the non internet gateways in
             int maxRoutesInt = Int32.Parse(maxRoutesCount);
             log.LogInformation(String.Format("Filter table by : {0}", maxRoutesCount));
