@@ -127,9 +127,9 @@ namespace azuredCreateClient.Middleware
                 }
             return surveytrackingA;
         }
-        public static JObject NewGatewayRouteObject(string ipaddress, string profixName = "NMAgent-", string prefix = "/32", string nexthoptype = "internet")
+        public static JObject NewGatewayRouteObject(string ipaddress, string profixName = "NMAgent-", string prefix = "32", string nexthoptype = "internet")
         {
-            var payload = new { name = profixName + ipaddress, properties = new { addressPrefix = ipaddress + prefix, nextHopType = nexthoptype } };
+            var payload = new { name = profixName + ipaddress + '-' + prefix, properties = new { addressPrefix = ipaddress + '/' + prefix, nextHopType = nexthoptype } };
             return JObject.FromObject(payload);
         }
 
