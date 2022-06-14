@@ -130,11 +130,6 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                             return new BadRequestObjectResult(String.Format("Ticket Created in Autotask for Company {0}", dbcompany[0].C_LongName)); // 400
                         }
                     }
-                    //finally
-                    //{
-                    //System.Threading.Thread.Sleep(15000); //the above is more dynamic, no more waiting
-                    //getresource.NewGatewayRoute(resourceData[indexList], ipaddress);
-                    //}
                 }
                 else
                 {
