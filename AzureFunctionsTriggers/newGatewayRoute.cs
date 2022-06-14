@@ -85,9 +85,9 @@ namespace azuredCreateClient.AzureFunctionsTriggers
            // Console.WriteLine(allRoutesJarray);
             int CountOfJarray = JsonPlaying.JarrayCount(allRoutesJarray);
             //If number of Routes exceed 300 then clear and add the non internet gateways in
-            //int maxRoutesInt = Int32.Parse(maxRoutesCount);
+            int maxRoutesInt = Int32.Parse(maxRoutesCount);
             log.LogInformation(String.Format("Filter table by : {0}", maxRoutesCount));
-            if (JsonPlaying.JarrayOverCount(allRoutesJarray, 300) == true)
+            if (JsonPlaying.JarrayOverCount(allRoutesJarray, maxRoutesInt) == true)
             {
                 Console.WriteLine("Above 300");
                 //  get previous routes and only get non internet ones
@@ -131,18 +131,60 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                 }
                 else
                 {
-                    Console.WriteLine("Not Above 300");
-                    JObject payloadObject = JsonPlaying.NewGatewayRouteObject(ipaddress);
-                    JArray finalMerged = JsonPlaying.JobjectIntoJarray(payloadObject);
-                    // update whole table with non internet ones
-                    getresource.updateOrCreateRouteTableWithRoutes(resourceData[0], finalMerged, routetableLocation);
+                    try
+                    {
+                        Console.WriteLine("Not Above 300");
+                        JObject payloadObject = JsonPlaying.NewGatewayRouteObject(ipaddress);
+                        JArray finalMerged = JsonPlaying.JobjectIntoJarray(payloadObject);
+                        // update whole table with non internet ones
+                        getresource.updateOrCreateRouteTableWithRoutes(resourceData[0], finalMerged, routetableLocation);
+                    }
+                    catch (Exception e)
+                    {
+                        // any kind of error, we create a ticket
+                        Console.WriteLine("Error");
+                        Console.WriteLine(e);
+                        var dbcompany = dbconn.GetAutotaskCompanyNameFromDB(firewall);
+                        if (dbcompany == null)
+                        {
+                            Console.WriteLine("No Database with Company name");
+                            return new BadRequestObjectResult(String.Format("Company not found in database in Autotask for Company")); // 400
+                        }
+                        else
+                        {
+                            int companyId = await aconfig.GetCompanyId(dbcompany[0].C_LongName);
+                            aconfig.CreateTicket(companyId, String.Format("Firewall not added because of a unknown exception for device : ", firewall), 1, 2);
+                            return new BadRequestObjectResult(String.Format("Ticket Created in Autotask for Company {0}", dbcompany[0].C_LongName)); // 400
+                        }
+                    }
                 }
             }
             else
             {
-                Console.WriteLine("Adding 1 route only");
-                // just add the one route if not over 300 array
-                getresource.NewGatewayRoute(resourceData[0], ipaddress);
+                try
+                {
+                    Console.WriteLine("Adding 1 route only");
+                    // just add the one route if not over 300 array
+                    getresource.NewGatewayRoute(resourceData[0], ipaddress);
+                }
+                catch (Exception e)
+                {
+                    // any kind of error, we create a ticket
+                    Console.WriteLine("Error");
+                    Console.WriteLine(e);
+                    var dbcompany = dbconn.GetAutotaskCompanyNameFromDB(firewall);
+                    if (dbcompany == null)
+                    {
+                        Console.WriteLine("No Database with Company name");
+                        return new BadRequestObjectResult(String.Format("Company not found in database in Autotask for Company")); // 400
+                    }
+                    else
+                    {
+                        int companyId = await aconfig.GetCompanyId(dbcompany[0].C_LongName);
+                        aconfig.CreateTicket(companyId, String.Format("Firewall not added because of a unknown exception for device : ", firewall), 1, 2);
+                        return new BadRequestObjectResult(String.Format("Ticket Created in Autotask for Company {0}", dbcompany[0].C_LongName)); // 400
+                    }
+                }
             }
             Console.WriteLine("Insert into History");
             dbconn.InsertIntoHistory(dbdata[0].tenantId, "NMAgent-" + ipaddress, ipaddress, resourceData[0], dbdata[0].subscriptionId, dbdata[0].displayName, resourceData[0] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), CountOfJarray.ToString());
