@@ -112,6 +112,10 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                         Console.WriteLine("Final Merged");
                         //Console.WriteLine(finalMerged);
                         getresource.updateOrCreateRouteTableWithRoutes(resourceData[0], finalMerged, routetableLocation);
+                        log.LogInformation("Insert into History");
+                        Console.WriteLine("Insert into History");
+                        dbconn.InsertIntoHistory(dbdata[0].tenantId, "NMAgent-" + ipaddress, ipaddress, resourceData[0], dbdata[0].subscriptionId, dbdata[0].displayName, resourceData[0] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), CountOfJarray.ToString());
+                        return new OkObjectResult(new { tenantId = dbdata[0].tenantId, ipaddressRTName = "NMAgent-" + ipaddress, ipaddress = ipaddress, resourcePath = resourceData[0], subscriptionId = dbdata[0].subscriptionId, subscriptionName = dbdata[0].displayName, fullResourcePath = resourceData[0] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), CountOfJarray = CountOfJarray }); // 200
 
                     }
                     catch (Exception e)
@@ -144,6 +148,10 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                         JArray finalMerged = JsonPlaying.JobjectIntoJarray(payloadObject);
                         // update whole table with non internet ones
                         getresource.updateOrCreateRouteTableWithRoutes(resourceData[0], finalMerged, routetableLocation);
+                        log.LogInformation("Insert into History");
+                        Console.WriteLine("Insert into History");
+                        dbconn.InsertIntoHistory(dbdata[0].tenantId, "NMAgent-" + ipaddress, ipaddress, resourceData[0], dbdata[0].subscriptionId, dbdata[0].displayName, resourceData[0] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), CountOfJarray.ToString());
+                        return new OkObjectResult(new { tenantId = dbdata[0].tenantId, ipaddressRTName = "NMAgent-" + ipaddress, ipaddress = ipaddress, resourcePath = resourceData[0], subscriptionId = dbdata[0].subscriptionId, subscriptionName = dbdata[0].displayName, fullResourcePath = resourceData[0] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), CountOfJarray = CountOfJarray }); // 200
                     }
                     catch (Exception e)
                     {
@@ -174,6 +182,10 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                     Console.WriteLine("Adding 1 route only");
                     // just add the one route if not over 300 array
                     getresource.NewGatewayRoute(resourceData[0], ipaddress);
+                    log.LogInformation("Insert into History");
+                    Console.WriteLine("Insert into History");
+                    dbconn.InsertIntoHistory(dbdata[0].tenantId, "NMAgent-" + ipaddress, ipaddress, resourceData[0], dbdata[0].subscriptionId, dbdata[0].displayName, resourceData[0] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), CountOfJarray.ToString());
+                    return new OkObjectResult(new { tenantId = dbdata[0].tenantId, ipaddressRTName = "NMAgent-" + ipaddress, ipaddress = ipaddress, resourcePath = resourceData[0], subscriptionId = dbdata[0].subscriptionId, subscriptionName = dbdata[0].displayName, fullResourcePath = resourceData[0] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), CountOfJarray = CountOfJarray }); // 200
                 }
                 catch (Exception e)
                 {
@@ -196,10 +208,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                     }
                 }
             }
-            log.LogInformation("Insert into History");
-            Console.WriteLine("Insert into History");
-            dbconn.InsertIntoHistory(dbdata[0].tenantId, "NMAgent-" + ipaddress, ipaddress, resourceData[0], dbdata[0].subscriptionId, dbdata[0].displayName, resourceData[0] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), CountOfJarray.ToString());
-            return new OkObjectResult(new { tenantId = dbdata[0].tenantId, ipaddressRTName = "NMAgent-" + ipaddress, ipaddress = ipaddress, resourcePath = resourceData[0], subscriptionId = dbdata[0].subscriptionId, subscriptionName = dbdata[0].displayName, fullResourcePath = resourceData[0] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), CountOfJarray = CountOfJarray }); // 200
+            
         }
     }
 }
