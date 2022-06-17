@@ -41,9 +41,9 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             * autotaskapicode, autotaskuser, autotaskpass
             */
             // Autotask Init
-            AutoTaskConfig aconfig = new AutoTaskConfig("EG3FIQPCKDFLL5EY3TXYHMDMMCY", "apijp@AZURED.COM.AU", "q*1Z$2TxwC#7Q~6n@9gF8R*o@");
+            AutoTaskConfig aconfig = new AutoTaskConfig(autotaskapicode, autotaskuser, autotaskpass);
 
-            DatabaseConnectioncs dbconn = new DatabaseConnectioncs("Server=arazured.database.windows.net,1433;Initial Catalog=fwaasapplication;User ID=aradmin;Password=Aqualite12@;");
+            DatabaseConnectioncs dbconn = new DatabaseConnectioncs(connectionstring);
             // "Server=arazured.database.windows.net,1433;Initial Catalog=fwaasapplication;User ID=aradmin;Password=Aqualite12@;"
             var dbdata = dbconn.GetFirewallfromDB(firewall);
             try
@@ -77,7 +77,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
              * "baf1387d-a1ed-44d2-af1e-738a43985599", ")1$Z.D#/}((>&/Jt[*?{_)[L?}.]_^%&{)@;%", "https://azuredfwassacreation.z8.web.core.windows.net/login.html"
              *  clientId, clientSecret, redirecturi
              */
-            ManagementLogin managementLogin = new ManagementLogin(dbdata[0].tenantId, "baf1387d-a1ed-44d2-af1e-738a43985599", ")1$Z.D#/}((>&/Jt[*?{_)[L?}.]_^%&{)@;%", "https://azuredfwassacreation.z8.web.core.windows.net/login.html");
+            ManagementLogin managementLogin = new ManagementLogin(dbdata[0].tenantId, clientId, clientSecret, redirecturi);
             var managementtoken = await managementLogin.ReturnManagementTokenAsync();
 
             AzureServicesController getresource = new AzureServicesController(managementtoken);
@@ -92,9 +92,9 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             int CountOfJarray = JsonPlaying.JarrayCount(allRoutesJarray);
 
             //If number of Routes exceed 300 then clear and add the non internet gateways in
-            //int maxRoutesInt = Int32.Parse(maxRoutesCount);
+            int maxRoutesInt = Int32.Parse(maxRoutesCount);
             log.LogInformation(String.Format("Filter table by : {0}", maxRoutesCount));
-            if (JsonPlaying.JarrayOverCount(allRoutesJarray, 300) == true)
+            if (JsonPlaying.JarrayOverCount(allRoutesJarray, maxRoutesInt) == true)
             {
                 log.LogInformation("Above 300");
                 Console.WriteLine("Above 300");
