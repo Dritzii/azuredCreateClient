@@ -183,7 +183,8 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                     Console.WriteLine(e);
                     var dbcompany = dbconn.GetAutotaskCompanyNameFromDB(firewall);
                     if (dbcompany == null)
-                    {log.LogInformation("No Database with Company name");
+                    {
+                        log.LogInformation("No Database with Company name");
                         Console.WriteLine("No Database with Company name");
                         return new BadRequestObjectResult(String.Format("Company not found in database in Autotask for Company")); // 400
                     }
