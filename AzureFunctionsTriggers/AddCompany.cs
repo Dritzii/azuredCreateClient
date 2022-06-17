@@ -58,31 +58,13 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             Console.WriteLine("TenantSubs : " + tenantsubs[cspsubs].ToString());
             Console.WriteLine("ALl : " + tenantsubs[onlyidsub].ToString());
             // true is null here
-            if (tenantiddb == true)
+            if (tenantiddb == true & subindb == true)
             {
-                if (subindb == true)
-                {
-                    dbconn.InsertIntoTenantandSubscriptions(tenantsubs[cspsubs], tenantsubs[onlyidsub], tenantId);
-                    log.LogInformation(tenantsubs[cspsubs].ToString());
-                    var jsonReturnEntry = new { subscriptionid = tenantsubs[cspsubs], displayName = tenantsubs[onlyidsub], tenantId = tenantId };
-                    var jsonwrapper = JsonConvert.SerializeObject(jsonReturnEntry);
-                    return new JsonResult(jsonwrapper);
-                }
-            }
-            else if (tenantiddb == false)
-            {
-                if (subindb == true)
-                {
-                    dbconn.InsertIntoTenantandSubscriptions(tenantsubs[cspsubs], tenantsubs[onlyidsub], tenantId);
-                    log.LogInformation(tenantsubs[cspsubs].ToString());
-                    var jsonReturnEntry = new { subscriptionid = tenantsubs[cspsubs], displayName = tenantsubs[onlyidsub], tenantId = tenantId };
-                    var jsonwrapper = JsonConvert.SerializeObject(jsonReturnEntry);
-                    return new JsonResult(jsonwrapper);
-                }
-            }
-            else
-            {
-
+                dbconn.InsertIntoTenantandSubscriptions(tenantsubs[cspsubs], tenantsubs[onlyidsub], tenantId);
+                log.LogInformation(tenantsubs[cspsubs].ToString());
+                var jsonReturnEntry = new { subscriptionid = tenantsubs[cspsubs], displayName = tenantsubs[onlyidsub], tenantId = tenantId };
+                var jsonwrapper = JsonConvert.SerializeObject(jsonReturnEntry);
+                return new JsonResult(jsonwrapper);
             }
 
             // Return Object
