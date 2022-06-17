@@ -84,7 +84,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             var resourceData = await getresource.GetResourceByTag(dbdata[0].subscriptionId);
             string routeData = await getresource.GetRouteTable(resourceData[0]);
             string routetableLocation = await getresource.GetRouteTableLocation(resourceData[0]);
-            Console.WriteLine(routeData);
+            log.LogInformation(routeData.ToString());
 
             // Get All Routes from Table
 
@@ -96,6 +96,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             log.LogInformation(String.Format("Filter table by : {0}", maxRoutesCount));
             if (JsonPlaying.JarrayOverCount(allRoutesJarray, maxRoutesInt) == true)
             {
+                log.LogInformation("Above 300");
                 Console.WriteLine("Above 300");
                 //  get previous routes and only get non internet ones
                 JArray iterateRTJSON = JsonPlaying.GetListofRoutesFromTable(routeData);
@@ -103,6 +104,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                 {
                     try
                     {
+                        log.LogInformation("Jarray Over 0 adding");
                         Console.WriteLine("Jarray Over 0 adding");
                         JObject payloadObject = JsonPlaying.NewGatewayRouteObject(ipaddress);
                         JArray finalMerged = JsonPlaying.AddToJArray(iterateRTJSON, payloadObject);
@@ -115,11 +117,12 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                     catch (Exception e)
                     {
                         // any kind of error, we create a ticket
-                        Console.WriteLine("Error");
+                        log.LogInformation(e.ToString());
                         Console.WriteLine(e);
                         var dbcompany = dbconn.GetAutotaskCompanyNameFromDB(firewall);
                         if (dbcompany == null)
                         {
+                            log.LogInformation("No Database with Company name");
                             Console.WriteLine("No Database with Company name");
                             return new BadRequestObjectResult(String.Format("Company not found in database in Autotask for Company")); // 400
                         }
@@ -135,6 +138,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                 {
                     try
                     {
+                        log.LogInformation("Not Above 300");
                         Console.WriteLine("Not Above 300");
                         JObject payloadObject = JsonPlaying.NewGatewayRouteObject(ipaddress);
                         JArray finalMerged = JsonPlaying.JobjectIntoJarray(payloadObject);
@@ -144,11 +148,12 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                     catch (Exception e)
                     {
                         // any kind of error, we create a ticket
+                        log.LogInformation(e.ToString());
                         Console.WriteLine("Error");
                         Console.WriteLine(e);
                         var dbcompany = dbconn.GetAutotaskCompanyNameFromDB(firewall);
                         if (dbcompany == null)
-                        {
+                        {log.LogInformation("No Database with Company name");
                             Console.WriteLine("No Database with Company name");
                             return new BadRequestObjectResult(String.Format("Company not found in database in Autotask for Company")); // 400
                         }
@@ -165,6 +170,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             {
                 try
                 {
+                    log.LogInformation("Adding 1 route only"); 
                     Console.WriteLine("Adding 1 route only");
                     // just add the one route if not over 300 array
                     getresource.NewGatewayRoute(resourceData[0], ipaddress);
@@ -172,11 +178,12 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                 catch (Exception e)
                 {
                     // any kind of error, we create a ticket
+                    log.LogInformation(e.ToString());
                     Console.WriteLine("Error");
                     Console.WriteLine(e);
                     var dbcompany = dbconn.GetAutotaskCompanyNameFromDB(firewall);
                     if (dbcompany == null)
-                    {
+                    {log.LogInformation("No Database with Company name");
                         Console.WriteLine("No Database with Company name");
                         return new BadRequestObjectResult(String.Format("Company not found in database in Autotask for Company")); // 400
                     }
@@ -188,6 +195,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
                     }
                 }
             }
+            log.LogInformation("Insert into History");
             Console.WriteLine("Insert into History");
             dbconn.InsertIntoHistory(dbdata[0].tenantId, "NMAgent-" + ipaddress, ipaddress, resourceData[0], dbdata[0].subscriptionId, dbdata[0].displayName, resourceData[0] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), CountOfJarray.ToString());
             return new OkObjectResult(new { tenantId = dbdata[0].tenantId, ipaddressRTName = "NMAgent-" + ipaddress, ipaddress = ipaddress, resourcePath = resourceData[0], subscriptionId = dbdata[0].subscriptionId, subscriptionName = dbdata[0].displayName, fullResourcePath = resourceData[0] + string.Format("/routes/{0}?api-version=2021-04-01", firewall), CountOfJarray = CountOfJarray }); // 200
