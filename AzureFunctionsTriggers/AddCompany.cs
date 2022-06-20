@@ -26,7 +26,6 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             log.LogInformation(graphCode);
 
             string connectionstring = Environment.GetEnvironmentVariable("connectionstring", EnvironmentVariableTarget.Process);
-            string clientId = Environment.GetEnvironmentVariable("ClientId", EnvironmentVariableTarget.Process);
 
             // get db connection
             DatabaseConnectioncs dbconn = new DatabaseConnectioncs(connectionstring);
