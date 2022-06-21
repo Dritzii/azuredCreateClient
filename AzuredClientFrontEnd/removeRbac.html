@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="refresh" content="300;url=https://azuredfwassacreation.z8.web.core.windows.net/"/>
+    <title style="color:#FFFFFF">Application Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles.css">
+    <link id="ck-cookie" rel="icon" type="image/x-icon" href="https://azuredfwassacreation.z8.web.core.windows.net/favicon.ico">
+    <style>
+        body {
+            width: 100%;
+              height: 400px;
+            background-image: url('https://azuredfwassacreation.z8.web.core.windows.net/1602730998329.jpg');
+            background-repeat:no-repeat;
+
+            background-position: center;
+
+          
+        }
+    </style>
+</head>
+<body>
+    <h2 style="color:#000000">Remove RBAC from Tenant</h2>
+    <a href="https://azuredfwassacreation.z8.web.core.windows.net/">
+       <button class="logoutLblPos"> Logout</button>
+    </a>
+   
+        <label style="color:#4f06fa" for="roles">Role list:</label>
+        <input list="roles" name="Roles" id="rolelist">
+        <datalist id="roles">
+            <option value="Contributor">
+            <option value="Owner">
+            <option value="Reader">
+            <option value="User Access Administrator">
+        </datalist>
+        <button class="button" id="get-btn" onclick="getBtn()">Submit</button>
+
+    <p id="login"></p>
+    <script src="xhrRbacRemove.js" defer>
+    </script>
+    <section id="control-center">
+        <button class="button" onclick="history.back()">Go Back</button>
+    </section>
+</body>
+</html>
