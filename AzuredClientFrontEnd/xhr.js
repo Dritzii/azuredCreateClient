@@ -43,6 +43,7 @@ const sendDataAccessToken = () => {
   })
   .catch(err => {
     alert("Login Error, please try logging in again", err);
+    window.location.replace('...');
   });
 };
 
