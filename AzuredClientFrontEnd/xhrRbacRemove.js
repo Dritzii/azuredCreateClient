@@ -28,8 +28,9 @@ const sendHttpRequest = (method, url, data) => {
 };
 
 const getData = () => {
-    sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/SubscriptionsTrigger?code=k09bi79jXOYpLMZHqbCr6BkMI9JJTPOU/KLikz6jvYdBvtyJUdTaqA==", {
-    accessToken: getCookie("authToken")
+    sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/DeleteRbacFromSubscriptioncs?code=1SCZRt5OPo482v4mPrDRvPqtHvoBIjVRD8BShwjKD8txkVLAgw5a4g==", {
+    accessToken: getCookie("authToken"),
+    roleName: document.getElementById('roles').value
   })
     .then(responseData => {
       console.log(responseData);
