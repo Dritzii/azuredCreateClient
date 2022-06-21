@@ -38,9 +38,11 @@ const sendDataAccessToken = () => {
       document.cookie = "authTokenRefresh=" + accessTokenManagement.managementRefresh;
       document.cookie = "GraphauthToken=" + accessTokenManagement.graphToken;
       document.cookie = "GraphauthTokenRefresh=" + accessTokenManagement.graphRefresh;
+  }).then(responseData => {
+    alert("Logged In Successfully", responseData);
   })
   .catch(err => {
-    console.log(err);
+    alert("Login Error, please try logging in again", err);
   });
 };
 

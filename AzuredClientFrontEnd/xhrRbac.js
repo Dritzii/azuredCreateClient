@@ -35,10 +35,10 @@ const addFirewall = () => {
         firewall : document.getElementById('fname').value
   })
     .then(responseData => {
-      alert(responseData);
+      alert("Firewall added Successfully" ,responseData);
     })
         .catch(err => {
-            console.log(err);
+            console.log("Failed to add Firewall", err);
         });
 };
 
@@ -61,26 +61,14 @@ const addCompany = () => {
       GraphauthToken: getCookie("GraphauthToken")
 })
   .then(responseData => {
-    console.log(responseData);
+    console.log("Adding Company Successful",responseData);
   })
   .catch(err => {
-    console.log(err);
+    console.log("Failed to add Company" ,err);
   });
 };
 
 
-const delData = (role) => {
-    sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/DeleteRbacFromSubscriptioncs?code=1SCZRt5OPo482v4mPrDRvPqtHvoBIjVRD8BShwjKD8txkVLAgw5a4g==", {
-        accessToken: getCookie("authToken"),
-        roleName: role
-    })
-        .then(responseData => {
-            console.log(responseData);
-        })
-        .catch(err => {
-            console.log(err);
-        });
-};
 function getCookie(cname) {
   let name = cname + "=";
   let ca = document.cookie.split(';');
