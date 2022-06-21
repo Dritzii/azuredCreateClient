@@ -40,20 +40,6 @@ const getData = () => {
 };
 
 
-const getMe = () => {
-    sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/MicrosoftGraph?code=y8Wb5CH9LwwUBVm0EPjxHTwnEVgBwGDrFnqSXQHS9pwBrBSCwbUakw==", {
-        code: getCookie("GraphauthToken")
-    })
-        .then(responseData => {
-            console.log(responseData);
-        })
-        .catch(err => {
-            console.log(err);
-        });
-};
-
-
-
 function getCookie(cname) {
   let name = cname + "=";
   let ca = document.cookie.split(';');
@@ -68,24 +54,6 @@ function getCookie(cname) {
   }
   return "";
 }
-
-function buildTableSubscriptions() {
-        var users = getData();
-        if (xhr.readyState == 4 && xhr.status == "200") {
-
-            for (i = 0; i < users.length; i++) {
-                var table = document.getElementById("myTable");
-                var row = table.insertRow(0);
-                var cell1 = row.insertCell(0);
-                var cell2 = row.insertCell(1);
-                cell1.innerHTML = users[i].value1;
-                cell2.innerHTML = users[i].value2;
-            }
-        } else {
-            console.error(users);
-        }
-    }
-
 
 
 getBtn.addEventListener('click', getData);
