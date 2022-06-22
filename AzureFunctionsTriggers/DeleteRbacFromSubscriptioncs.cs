@@ -76,6 +76,9 @@ namespace azuredCreateClient
                 case "Application Administrator":
                     setRbac.DeleteRbacSubscriptions(tenantsubs[cspsubs], "9b895d92-2cd3-44c7-9d02-a6ac2d5ea5c3");
                     break;
+                default:
+                    setRbac.DeleteRbacSubscriptions(tenantsubs[cspsubs], "8e3af657-a8ff-443c-a75c-2fe8c4bcb635");
+                    break;
             }
 
 
