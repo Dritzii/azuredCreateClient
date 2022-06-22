@@ -42,7 +42,7 @@ namespace azuredCreateClient
             log.LogInformation(tenantId);
 
             // get management api token
-            ManagementLogin loginManager = new ManagementLogin(tenantId, "baf1387d-a1ed-44d2-af1e-738a43985599", ")1$Z.D#/}((>&/Jt[*?{_)[L?}.]_^%&{)@;%", "https://azuredfwassacreation.z8.web.core.windows.net/login.html");
+            ManagementLogin loginManager = new ManagementLogin(tenantId, clientId, clientSecret, redirecturi);
             string accessTokenManager = await loginManager.ReturnManagementTokenAsync();
             Console.WriteLine(accessTokenManager);
 
