@@ -30,8 +30,7 @@ const sendHttpRequest = (method, url, data) => {
 const getData = () => {
     sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/DeleteRbacFromSubscriptioncs?code=1SCZRt5OPo482v4mPrDRvPqtHvoBIjVRD8BShwjKD8txkVLAgw5a4g==", {
       authToken: getCookie("authToken"),
-      GraphauthToken: getCookie("GraphauthToken"),
-      roleName: document.getElementById('roleslist').value
+      GraphauthToken: getCookie("GraphauthToken")
   })
     .then(responseData => {
       console.log(responseData);

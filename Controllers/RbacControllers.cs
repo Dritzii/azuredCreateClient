@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -49,11 +50,11 @@ namespace azuredCreateClient
             Console.WriteLine(responseContent);
         }
 
-        public async void DeleteRbacSubscriptions(string subscriptionId, string roleDefinitionId = "8e3af657-a8ff-443c-a75c-2fe8c4bcb635")
+        public async void DeleteRbacSubscriptions(string subscriptionId, string principalId)
         {
             // DELETE https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}?api-version=2015-07-01
             using var client = new HttpClient();
-            string joinedURL = hostUrl + subscriptionId + endpointUrlRoleAssignments + roleDefinitionId + apiVersion;
+            string joinedURL = hostUrl + subscriptionId + endpointUrlRoleAssignments + principalId + apiVersion;
             Console.WriteLine(joinedURL);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, joinedURL);
@@ -78,6 +79,44 @@ namespace azuredCreateClient
             var jo = JObject.Parse(responseContent);
             var id = jo["value"][0]["name"].ToString();
             return id;
+        }
+
+        public async Task<string> GetAllRoleAssignmentsForScope(string subscriptionId)
+        {
+            //GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignments?$filter={$filter}&api-version=2015-07-01
+            using var client = new HttpClient();
+            string joinedURL = hostUrl + subscriptionId + endpointUrlRoleAssignments + "?&api-version=2015-07-01&";
+            Console.WriteLine(joinedURL);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, joinedURL);
+            HttpResponseMessage response = await client.SendAsync(request);
+            string responseContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(responseContent);
+            var jo = JObject.Parse(responseContent);
+            var id = jo["value"].ToString();
+            return id;
+        }
+
+        public async Task<List<string>> GetSingleRoleAssignmentsForScope(string subscriptionId, string applicationId)
+        {
+            List<string> strings = new List<string>();
+            //GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignments?$filter={$filter}&api-version=2015-07-01
+            using var client = new HttpClient();
+            string filterData = "$filter=principalId eq '" + applicationId + "'";
+            string joinedURL = hostUrl + subscriptionId + endpointUrlRoleAssignments + "?&api-version=2015-07-01&" + filterData;
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, joinedURL);
+            HttpResponseMessage response = await client.SendAsync(request);
+            string responseContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(responseContent);
+            var jo = JObject.Parse(responseContent);
+            var id = jo["value"][0]["properties"]["roleDefinitionId"].ToString();
+            var principalid = jo["value"][0]["properties"]["principalId"].ToString();
+            var name = jo["value"][0]["name"].ToString();
+            strings.AddRange(new List<string>() {
+                    id, principalid, name
+                });
+            return strings;
         }
     }
 }

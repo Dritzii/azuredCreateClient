@@ -7,6 +7,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace azuredCreateClient
 {
@@ -22,7 +23,6 @@ namespace azuredCreateClient
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             string authCode = data.authToken;
             string graphCode = data.GraphauthToken;
-            string roleNameDelete = data.roleName;
             log.LogInformation(authCode);
             Console.WriteLine(authCode);
 
@@ -51,50 +51,26 @@ namespace azuredCreateClient
             var tenantsubs = await subs.GetAllSubscriptionsAsync();
             int cspsubs = SubscriptionsController.filterResourceByName(tenantsubs);
             Console.WriteLine("SUBSCRIPTION : " + tenantsubs[cspsubs]);
+            
+            // get Application Registration
+            MicrosoftGraph msGraph = new MicrosoftGraph(graphCode);
+            var objectId = await msGraph.GetObjectId(clientId);
+            Console.WriteLine(objectId);
+            log.LogInformation("objectId #################");
+            log.LogInformation(objectId.ToString());
 
             // Switch Logic
             RbacControllers setRbac = new RbacControllers(accessTokenManager);
+            var rbacScopedAssignments = await setRbac.GetSingleRoleAssignmentsForScope(tenantsubs[cspsubs], objectId);
+            log.LogInformation(rbacScopedAssignments[0]);
+            log.LogInformation(rbacScopedAssignments[1]);
+
 
             // Delete Rbac ID -- https://docs.microsoft.com/en-us/azure/active-directory/roles/permissions-reference
-            switch (roleNameDelete)
-            {
-                case "Owner":
-                    setRbac.DeleteRbacSubscriptions(tenantsubs[cspsubs], "8e3af657-a8ff-443c-a75c-2fe8c4bcb635");
-                    log.LogInformation(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
-                    Console.WriteLine(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
-                    return new JsonResult(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
-                case "Contributor":
-                    setRbac.DeleteRbacSubscriptions(tenantsubs[cspsubs], "b24988ac-6180-42a0-ab88-20f7382dd24c");
-                    log.LogInformation(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
-                    Console.WriteLine(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
-                    return new JsonResult(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
-                case "Global Reader":
-                    setRbac.DeleteRbacSubscriptions(tenantsubs[cspsubs], "f2ef992c-3afb-46b9-b7cf-a126ee74c451");
-                    var myObj = new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete };
-                    log.LogInformation(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
-                    Console.WriteLine(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
-                    return new JsonResult(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
-                case "User Administrator":
-                    setRbac.DeleteRbacSubscriptions(tenantsubs[cspsubs], "fe930be7-5e62-47db-91af-98c3a49a38b1");
-                    log.LogInformation(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
-                    Console.WriteLine(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
-                    return new JsonResult(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
-                case "Billing Administrator":
-                    setRbac.DeleteRbacSubscriptions(tenantsubs[cspsubs], "b0f54661-2d74-4c50-afa3-1ec803f12efe");
-                    log.LogInformation(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
-                    Console.WriteLine(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
-                    return new JsonResult(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
-                case "Application Administrator":
-                    setRbac.DeleteRbacSubscriptions(tenantsubs[cspsubs], "9b895d92-2cd3-44c7-9d02-a6ac2d5ea5c3");
-                    log.LogInformation(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
-                    Console.WriteLine(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
-                    return new JsonResult(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
-                default:
-                    setRbac.DeleteRbacSubscriptions(tenantsubs[cspsubs], "8e3af657-a8ff-443c-a75c-2fe8c4bcb635");
-                    log.LogInformation(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
-                    Console.WriteLine(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
-                    return new JsonResult(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
-            }
+            setRbac.DeleteRbacSubscriptions(tenantsubs[cspsubs], rbacScopedAssignments[2]);
+            log.LogInformation(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs]}));
+            Console.WriteLine(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs]}));
+            return new JsonResult(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs] }));
 
         }
     }
