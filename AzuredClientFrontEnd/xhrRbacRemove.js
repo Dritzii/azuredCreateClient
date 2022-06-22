@@ -1,5 +1,5 @@
 const getBtn = document.getElementById('get-btn');
-const getMe1 = document.getElementById('getMe');
+
 
 const sendHttpRequest = (method, url, data) => {
   const promise = new Promise((resolve, reject) => {
@@ -29,8 +29,9 @@ const sendHttpRequest = (method, url, data) => {
 
 const getData = () => {
     sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/DeleteRbacFromSubscriptioncs?code=1SCZRt5OPo482v4mPrDRvPqtHvoBIjVRD8BShwjKD8txkVLAgw5a4g==", {
-    accessToken: getCookie("authToken"),
-    roleName: document.getElementById('roles').value
+      authToken: getCookie("authToken"),
+      GraphauthToken: getCookie("graphCode"),
+      roleName: document.getElementById('roles').value
   })
     .then(responseData => {
       console.log(responseData);
@@ -58,4 +59,4 @@ function getCookie(cname) {
 
 
 getBtn.addEventListener('click', getData);
-getMe1.addEventListener('click', getMe);
+
