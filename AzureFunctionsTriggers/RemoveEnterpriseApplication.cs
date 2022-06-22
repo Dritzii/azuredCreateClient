@@ -27,7 +27,10 @@ namespace azuredCreateClient.AzureFunctionsTriggers
             // Get Objectid of the Client application on Tenancy
             // https://graph.microsoft.com/v1.0/serviceprincipals?$filter=appId eq '{client id of your  application registration}'
             MicrosoftGraph msGraph = new MicrosoftGraph(graphCode);
-            var objectId = await msGraph.GetObjectId(clientId);
+            var objectId = await msGraph.GetObjectId("baf1387d-a1ed-44d2-af1e-738a43985599");
+            Console.WriteLine(objectId);
+            log.LogInformation("objectId #################");
+            log.LogInformation(objectId.ToString());
             msGraph.DeleteEnterpriseApplication(objectId);
 
             // Return Object

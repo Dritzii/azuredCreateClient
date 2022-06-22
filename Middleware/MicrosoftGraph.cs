@@ -40,6 +40,7 @@ namespace azuredCreateClient
             HttpResponseMessage response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
             var jo = JObject.Parse(responseContent);
+            Console.WriteLine(jo);
             string subid = jo["value"][0]["id"].ToString();
             string subdisplayName = jo["value"][0]["displayName"].ToString();
             Console.WriteLine(subid);
@@ -55,6 +56,7 @@ namespace azuredCreateClient
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, requestUrl);
             HttpResponseMessage response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(responseContent);
         }
 
 
