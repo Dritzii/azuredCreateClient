@@ -60,34 +60,42 @@ namespace azuredCreateClient
             {
                 case "Owner":
                     setRbac.DeleteRbacSubscriptions(tenantsubs[cspsubs], "8e3af657-a8ff-443c-a75c-2fe8c4bcb635");
-                    break;
+                    log.LogInformation(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
+                    Console.WriteLine(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
+                    return new JsonResult(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
                 case "Contributor":
                     setRbac.DeleteRbacSubscriptions(tenantsubs[cspsubs], "b24988ac-6180-42a0-ab88-20f7382dd24c");
-                    break;
+                    log.LogInformation(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
+                    Console.WriteLine(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
+                    return new JsonResult(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
                 case "Global Reader":
                     setRbac.DeleteRbacSubscriptions(tenantsubs[cspsubs], "f2ef992c-3afb-46b9-b7cf-a126ee74c451");
-                    break;
+                    var myObj = new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete };
+                    log.LogInformation(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
+                    Console.WriteLine(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
+                    return new JsonResult(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
                 case "User Administrator":
                     setRbac.DeleteRbacSubscriptions(tenantsubs[cspsubs], "fe930be7-5e62-47db-91af-98c3a49a38b1");
-                    break;
+                    log.LogInformation(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
+                    Console.WriteLine(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
+                    return new JsonResult(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
                 case "Billing Administrator":
                     setRbac.DeleteRbacSubscriptions(tenantsubs[cspsubs], "b0f54661-2d74-4c50-afa3-1ec803f12efe");
-                    break;
+                    log.LogInformation(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
+                    Console.WriteLine(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
+                    return new JsonResult(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
                 case "Application Administrator":
                     setRbac.DeleteRbacSubscriptions(tenantsubs[cspsubs], "9b895d92-2cd3-44c7-9d02-a6ac2d5ea5c3");
-                    break;
+                    log.LogInformation(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
+                    Console.WriteLine(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
+                    return new JsonResult(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
                 default:
                     setRbac.DeleteRbacSubscriptions(tenantsubs[cspsubs], "8e3af657-a8ff-443c-a75c-2fe8c4bcb635");
-                    break;
+                    log.LogInformation(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
+                    Console.WriteLine(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
+                    return new JsonResult(JsonConvert.SerializeObject(new { tenant = tenantsubs[cspsubs], roleDelete = roleNameDelete }));
             }
 
-
-            // Return Object
-            var myObj = new { tenant =  tenantsubs[cspsubs], roleDelete = roleNameDelete };
-            var jsonToReturn = JsonConvert.SerializeObject(myObj);
-            log.LogInformation(jsonToReturn);
-            Console.WriteLine(jsonToReturn);
-            return new JsonResult(jsonToReturn);
         }
     }
 }
