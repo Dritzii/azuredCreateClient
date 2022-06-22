@@ -42,7 +42,7 @@ const getData = () => {
 };
 
 const delData = () => {
-  sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/DeleteRbacFromSubscriptioncs?code=1SCZRt5OPo482v4mPrDRvPqtHvoBIjVRD8BShwjKD8txkVLAgw5a4g==", {
+  sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/RemoveEnterpriseApplication?code=KNjT0r2j/CdAxSz6CSzK43ojD33t0CbDT0Z97ZwrJx3aF0BLW4/oPg==", {
     GraphauthToken: getCookie("GraphauthToken")
 })
   .then(responseData => {
