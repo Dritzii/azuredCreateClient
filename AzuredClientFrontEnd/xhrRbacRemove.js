@@ -1,4 +1,5 @@
 const getBtn = document.getElementById('get-btn');
+const delBtn = document.getElementById('del-btn');
 
 
 const sendHttpRequest = (method, url, data) => {
@@ -40,6 +41,18 @@ const getData = () => {
     });
 };
 
+const delData = () => {
+  sendHttpRequest('POST', "https://azuredfwassapplicationcreation.azurewebsites.net/api/DeleteRbacFromSubscriptioncs?code=1SCZRt5OPo482v4mPrDRvPqtHvoBIjVRD8BShwjKD8txkVLAgw5a4g==", {
+    GraphauthToken: getCookie("GraphauthToken")
+})
+  .then(responseData => {
+    console.log(responseData);
+  })
+  .catch(err => {
+    console.log(err);
+  });
+};
+
 
 function getCookie(cname) {
   let name = cname + "=";
@@ -58,4 +71,4 @@ function getCookie(cname) {
 
 
 getBtn.addEventListener('click', getData);
-
+delBtn.addEventListener('click', delData);

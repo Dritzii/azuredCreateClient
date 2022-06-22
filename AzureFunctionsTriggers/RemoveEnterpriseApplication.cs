@@ -14,7 +14,7 @@ namespace azuredCreateClient.AzureFunctionsTriggers
     {
         [FunctionName("RemoveEnterpriseApplication")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
