@@ -47,6 +47,28 @@ namespace azuredCreateClient.Controllers
             return retList;
         }
 
+        public async Task<List<string>> GetAllResources(string subscriptionId)
+        {
+            var retList = new List<string>();
+            using var client = new HttpClient();
+            string sendUrl = baseurl + subscriptionId + "/resources";
+            //Console.WriteLine(sendUrl);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, sendUrl);
+            HttpResponseMessage response = await client.SendAsync(request);
+            string responseContent = await response.Content.ReadAsStringAsync();
+            //Console.WriteLine(responseContent);
+            var jo = JObject.Parse(responseContent);
+            foreach (var items in jo["value"])
+            {
+                var c1 = items["id"].Value<string>();
+                var c5 = items?["tags"].ToString();
+                retList.AddRange(new List<string>() {
+                    c1, c5
+                });
+            }
+            return retList;
+        }
+
         public async Task<List<string>> GetResourceByTag(string subscriptionId, string tagName = "FWaaSAzured", string tagValue = "GatewaySubnetRoute")
         {
             var retList = new List<string>();
