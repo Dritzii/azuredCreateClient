@@ -19,6 +19,7 @@
     <None Remove="local.settings-fwass.json" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AzureExtensions.Swashbuckle" Version="3.3.2" />
     <PackageReference Include="Microsoft.ApplicationInsights.WorkerService" Version="2.20.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Azure.WebJobs.Core" Version="3.0.31" />
